@@ -7,7 +7,7 @@ import (
 	"amigo-api/app/baseCode/rpc/internal/config"
 	"amigo-api/app/baseCode/rpc/internal/server"
 	"amigo-api/app/baseCode/rpc/internal/svc"
-	"amigo-api/common/pb/pb"
+	"amigo-api/common/pb"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"

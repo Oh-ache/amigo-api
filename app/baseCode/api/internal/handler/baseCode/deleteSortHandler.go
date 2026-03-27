@@ -6,7 +6,7 @@ import (
 	"amigo-api/app/baseCode/api/internal/logic/baseCode"
 	"amigo-api/app/baseCode/api/internal/svc"
 	"amigo-api/app/baseCode/api/internal/types"
-	"amigo/app/api/internal/types"
+	"amigo-api/app/baseCode/rpc/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 

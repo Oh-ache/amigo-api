@@ -9,6 +9,9 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
+	"time"
+
+	"amigo-api/common/utils"
 
 	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/cache"
@@ -34,6 +37,8 @@ type (
 		FindOneBySortKeyKey(ctx context.Context, sortKey string, key string) (*BaseCode, error)
 		Update(ctx context.Context, data *BaseCode) error
 		Delete(ctx context.Context, baseCodeId uint64) error
+		CheckDuplicate(ctx context.Context, data *BaseCode) (bool, error)
+		List(ctx context.Context, search *BaseCodeSearch) ([]*BaseCode, int64, error)
 	}
 
 	defaultBaseCodeModel struct {
@@ -54,6 +59,20 @@ type (
 		IsDelete   int64  `db:"is_delete"` // 1删除2未删除
 		CreateTime uint64 `db:"create_time"`
 		UpdateTime uint64 `db:"update_time"`
+	}
+
+	BaseCodeSearch struct {
+		SortKey  string
+		Key      string
+		Name     string
+		IsDelete int64
+		Page     int64
+		PageSize int64
+		Content  string
+		Content1 string
+		Content2 string
+		Content3 string
+		Content4 string
 	}
 )
 
@@ -117,11 +136,49 @@ func (m *defaultBaseCodeModel) FindOneBySortKeyKey(ctx context.Context, sortKey 
 }
 
 func (m *defaultBaseCodeModel) Insert(ctx context.Context, data *BaseCode) (sql.Result, error) {
+	// 自动设置创建和更新时间
+	now := uint64(time.Now().Unix())
+	data.CreateTime = now
+	data.UpdateTime = now
+
 	amigoBaseCodeBaseCodeIdKey := fmt.Sprintf("%s%v", cacheAmigoBaseCodeBaseCodeIdPrefix, data.BaseCodeId)
 	amigoBaseCodeSortKeyKeyKey := fmt.Sprintf("%s%v:%v", cacheAmigoBaseCodeSortKeyKeyPrefix, data.SortKey, data.Key)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, baseCodeRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.SortKey, data.Key, data.Name, data.Content, data.Content1, data.Content2, data.Content3, data.Content4, data.IsDelete)
+		// 重新计算字段列表，包含create_time和update_time
+		insertFieldNames := stringx.Remove(baseCodeFieldNames, "`base_code_id`")
+		insertFields := strings.Join(insertFieldNames, ",")
+		placeholders := strings.Repeat("?,", len(insertFieldNames)-1) + "?"
+
+		query := fmt.Sprintf("insert into %s (%s) values (%s)", m.table, insertFields, placeholders)
+		// 根据字段顺序构造参数列表
+		params := make([]interface{}, 0, len(insertFieldNames))
+		for _, field := range insertFieldNames {
+			switch field {
+			case "`sort_key`":
+				params = append(params, data.SortKey)
+			case "`key`":
+				params = append(params, data.Key)
+			case "`name`":
+				params = append(params, data.Name)
+			case "`content`":
+				params = append(params, data.Content)
+			case "`content1`":
+				params = append(params, data.Content1)
+			case "`content2`":
+				params = append(params, data.Content2)
+			case "`content3`":
+				params = append(params, data.Content3)
+			case "`content4`":
+				params = append(params, data.Content4)
+			case "`is_delete`":
+				params = append(params, data.IsDelete)
+			case "`create_time`":
+				params = append(params, data.CreateTime)
+			case "`update_time`":
+				params = append(params, data.UpdateTime)
+			}
+		}
+		return conn.ExecCtx(ctx, query, params...)
 	}, amigoBaseCodeBaseCodeIdKey, amigoBaseCodeSortKeyKeyKey)
 	return ret, err
 }
@@ -132,11 +189,47 @@ func (m *defaultBaseCodeModel) Update(ctx context.Context, newData *BaseCode) er
 		return err
 	}
 
+	// 自动设置更新时间
+	now := uint64(time.Now().Unix())
+	newData.UpdateTime = now
+
 	amigoBaseCodeBaseCodeIdKey := fmt.Sprintf("%s%v", cacheAmigoBaseCodeBaseCodeIdPrefix, data.BaseCodeId)
 	amigoBaseCodeSortKeyKeyKey := fmt.Sprintf("%s%v:%v", cacheAmigoBaseCodeSortKeyKeyPrefix, data.SortKey, data.Key)
 	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("update %s set %s where `base_code_id` = ?", m.table, baseCodeRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, newData.SortKey, newData.Key, newData.Name, newData.Content, newData.Content1, newData.Content2, newData.Content3, newData.Content4, newData.IsDelete, newData.BaseCodeId)
+		// 修改更新语句，包含update_time字段
+		updateFieldNames := stringx.Remove(baseCodeFieldNames, "`base_code_id`", "`create_time`", "`create_at`", "`created_at`")
+		updateFields := strings.Join(updateFieldNames, "=?,") + "=?"
+		query := fmt.Sprintf("update %s set %s where `base_code_id` = ?", m.table, updateFields)
+
+		// 根据字段顺序构造参数列表
+		params := make([]interface{}, 0, len(updateFieldNames))
+		for _, field := range updateFieldNames {
+			switch field {
+			case "`sort_key`":
+				params = append(params, newData.SortKey)
+			case "`key`":
+				params = append(params, newData.Key)
+			case "`name`":
+				params = append(params, newData.Name)
+			case "`content`":
+				params = append(params, newData.Content)
+			case "`content1`":
+				params = append(params, newData.Content1)
+			case "`content2`":
+				params = append(params, newData.Content2)
+			case "`content3`":
+				params = append(params, newData.Content3)
+			case "`content4`":
+				params = append(params, newData.Content4)
+			case "`is_delete`":
+				params = append(params, newData.IsDelete)
+			case "`update_time`":
+				params = append(params, newData.UpdateTime)
+			}
+		}
+		params = append(params, newData.BaseCodeId)
+
+		return conn.ExecCtx(ctx, query, params...)
 	}, amigoBaseCodeBaseCodeIdKey, amigoBaseCodeSortKeyKeyKey)
 	return err
 }
@@ -152,4 +245,92 @@ func (m *defaultBaseCodeModel) queryPrimary(ctx context.Context, conn sqlx.SqlCo
 
 func (m *defaultBaseCodeModel) tableName() string {
 	return m.table
+}
+
+func (m *defaultBaseCodeModel) CheckDuplicate(ctx context.Context, data *BaseCode) (bool, error) {
+	// 首先通过 SortKey 和 Key 查找是否存在对应的记录
+	existing, err := m.FindOneBySortKeyKey(ctx, data.SortKey, data.Key)
+	if err == sqlc.ErrNotFound {
+		// 没有找到，说明不重复
+		return false, nil
+	}
+	if err != nil {
+		// 查询出错
+		return false, err
+	}
+
+	// 找到了对应的 SortKey 和 Key 记录
+	if data.BaseCodeId == 0 {
+		// 主键id为0，表示新增数据，只要SortKey和Key组合存在就认为是重复
+		return true, nil
+	}
+
+	// 主键id不为0，表示更新数据，需要判断找到的记录是否是自己
+	if existing.BaseCodeId != data.BaseCodeId {
+		// 找到了其他记录拥有相同的SortKey和Key组合，认为是重复
+		return true, nil
+	}
+
+	// 找到的记录就是自己，不是重复
+	return false, nil
+}
+
+// List 方法根据搜索条件查询 BaseCode 列表
+func (m *defaultBaseCodeModel) List(ctx context.Context, search *BaseCodeSearch) ([]*BaseCode, int64, error) {
+	// 构建查询条件
+	var conditions []string
+
+	// 处理前四个查询条件（等值查询）
+	if search.SortKey != "" {
+		conditions = append(conditions, "`sort_key` = '"+search.SortKey+"'")
+	}
+	if search.Key != "" {
+		conditions = append(conditions, "`key` = '"+search.Key+"'")
+	}
+	if search.Name != "" {
+		conditions = append(conditions, "`name` = '"+search.Name+"'")
+	}
+	if search.IsDelete != 0 {
+		conditions = append(conditions, "`is_delete` = "+fmt.Sprintf("%d", search.IsDelete))
+	}
+	if search.Content != "" {
+		conditions = append(conditions, "`content` like '%"+search.Content+"%'")
+	}
+	if search.Content1 != "" {
+		conditions = append(conditions, "`content1` like '%"+search.Content1+"%'")
+	}
+	if search.Content2 != "" {
+		conditions = append(conditions, "`content2` like '%"+search.Content2+"%'")
+	}
+	if search.Content3 != "" {
+		conditions = append(conditions, "`content3` like '%"+search.Content3+"%'")
+	}
+	if search.Content4 != "" {
+		conditions = append(conditions, "`content4` like '%"+search.Content4+"%'")
+	}
+
+	quertWhere := ""
+	if len(conditions) > 0 {
+		quertWhere = " where " + strings.Join(conditions, " and ")
+	}
+
+	// 获取总条数（不算分页的数据）
+	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, quertWhere)
+
+	var total int64
+	if m.QueryRowNoCacheCtx(ctx, &total, countQuery) != nil {
+		return nil, 0, fmt.Errorf("failed to get total count")
+	}
+
+	// 构建查询语句
+	pageSql := utils.DelSQLPage(search.Page, search.PageSize)
+	query := fmt.Sprintf("select %s from %s %s %s", baseCodeRows, m.table, quertWhere, pageSql)
+
+	// 执行查询
+	var list []*BaseCode
+	if err := m.QueryRowsNoCacheCtx(ctx, &list, query); err != nil {
+		return nil, 0, err
+	}
+
+	return list, total, nil
 }
