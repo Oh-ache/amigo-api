@@ -5,7 +5,9 @@ import (
 
 	"amigo-api/app/baseCode/api/internal/svc"
 	"amigo-api/app/baseCode/api/internal/types"
+	"amigo-api/common/pb"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -24,7 +26,20 @@ func NewGetLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetLogic {
 }
 
 func (l *GetLogic) Get(req *types.GetBaseCodeReq) (resp *types.GetBaseCodeResp, err error) {
-	// todo: add your logic here and delete this line
+	var pbReq pb.GetBaseCodeReq
+	if err := copier.Copy(&pbReq, req); err != nil {
+		return nil, err
+	}
 
-	return
+	pbResp, err := l.svcCtx.BaseCodeRpc.GetBaseCode(l.ctx, &pbReq)
+	if err != nil {
+		return nil, err
+	}
+
+	var apiResp types.GetBaseCodeResp
+	if err := copier.Copy(&apiResp, pbResp); err != nil {
+		return nil, err
+	}
+
+	return &apiResp, nil
 }

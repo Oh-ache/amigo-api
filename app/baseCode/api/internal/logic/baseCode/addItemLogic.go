@@ -5,7 +5,9 @@ import (
 
 	"amigo-api/app/baseCode/api/internal/svc"
 	"amigo-api/app/baseCode/api/internal/types"
+	"amigo-api/common/pb"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -24,7 +26,15 @@ func NewAddItemLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddItemLo
 }
 
 func (l *AddItemLogic) AddItem(req *types.AddBaseCodeItemReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	var pbReq pb.AddBaseCodeItemReq
+	if err := copier.Copy(&pbReq, req); err != nil {
+		return nil, err
+	}
 
-	return
+	_, err = l.svcCtx.BaseCodeRpc.AddBaseCodeItem(l.ctx, &pbReq)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.EmptyResp{}, nil
 }

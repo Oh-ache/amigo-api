@@ -5,7 +5,9 @@ import (
 
 	"amigo-api/app/baseCode/api/internal/svc"
 	"amigo-api/app/baseCode/api/internal/types"
+	"amigo-api/common/pb"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -24,7 +26,20 @@ func NewGetSortLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetSortLo
 }
 
 func (l *GetSortLogic) GetSort(req *types.GetBaseCodeSortReq) (resp *types.GetBaseCodeSortResp, err error) {
-	// todo: add your logic here and delete this line
+	var pbReq pb.GetBaseCodeSortReq
+	if err := copier.Copy(&pbReq, req); err != nil {
+		return nil, err
+	}
 
-	return
+	pbResp, err := l.svcCtx.BaseCodeRpc.GetBaseCodeSort(l.ctx, &pbReq)
+	if err != nil {
+		return nil, err
+	}
+
+	var apiResp types.GetBaseCodeSortResp
+	if err := copier.Copy(&apiResp, pbResp); err != nil {
+		return nil, err
+	}
+
+	return &apiResp, nil
 }
