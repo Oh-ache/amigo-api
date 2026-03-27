@@ -315,9 +315,9 @@ func (m *defaultBaseCodeItemModel) List(ctx context.Context, search *BaseCodeIte
 	}
 	fmt.Println(total)
 
-	// 构建查询语句
+	// 构建查询语句（按主键id降序）
 	pageSql := utils.DelSQLPage(search.Page, search.PageSize)
-	query := fmt.Sprintf("select %s from %s %s %s", baseCodeItemRows, m.table, quertWhere, pageSql)
+	query := fmt.Sprintf("select %s from %s %s order by `base_code_item_id` desc %s", baseCodeItemRows, m.table, quertWhere, pageSql)
 	fmt.Println(query)
 
 	// 执行查询

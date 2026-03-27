@@ -277,9 +277,9 @@ func (m *defaultBaseCodeSortModel) List(ctx context.Context, search *BaseCodeSor
 		return nil, 0, fmt.Errorf("failed to get total count")
 	}
 
-	// 构建查询语句
+	// 构建查询语句（按主键id降序）
 	pageSql := utils.DelSQLPage(search.Page, search.PageSize)
-	query := fmt.Sprintf("select %s from %s %s %s", baseCodeSortRows, m.table, quertWhere, pageSql)
+	query := fmt.Sprintf("select %s from %s %s order by `base_code_sort_id` desc %s", baseCodeSortRows, m.table, quertWhere, pageSql)
 
 	// 执行查询
 	var list []*BaseCodeSort
