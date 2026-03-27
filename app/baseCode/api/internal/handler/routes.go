@@ -7,6 +7,8 @@ import (
 	"net/http"
 
 	baseCode "amigo-api/app/baseCode/api/internal/handler/baseCode"
+	baseCodeItem "amigo-api/app/baseCode/api/internal/handler/baseCodeItem"
+	baseCodeSort "amigo-api/app/baseCode/api/internal/handler/baseCodeSort"
 	"amigo-api/app/baseCode/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -22,28 +24,29 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodGet,
-				Path:    "/get_item",
-				Handler: baseCode.GetItemHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/get_sort",
-				Handler: baseCode.GetSortHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
 				Path:    "/list",
 				Handler: baseCode.ListHandler(serverCtx),
 			},
+		},
+		rest.WithPrefix("/api/base_code"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
 			{
-				Method:  http.MethodGet,
-				Path:    "/list_item",
-				Handler: baseCode.ListItemHandler(serverCtx),
+				Method:  http.MethodPost,
+				Path:    "/add_sort",
+				Handler: baseCode.AddSortHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodGet,
-				Path:    "/list_sort",
-				Handler: baseCode.ListSortHandler(serverCtx),
+				Method:  http.MethodPost,
+				Path:    "/delete_sort",
+				Handler: baseCode.DeleteSortHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/update_sort",
+				Handler: baseCode.UpdateSortHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/base_code"),
@@ -58,45 +61,68 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/add_item",
-				Handler: baseCode.AddItemHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/add_sort",
-				Handler: baseCode.AddSortHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
 				Path:    "/delete",
 				Handler: baseCode.DeleteHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/delete_item",
-				Handler: baseCode.DeleteItemHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/delete_sort",
-				Handler: baseCode.DeleteSortHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/update",
 				Handler: baseCode.UpdateHandler(serverCtx),
 			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/update_item",
-				Handler: baseCode.UpdateItemHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/update_sort",
-				Handler: baseCode.UpdateSortHandler(serverCtx),
-			},
 		},
 		rest.WithPrefix("/api/base_code"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/get",
+				Handler: baseCodeItem.GetHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: baseCodeItem.ListHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/base_code_item"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/add",
+				Handler: baseCodeItem.AddHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: baseCodeItem.DeleteHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/update",
+				Handler: baseCodeItem.UpdateHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/base_code_item"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/get",
+				Handler: baseCodeSort.GetHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: baseCodeSort.ListHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/base_code_sort"),
 	)
 }

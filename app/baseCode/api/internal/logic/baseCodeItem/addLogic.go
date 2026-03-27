@@ -1,4 +1,4 @@
-package baseCode
+package baseCodeItem
 
 import (
 	"context"
@@ -11,30 +11,28 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetLogic struct {
+type AddLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewGetLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetLogic {
-	return &GetLogic{
+func NewAddLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddLogic {
+	return &AddLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *GetLogic) Get(req *types.GetBaseCodeReq) (resp *types.GetBaseCodeResp, err error) {
-	resp = &types.GetBaseCodeResp{}
-	param := &pb.GetBaseCodeReq{}
+func (l *AddLogic) Add(req *types.AddBaseCodeItemReq) (resp *types.EmptyResp, err error) {
+	resp = &types.EmptyResp{}
+	param := &pb.AddBaseCodeItemReq{}
 
 	copier.Copy(param, req)
-	rpcResp, err := l.svcCtx.BaseCodeRpcClient.GetBaseCode(l.ctx, param)
-	if err != nil {
+	if _, err := l.svcCtx.BaseCodeRpcClient.AddBaseCodeItem(l.ctx, param); err != nil {
 		return nil, err
 	}
 
-	copier.Copy(resp, rpcResp)
 	return resp, nil
 }

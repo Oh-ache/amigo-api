@@ -171,27 +171,15 @@ type (
 )
 
 @server (
-	group:  baseCode
-	prefix: /api/base_code
+	group:  baseCodeSort
+	prefix: /api/base_code_sort
 )
 service api {
-	@handler GetSort
-	get /get_sort (GetBaseCodeSortReq) returns (GetBaseCodeSortResp)
-
-	@handler ListSort
-	get /list_sort (ListBaseCodeSortReq) returns (ListBaseCodeSortResp)
-
 	@handler Get
-	get /get (GetBaseCodeReq) returns (GetBaseCodeResp)
+	get /get (GetBaseCodeSortReq) returns (GetBaseCodeSortResp)
 
 	@handler List
-	get /list (ListBaseCodeReq) returns (ListBaseCodeResp)
-
-	@handler GetItem
-	get /get_item (GetBaseCodeItemReq) returns (GetBaseCodeItemResp)
-
-	@handler ListItem
-	get /list_item (ListBaseCodeItemReq) returns (ListBaseCodeItemResp)
+	get /list (ListBaseCodeSortReq) returns (ListBaseCodeSortResp)
 }
 
 @server (
@@ -199,7 +187,31 @@ service api {
 	prefix: /api/base_code
 )
 service api {
-	//----------------------------------------------标准码分类相关接口
+	@handler Get
+	get /get (GetBaseCodeReq) returns (GetBaseCodeResp)
+
+	@handler List
+	get /list (ListBaseCodeReq) returns (ListBaseCodeResp)
+}
+
+@server (
+	group:  baseCodeItem
+	prefix: /api/base_code_item
+)
+service api {
+	@handler Get
+	get /get (GetBaseCodeItemReq) returns (GetBaseCodeItemResp)
+
+	@handler List
+	get /list (ListBaseCodeItemReq) returns (ListBaseCodeItemResp)
+}
+
+//----------------------------------------------标准码分类相关接口
+@server (
+	group:  baseCode
+	prefix: /api/base_code
+)
+service api {
 	@handler AddSort
 	post /add_sort (AddBaseCodeSortReq) returns (EmptyResp)
 
@@ -208,8 +220,14 @@ service api {
 
 	@handler UpdateSort
 	post /update_sort (UpdateBaseCodeSortReq) returns (EmptyResp)
+}
 
-	//----------------------------------------------标准码相关接口
+//----------------------------------------------标准码相关接口
+@server (
+	group:  baseCode
+	prefix: /api/base_code
+)
+service api {
 	@handler Add
 	post /add (AddBaseCodeReq) returns (EmptyResp)
 
@@ -218,15 +236,21 @@ service api {
 
 	@handler Update
 	post /update (UpdateBaseCodeReq) returns (EmptyResp)
+}
 
-	//----------------------------------------------标准码相关接口
-	@handler AddItem
-	post /add_item (AddBaseCodeItemReq) returns (EmptyResp)
+//----------------------------------------------标准码相关接口
+@server (
+	group:  baseCodeItem
+	prefix: /api/base_code_item
+)
+service api {
+	@handler Add
+	post /add (AddBaseCodeItemReq) returns (EmptyResp)
 
-	@handler DeleteItem
-	post /delete_item (DeleteBaseCodeItemReq) returns (EmptyResp)
+	@handler Delete
+	post /delete (DeleteBaseCodeItemReq) returns (EmptyResp)
 
-	@handler UpdateItem
-	post /update_item (UpdateBaseCodeItemReq) returns (EmptyResp)
+	@handler Update
+	post /update (UpdateBaseCodeItemReq) returns (EmptyResp)
 }
 

@@ -1,25 +1,24 @@
-package baseCode
+package baseCodeItem
 
 import (
 	"net/http"
 
-	"amigo-api/app/baseCode/api/internal/logic/baseCode"
+	"amigo-api/app/baseCode/api/internal/logic/baseCodeItem"
 	"amigo-api/app/baseCode/api/internal/svc"
 	"amigo-api/app/baseCode/api/internal/types"
-	"amigo-api/app/baseCode/rpc/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func UpdateItemHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func GetHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.UpdateBaseCodeItemReq
+		var req types.GetBaseCodeItemReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := baseCode.NewUpdateItemLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateItem(&req)
+		l := baseCodeItem.NewGetLogic(r.Context(), svcCtx)
+		resp, err := l.Get(&req)
 		result := &types.CommonResp{}
 		if err != nil {
 			result.Code = 1

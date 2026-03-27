@@ -1,4 +1,4 @@
-package baseCode
+package baseCodeItem
 
 import (
 	"context"
@@ -25,12 +25,12 @@ func NewListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListLogic {
 	}
 }
 
-func (l *ListLogic) List(req *types.ListBaseCodeReq) (resp *types.ListBaseCodeResp, err error) {
-	resp = &types.ListBaseCodeResp{}
-	param := &pb.ListBaseCodeReq{}
+func (l *ListLogic) List(req *types.ListBaseCodeItemReq) (resp *types.ListBaseCodeItemResp, err error) {
+	resp = &types.ListBaseCodeItemResp{}
+	param := &pb.ListBaseCodeItemReq{}
 
 	copier.Copy(param, req)
-	rpcResp, err := l.svcCtx.BaseCodeRpcClient.ListBaseCode(l.ctx, param)
+	rpcResp, err := l.svcCtx.BaseCodeRpcClient.ListBaseCodeItem(l.ctx, param)
 	if err != nil {
 		return nil, err
 	}

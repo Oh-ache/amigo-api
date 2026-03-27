@@ -1,4 +1,4 @@
-package baseCode
+package baseCodeItem
 
 import (
 	"context"
@@ -25,13 +25,13 @@ func NewUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateLogi
 	}
 }
 
-func (l *UpdateLogic) Update(req *types.UpdateBaseCodeReq) (resp *types.EmptyResp, err error) {
+func (l *UpdateLogic) Update(req *types.UpdateBaseCodeItemReq) (resp *types.EmptyResp, err error) {
 	resp = &types.EmptyResp{}
-	// First, get the existing item to populate the BaseCodeResp
-	getReq := &pb.GetBaseCodeReq{
-		BaseCodeId: req.BaseCodeId,
+	// First, get the existing item to populate the BaseCodeItemResp
+	getReq := &pb.GetBaseCodeItemReq{
+		BaseCodeItemId: req.BaseCodeItemId,
 	}
-	existingItem, err := l.svcCtx.BaseCodeRpcClient.GetBaseCode(l.ctx, getReq)
+	existingItem, err := l.svcCtx.BaseCodeRpcClient.GetBaseCodeItem(l.ctx, getReq)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func (l *UpdateLogic) Update(req *types.UpdateBaseCodeReq) (resp *types.EmptyRes
 	// Copy the update request fields into the existing item
 	copier.Copy(existingItem, req)
 
-	if _, err := l.svcCtx.BaseCodeRpcClient.UpdateBaseCode(l.ctx, existingItem); err != nil {
+	if _, err := l.svcCtx.BaseCodeRpcClient.UpdateBaseCodeItem(l.ctx, existingItem); err != nil {
 		return nil, err
 	}
 
