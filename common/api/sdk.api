@@ -1,0 +1,108 @@
+syntax = "v1"
+
+type (
+	//----------------------------------------------图片转换
+	PngToElnkReq {
+		Url string `json:"url"`
+	}
+	PngToElnkResp {
+		Url string `json:"url"`
+	}
+
+	//----------------------------------------------消息通知类
+	SendCodeReq {
+		Platform string `json:"platform,optional,default=ali_sms"`
+		SendType string `json:"send_type"`
+		Mobile   string `json:"mobile"`
+	}
+	CheckCodeReq {
+		Platform string `json:"platform,optional,default=ali_sms"`
+		SendType string `json:"send_type"`
+		Mobile   string `json:"mobile"`
+		Code     string `json:"code"`
+	}
+	//----------------------------------------------IP
+	IpToAddressReq {
+		Ip string `json:"ip"`
+	}
+	IpToAddressResp {
+		Country  string `json:"country"`
+		Province string `json:"province"`
+		City     string `json:"city"`
+		Area     string `json:"area"`
+		Isp      string `json:"isp"`
+		Lng      string `json:"lng"`
+		Lat      string `json:"lat"`
+	}
+	//----------------------------------------------OSS
+	UploadFileReq {
+		FileName string `json:"file_name,optional" form:"file_name,optional"`
+		File     []byte `json:"file,optional" form:"file,optional"`
+	}
+	UploadFileResp {
+		Url string `json:"url"`
+	}
+	UploadUrlReq {
+		FileName string `json:"file_name"`
+		Url      string `json:"url"`
+	}
+	UploadUrlResp {
+		Url string `json:"url"`
+	}
+	UploadTokenReq {
+		FileName string `json:"file_name"`
+	}
+	UploadTokenResp {
+		Token  string `json:"token"`
+		Expire int64  `json:"expire"`
+	}
+)
+
+@server (
+	group:  sdk/message
+	prefix: /api/sdk/message
+)
+service api {
+	//----------------------------------------------消息通知类
+	@handler SendCode
+	post /send_code (SendCodeReq) returns (EmptyResp)
+
+	@handler CheckCode
+	post /check_code (CheckCodeReq) returns (EmptyResp)
+}
+
+@server (
+	group:  sdk/ip
+	prefix: /api/sdk/ip
+)
+service api {
+	//----------------------------------------------IP
+	@handler IpToAddress
+	post /to_address (IpToAddressReq) returns (IpToAddressResp)
+}
+
+@server (
+	group:  sdk/oss
+	prefix: /api/sdk/oss
+)
+service api {
+	//----------------------------------------------OSS
+	@handler UploadFile
+	post /upload_file (UploadFileReq) returns (UploadFileResp)
+
+	@handler UploadUrl
+	post /upload_url (UploadUrlReq) returns (UploadUrlResp)
+
+	@handler UploadToken
+	post /upload_token (UploadTokenReq) returns (UploadTokenResp)
+}
+
+@server (
+	group:  sdk/convert
+	prefix: /api/sdk/convert
+)
+service api {
+	//----------------------------------------------图片转换
+	@handler PngToElnk
+	post /png_to_elnk (PngToElnkReq) returns (PngToElnkResp)
+}

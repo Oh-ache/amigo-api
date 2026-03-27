@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package device;
+
+option go_package = "./pb";
+
+message AddDeviceReq {
+    string name = 1;
+    uint64 user_id = 2;
+    string mac_address = 3;
+    string internal_ip = 4;
+    string bmp_image = 5;
+    int64 is_running = 6;
+    string extra_data = 7;
+}
+
+message DeviceResp {
+    uint64 device_id = 1;
+    string name = 2;
+    uint64 user_id = 3;
+    string mac_address = 4;
+    string internal_ip = 5;
+    string bmp_image = 6;
+    int64 is_running = 7;
+    string extra_data = 8;
+    int64 is_delete = 9;
+    uint64 create_time = 10;
+    uint64 update_time = 11;
+}
+
+message GetDeviceReq {
+    uint64 device_id = 1;
+    string mac_address = 2;
+}
+
+message DeleteDeviceReq {
+    uint64 device_id = 1;
+    string mac_address = 2;
+}
+
+message DeleteDeviceResp {
+    bool success = 1;
+}
+
+message ListDeviceReq {
+    int64 page = 1;
+    int64 page_size = 2;
+    string name = 3;
+    uint64 user_id = 4;
+    string mac_address = 5;
+    string internal_ip = 6;
+    int64 is_running = 7;
+    int64 is_delete = 8;
+}
+
+message ListDeviceResp {
+    repeated DeviceResp list = 1;
+    int64 total = 2;
+}
+
+service Device {
+    rpc AddDevice (AddDeviceReq) returns (DeviceResp);
+    rpc UpdateDevice (DeviceResp) returns (DeviceResp);
+    rpc GetDevice (GetDeviceReq) returns (DeviceResp);
+    rpc DeleteDevice (DeleteDeviceReq) returns (DeleteDeviceResp);
+    rpc ListDevice (ListDeviceReq) returns (ListDeviceResp);
+}

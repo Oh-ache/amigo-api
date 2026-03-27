@@ -1,0 +1,199 @@
+syntax = "proto3";
+
+package base_code;
+
+option go_package = "./pb";
+
+
+// -------------------base_code_sort-------------------
+message AddBaseCodeSortReq {
+    string sort_name = 1;
+    string sort_key = 2;
+    string sort_desc = 3;
+}
+
+message BaseCodeSortResp {
+    uint64 base_code_sort_id = 1;
+    string sort_name = 2;
+    string sort_key = 3;
+    string sort_desc = 4;
+    int64 create_time = 5;
+    int64 update_time = 6;
+}
+
+message GetBaseCodeSortReq {
+    uint64 base_code_sort_id = 1;
+    string sort_key = 2;
+}
+
+message DeleteBaseCodeSortReq {
+    uint64 base_code_sort_id = 1;
+    string sort_key = 2;
+}
+
+message DeleteBaseCodeSortResp {
+    bool success = 1;
+}
+
+message ListBaseCodeSortReq {
+    int64 page = 1;
+    int64 page_size = 2;
+    string sort_key = 3;
+    string sort_name = 4;
+    int64 is_delete = 5;
+}
+
+message ListBaseCodeSortResp {
+    repeated BaseCodeSortResp list = 1;
+    int64 total = 2;
+}
+
+//-------------------base_code-------------------------
+message AddBaseCodeReq {
+    string sort_key = 1;
+    string key = 2;
+    string name = 3;
+    string content = 4;
+    string content1 = 5;
+    string content2 = 6;
+    string content3 = 7;
+    string content4 = 8;
+    string content5 = 9;
+}
+
+message BaseCodeResp {
+    uint64 base_code_id = 1;
+    string sort_key = 2;
+    string key = 3;
+    string name = 4;
+    string content = 5;
+    string content1 = 6;
+    string content2 = 7;
+    string content3 = 8;
+    string content4 = 9;
+    string content5 = 10;
+    uint64 create_time = 11;
+    uint64 update_time = 12;
+    int64 is_delete = 13;
+}
+
+
+message GetBaseCodeReq {
+    uint64 base_code_id = 1;
+    string sort_key = 2;
+    string key = 3;
+}
+
+message DeleteBaseCodeReq {
+    uint64 base_code_id = 1;
+    string sort_key = 2;
+    string key = 3;
+}
+
+message DeleteBaseCodeResp {
+    bool success = 1;
+}
+
+message ListBaseCodeReq {
+    string sort_key = 1;
+    string key = 2;
+    string name = 3;
+    int64 page = 4;
+    int64 page_size = 5;
+    int64 is_delete = 6;
+    string content = 7;
+    string content1 = 8;
+    string content2 = 9;
+    string content3 = 10;
+    string content4 = 11;
+}
+
+message ListBaseCodeResp {
+    repeated BaseCodeResp list = 1;
+    int64 total = 2;
+}
+
+// -------------------base_code_item-------------------
+message AddBaseCodeItemReq {
+    string sort_key = 1;
+    string key = 2;
+    uint64 foreign_id = 3;
+    string content = 4;
+    string content1 = 5;
+    string content2 = 6;
+    string content3 = 7;
+    string content4 = 8;
+}
+
+message BaseCodeItemResp {
+    uint64 base_code_item_id = 1;
+    string sort_key = 2;
+    string key = 3;
+    uint64 foreign_id = 4;
+    string content = 5;
+    string content1 = 6;
+    string content2 = 7;
+    string content3 = 8;
+    string content4 = 9;
+    uint64 create_time = 10;
+    uint64 update_time = 11;
+    int64 is_delete = 12;
+}
+
+message ListBaseCodeItemReq {
+    int64 page = 1;
+    int64 page_size = 2;
+    string sort_key = 3;
+    string key = 4;
+    string foreign_id = 5;
+    int64 is_delete = 6;
+    string content = 7;
+    string content1 = 8;
+    string content2 = 9;
+    string content3 = 10;
+    string content4 = 11;
+}
+
+message ListBaseCodeItemResp {
+    repeated BaseCodeItemResp list = 1;
+    int64 total = 2;
+}
+
+message GetBaseCodeItemReq {
+    uint64 base_code_item_id = 1;
+    string sort_key = 2;
+    string key = 3;
+    uint64 foreign_id = 4;
+}
+
+message DeleteBaseCodeItemReq {
+    uint64 base_code_item_id = 1;
+    string sort_key = 2;
+    string key = 3;
+    uint64 foreign_id = 4;
+}
+
+message DeleteBaseCodeItemResp {
+    bool success = 1;
+}
+
+service BaseCode {
+  rpc AddBaseCodeSort (AddBaseCodeSortReq) returns (BaseCodeSortResp);
+  rpc UpdateBaseCodeSort (BaseCodeSortResp) returns (BaseCodeSortResp);
+  rpc GetBaseCodeSort (GetBaseCodeSortReq) returns (BaseCodeSortResp);
+  rpc DeleteBaseCodeSort (DeleteBaseCodeSortReq) returns (DeleteBaseCodeSortResp);
+  rpc ListBaseCodeSort (ListBaseCodeSortReq) returns (ListBaseCodeSortResp);
+
+  rpc AddBaseCode (AddBaseCodeReq) returns (BaseCodeResp);
+  rpc GetBaseCode (GetBaseCodeReq) returns (BaseCodeResp);
+  rpc UpdateBaseCode (BaseCodeResp) returns (BaseCodeResp);
+  rpc DeleteBaseCode (DeleteBaseCodeReq) returns (DeleteBaseCodeResp);
+  rpc ListBaseCode (ListBaseCodeReq) returns (ListBaseCodeResp);
+
+  rpc AddBaseCodeItem (AddBaseCodeItemReq) returns (BaseCodeItemResp);
+  rpc GetBaseCodeItem (GetBaseCodeItemReq) returns (BaseCodeItemResp);
+  rpc UpdateBaseCodeItem (BaseCodeItemResp) returns (BaseCodeItemResp);
+  rpc DeleteBaseCodeItem (DeleteBaseCodeItemReq) returns (DeleteBaseCodeItemResp);
+  rpc ListBaseCodeItem (ListBaseCodeItemReq) returns (ListBaseCodeItemResp);
+}
+

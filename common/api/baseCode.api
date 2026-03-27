@@ -1,0 +1,232 @@
+syntax = "v1"
+
+import "common.api"
+
+type (
+	//----------------------------------------------标准码分类相关接口
+	AddBaseCodeSortReq {
+		SortKey  string `json:"sort_key"`
+		SortName string `json:"sort_name"`
+		SortDesc string `json:"sort_desc"`
+	}
+	DeleteBaseCodeSortReq {
+		SortKey        string `json:"sort_ey,default=,optional"`
+		BaseCodeSortId uint64 `json:"base_code_sort_id,default=0,optional"`
+	}
+	UpdateBaseCodeSortReq {
+		BaseCodeSortId uint64 `json:"base_code_sort_id"`
+		SortKey        string `json:"sort_key,default="`
+		SortName       string `json:"sort_name,default="`
+		SortDesc       string `json:"sort_desc,default="`
+		IsDelete       int64  `json:"is_delete,default=2"`
+	}
+	GetBaseCodeSortReq {
+		BaseCodeSortId uint64 `form:"base_code_sort_id,default=0,optional"`
+		SortKey        string `form:"sort_key,default=,optional"`
+	}
+	GetBaseCodeSortResp {
+		BaseCodeSortId uint64 `json:"base_code_sort_id"`
+		SortKey        string `json:"sort_key"`
+		SortName       string `json:"sort_name"`
+		SortDesc       string `json:"sort_desc"`
+		CreateTime     uint64 `json:"create_time"`
+		UpdateTime     uint64 `json:"update_time"`
+	}
+	ListBaseCodeSortReq {
+		SortKey  string `form:"sort_key,default=,optional"`
+		SortName string `form:"sort_name,default=,optional"`
+		SortDesc string `form:"sort_desc,default=,optional"`
+		IsDelete int64  `form:"is_delete,default=2,optional"`
+		Page     int64  `form:"page,default=1,optional"`
+		PageSize int64  `form:"page_size,default=10,optional"`
+	}
+	ListBaseCodeSortResp {
+		List  []GetBaseCodeSortResp `json:"list"`
+		Total int64                 `json:"total"`
+	}
+	//----------------------------------------------标准码相关接口
+	AddBaseCodeReq {
+		SortKey  string `json:"sort_key"`
+		Key      string `json:"key"`
+		Name     string `json:"name"`
+		Content  string `json:"content,optional,default="`
+		Content1 string `json:"content1,optional,default="`
+		Content2 string `json:"content2,optional,default="`
+		Content3 string `json:"content3,optional,default="`
+		Content4 string `json:"content4,optional,default="`
+	}
+	DeleteBaseCodeReq {
+		BaseCodeId uint64 `json:"base_code_id,default=0,optional"`
+		SortKey    string `json:"sort_key,default=,optional"`
+		Key        string `json:"key,default=,optional"`
+	}
+	UpdateBaseCodeReq {
+		BaseCodeId uint64 `json:"base_code_id"`
+		SortKey    string `json:"sort_key"`
+		Key        string `json:"key"`
+		Name       string `json:"name"`
+		Content    string `json:"content,optional,default="`
+		Content1   string `json:"content1,optional,default="`
+		Content2   string `json:"content2,optional,default="`
+		Content3   string `json:"content3,optional,default="`
+		Content4   string `json:"content4,optional,default="`
+		IsDelete   int64  `json:"is_delete"`
+	}
+	GetBaseCodeReq {
+		BaseCodeId uint64 `form:"base_code_id,default=0,optional"`
+		SortKey    string `form:"sort_key,default=,optional"`
+		Key        string `form:"key,default=,optional"`
+	}
+	GetBaseCodeResp {
+		BaseCodeId uint64 `json:"base_code_id"`
+		SortKey    string `json:"sort_key"`
+		Key        string `json:"key"`
+		Name       string `json:"name"`
+		Content    string `json:"content"`
+		Content1   string `json:"content1"`
+		Content2   string `json:"content2"`
+		Content3   string `json:"content3"`
+		Content4   string `json:"content4"`
+		IsDelete   int64  `json:"is_delete"`
+		CreateTime uint64 `json:"create_time"`
+		UpdateTime uint64 `json:"update_time"`
+	}
+	ListBaseCodeReq {
+		SortKey  string `form:"sort_key,default=,optional"`
+		Key      string `form:"key,default=,optional"`
+		Name     string `form:"name,default=,optional"`
+		Content  string `form:"content,default=,optional"`
+		Content1 string `form:"content1,default=,optional"`
+		Content2 string `form:"content2,default=,optional"`
+		Content3 string `form:"content3,default=,optional"`
+		Content4 string `form:"content4,default=,optional"`
+		IsDelete int64  `form:"is_delete,default=2,optional"`
+		Page     int64  `form:"page,default=1,optional"`
+		PageSize int64  `form:"page_size,default=10,optional"`
+	}
+	ListBaseCodeResp {
+		List  []GetBaseCodeResp `json:"list"`
+		Total int64             `json:"total"`
+	}
+	//----------------------------------------------标准码相关接口
+	AddBaseCodeItemReq {
+		SortKey   string `json:"sort_key"`
+		Key       string `json:"key"`
+		ForeignId uint64 `json:"foreign_id,optional,default=0"`
+		Content   string `json:"content,optional,default="`
+		Content1  string `json:"content1,optional,default="`
+		Content2  string `json:"content2,optional,default="`
+		Content3  string `json:"content3,optional,default="`
+		Content4  string `json:"content4,optional,default="`
+	}
+	DeleteBaseCodeItemReq {
+		BaseCodeItemId uint64 `json:"base_code_item_id"`
+	}
+	UpdateBaseCodeItemReq {
+		BaseCodeItemId uint64 `json:"base_code_item_id"`
+		SortKey        string `json:"sort_key"`
+		Key            string `json:"key"`
+		ForeignId      uint64 `json:"foreign_id,optional,default=0"`
+		Content        string `json:"content,optional,default="`
+		Content1       string `json:"content1,optional,default="`
+		Content2       string `json:"content2,optional,default="`
+		Content3       string `json:"content3,optional,default="`
+		Content4       string `json:"content4,optional,default="`
+		IsDelete       int64  `json:"is_delete"`
+	}
+	GetBaseCodeItemReq {
+		BaseCodeItemId uint64 `form:"base_code_item_id"`
+	}
+	GetBaseCodeItemResp {
+		BaseCodeItemId uint64 `json:"base_code_item_id"`
+		SortKey        string `json:"sort_key"`
+		Key            string `json:"key"`
+		ForeignId      uint64 `json:"foreign_id"`
+		Content        string `json:"content"`
+		Content1       string `json:"content1"`
+		Content2       string `json:"content2"`
+		Content3       string `json:"content3"`
+		Content4       string `json:"content4"`
+		IsDelete       int64  `json:"is_delete"`
+		CreateTime     uint64 `json:"create_time"`
+		UpdateTime     uint64 `json:"update_time"`
+	}
+	ListBaseCodeItemReq {
+		SortKey   string `form:"sort_key,default=,optional"`
+		Key       string `form:"key,default=,optional"`
+		ForeignId uint64 `form:"foreign_id,default=0,optional"`
+		Content   string `form:"content,default=,optional"`
+		Content1  string `form:"content1,default=,optional"`
+		Content2  string `form:"content2,default=,optional"`
+		Content3  string `form:"content3,default=,optional"`
+		Content4  string `form:"content4,default=,optional"`
+		IsDelete  int64  `form:"is_delete,default=2,optional"`
+		Page      int64  `form:"page,default=1,optional"`
+		PageSize  int64  `form:"page_size,default=10,optional"`
+	}
+	ListBaseCodeItemResp {
+		List  []GetBaseCodeItemResp `json:"list"`
+		Total int64                 `json:"total"`
+	}
+)
+
+@server (
+	group:  baseCode
+	prefix: /api/base_code
+)
+service api {
+	@handler GetSort
+	get /get_sort (GetBaseCodeSortReq) returns (GetBaseCodeSortResp)
+
+	@handler ListSort
+	get /list_sort (ListBaseCodeSortReq) returns (ListBaseCodeSortResp)
+
+	@handler Get
+	get /get (GetBaseCodeReq) returns (GetBaseCodeResp)
+
+	@handler List
+	get /list (ListBaseCodeReq) returns (ListBaseCodeResp)
+
+	@handler GetItem
+	get /get_item (GetBaseCodeItemReq) returns (GetBaseCodeItemResp)
+
+	@handler ListItem
+	get /list_item (ListBaseCodeItemReq) returns (ListBaseCodeItemResp)
+}
+
+@server (
+	group:  baseCode
+	prefix: /api/base_code
+)
+service api {
+	//----------------------------------------------标准码分类相关接口
+	@handler AddSort
+	post /add_sort (AddBaseCodeSortReq) returns (EmptyResp)
+
+	@handler DeleteSort
+	post /delete_sort (DeleteBaseCodeSortReq) returns (EmptyResp)
+
+	@handler UpdateSort
+	post /update_sort (UpdateBaseCodeSortReq) returns (EmptyResp)
+
+	//----------------------------------------------标准码相关接口
+	@handler Add
+	post /add (AddBaseCodeReq) returns (EmptyResp)
+
+	@handler Delete
+	post /delete (DeleteBaseCodeReq) returns (EmptyResp)
+
+	@handler Update
+	post /update (UpdateBaseCodeReq) returns (EmptyResp)
+
+	//----------------------------------------------标准码相关接口
+	@handler AddItem
+	post /add_item (AddBaseCodeItemReq) returns (EmptyResp)
+
+	@handler DeleteItem
+	post /delete_item (DeleteBaseCodeItemReq) returns (EmptyResp)
+
+	@handler UpdateItem
+	post /update_item (UpdateBaseCodeItemReq) returns (EmptyResp)
+}
+

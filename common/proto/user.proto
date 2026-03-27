@@ -1,0 +1,212 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./pb";
+
+message SuccessResp {
+    bool success = 1;
+}
+
+// -------------------user-------------------
+message AddUserReq {
+    string username = 1;
+    string mobile = 2;
+    string avatar = 3;
+    string password = 4;
+}
+
+message UserResp {
+    uint64 user_id = 1;
+    string username = 2;
+    string mobile = 3;
+    string avatar = 4;
+    string password = 5;
+    int64  is_delete = 6;
+    uint64 create_time = 7;
+    uint64 update_time = 8;
+}
+
+message DeleteUserReq {
+    uint64 user_id = 1;
+}
+
+message DeleteUserResp {
+    bool success = 1;
+}
+
+message UpdateUserReq {
+    uint64 user_id = 1;
+    string username = 2;
+    string mobile = 3;
+    string avatar = 4;
+    string password = 5;
+    int64 is_delete = 6;
+}
+
+message GetUserReq {
+    uint64 user_id = 1;
+    string mobile = 2;
+    string username = 3;
+}
+
+message ListUserReq {
+    int64 page = 1;
+    int64 page_size = 2;
+    string username = 3;
+    string mobile = 4;
+    string user_id = 5;
+}
+
+message ListUserResp {
+    repeated UserResp list = 1;
+    int64 total = 2;
+}
+
+message UserThirdLoginReq {
+  string app_type = 1;
+  string code = 2;
+}
+
+message LoginSuccessResp {
+  uint64 user_id = 1;
+  string mobile = 2;
+  string username = 3;
+  string avatar = 4;
+  string token = 5;
+}
+
+// -------------------admin-------------------
+message AddAdminReq {
+    string mobile = 1;
+    string avatar = 2;
+    string username = 3;
+    string password = 4;
+}
+
+message AdminResp {
+    uint64 admin_id = 1;
+    string mobile = 2;
+    string avatar = 3;
+    string username = 4;
+    string password = 5;
+    int64 is_delete = 6;
+    uint64 create_time = 7;
+    uint64 update_time = 8;
+}
+
+message UpdateAdminReq {
+    uint64 admin_id = 1;
+    string mobile = 2;
+    string avatar = 3;
+    string username = 4;
+    string password = 5;
+    int64 is_delete = 6;
+}
+
+message GetAdminReq {
+    uint64 admin_id = 1;
+    string mobile = 2;
+    string username = 3;
+}
+
+message DeleteAdminReq {
+    uint64 admin_id = 1;
+}
+
+message DeleteAdminResp {
+    bool success = 1;
+}
+
+message ListAdminReq {
+    int64 page = 1;
+    int64 page_size = 2;
+    string username = 3;
+    string mobile = 4;
+    string admin_id = 5;
+}
+
+message ListAdminResp {
+    repeated AdminResp list = 1;
+    int64 total = 2;
+}
+
+// -------------------rule--------------------
+message BaseRoleItem {
+    string domain = 1;
+    string role = 2;
+    string admin_id = 3;
+}
+
+message BasePolicyItem {
+    string domain = 1;
+    string role = 2;
+    string policy = 3;
+    string action = 4;
+}
+
+message GetAllDomainReq {}
+
+message GetAllDomainResp {
+    repeated string list = 1;
+}
+
+message GetRoleListeResp {
+    repeated BaseRoleItem list = 1;
+}
+
+message GetPolicyListResp {
+    repeated BasePolicyItem list = 1;
+}
+
+message CheckAdminPermissionReq {
+    string domain = 1;
+    string admin_id = 2;
+    string policy = 3;
+    string action = 4;
+}
+
+// -------------------miniapp-------------------
+message MiniappCodeReq {
+  string app_type= 1;
+  string code = 2;
+}
+
+message MiniappCodeResp {
+  string openid = 1;
+  string session_key = 2;
+  string unionid = 3;
+  int64 errcode = 4;
+  string errmsg = 5;
+}
+
+
+service User {
+    rpc AddUser (AddUserReq) returns (LoginSuccessResp);
+    rpc DeleteUser (DeleteUserReq) returns (SuccessResp);
+    rpc UpdateUser (UpdateUserReq) returns (SuccessResp);
+    rpc GetUser (GetUserReq) returns (UserResp);
+    rpc ListUser (ListUserReq) returns (ListUserResp);
+    rpc UserThirdLogin (UserThirdLoginReq) returns (LoginSuccessResp);
+
+    rpc AddAdmin (AddAdminReq) returns (SuccessResp);
+    rpc UpdateAdmin (UpdateAdminReq) returns (SuccessResp);
+    rpc GetAdmin (GetAdminReq) returns (AdminResp);
+    rpc ListAdmin (ListAdminReq) returns (ListAdminResp);
+    rpc DeleteAdmin (DeleteAdminReq) returns (SuccessResp);
+
+    rpc GetAllDomain (GetAllDomainReq) returns (GetAllDomainResp);
+    rpc GetRole(BaseRoleItem) returns (SuccessResp);
+    rpc GetRoleList(BaseRoleItem) returns (GetRoleListeResp);
+    rpc AddRole(BaseRoleItem) returns (SuccessResp);
+    rpc DeleteRole(BaseRoleItem) returns (SuccessResp);
+    rpc GetPolicy(BasePolicyItem) returns (SuccessResp);
+    rpc GetPolicyList(BasePolicyItem) returns (GetPolicyListResp);
+    rpc AddPolicy(BasePolicyItem) returns (SuccessResp);
+    rpc DeletePolicy(BasePolicyItem) returns (SuccessResp);
+    rpc CheckAdminPermission(CheckAdminPermissionReq) returns (SuccessResp);
+    rpc LoadUserPolicy(BaseRoleItem) returns (SuccessResp);
+    rpc LoadRolePolicy(BaseRoleItem) returns (SuccessResp);
+
+    rpc MiniappCode(MiniappCodeReq) returns (MiniappCodeResp);
+}

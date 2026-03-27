@@ -1,0 +1,16 @@
+#!/bin/sh
+
+cd ..
+p=$PWD
+
+rm -rf $p/common/pb/$1.pb.go
+rm -rf $p/common/pb/$1_grpc.pb.go
+rm -rf $p/app/$1/rpc/internal/server
+
+cd common/proto
+
+goctl rpc protoc $1.proto \
+  --go_out=$p/common \
+  --go-grpc_out=$p/common \
+  --zrpc_out=$p/app/$1/rpc \
+  --style=goZero

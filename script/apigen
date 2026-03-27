@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cd ..
+p=$PWD
+cd common/api
+
+goctl api go -api $1.api \
+  -dir $p/app/$1/api/ \
+  --style=goZero

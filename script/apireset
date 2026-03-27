@@ -1,0 +1,13 @@
+#!/bin/sh
+
+cd ..
+p=$PWD
+
+rm -rf $p/app/$1/internal/types
+rm -rf $p/app/$1/internal/handler/routes.go
+
+cd common/api
+
+goctl api go -api $1.api \
+  -dir $p/app/$1/api/ \
+  --style=goZero

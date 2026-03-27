@@ -1,0 +1,88 @@
+syntax = "v1"
+
+import "common.api"
+
+type (
+	AddDeviceReq {
+		Name       string `json:"name"`
+		UserId     uint64 `json:"user_id"`
+		MacAddress string `json:"mac_address"`
+		InternalIp string `json:"internal_ip"`
+		BmpImage   string `json:"bmp_image,optional,default="`
+		IsRunning  int64  `json:"is_running,optional,default=2"`
+		ExtraData  string `json:"extra_data,optional,default="`
+	}
+	DeleteDeviceReq {
+		DeviceId   uint64 `json:"device_id,default=0,optional"`
+		MacAddress string `json:"mac_address,default=,optional"`
+	}
+	UpdateDeviceReq {
+		DeviceId   uint64 `json:"device_id"`
+		Name       string `json:"name"`
+		UserId     uint64 `json:"user_id"`
+		MacAddress string `json:"mac_address"`
+		InternalIp string `json:"internal_ip"`
+		BmpImage   string `json:"bmp_image,optional,default="`
+		IsRunning  int64  `json:"is_running,optional,default=2"`
+		ExtraData  string `json:"extra_data,optional,default="`
+		IsDelete   int64  `json:"is_delete"`
+	}
+	GetDeviceReq {
+		DeviceId   uint64 `form:"device_id,default=0,optional"`
+		MacAddress string `form:"mac_address,default=,optional"`
+	}
+	GetDeviceResp {
+		DeviceId   uint64 `json:"device_id"`
+		Name       string `json:"name"`
+		UserId     uint64 `json:"user_id"`
+		MacAddress string `json:"mac_address"`
+		InternalIp string `json:"internal_ip"`
+		BmpImage   string `json:"bmp_image"`
+		IsRunning  int64  `json:"is_running"`
+		ExtraData  string `json:"extra_data"`
+		IsDelete   int64  `json:"is_delete"`
+		CreateTime uint64 `json:"create_time"`
+		UpdateTime uint64 `json:"update_time"`
+	}
+	ListDeviceReq {
+		Name       string `form:"name,default=,optional"`
+		UserId     uint64 `form:"user_id,default=0,optional"`
+		MacAddress string `form:"mac_address,default=,optional"`
+		InternalIp string `form:"internal_ip,default=,optional"`
+		IsRunning  int64  `form:"is_running,default=0,optional"`
+		IsDelete   int64  `form:"is_delete,default=2,optional"`
+		Page       int64  `form:"page,default=1,optional"`
+		PageSize   int64  `form:"page_size,default=10,optional"`
+	}
+	ListDeviceResp {
+		List  []GetDeviceResp `json:"list"`
+		Total int64           `json:"total"`
+	}
+)
+
+@server (
+	group:  device
+	prefix: /api/device
+)
+service api {
+	@handler Get
+	get /get (GetDeviceReq) returns (GetDeviceResp)
+
+	@handler List
+	get /list (ListDeviceReq) returns (ListDeviceResp)
+}
+
+@server (
+	group:  device
+	prefix: /api/device
+)
+service api {
+	@handler Add
+	post /add (AddDeviceReq) returns (EmptyResp)
+
+	@handler Delete
+	post /delete (DeleteDeviceReq) returns (EmptyResp)
+
+	@handler Update
+	post /update (UpdateDeviceReq) returns (EmptyResp)
+}
