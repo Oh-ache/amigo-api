@@ -86,3 +86,4 @@ service device {
 	@handler Update
 	post /update (UpdateDeviceReq) returns (EmptyResp)
 }
+
