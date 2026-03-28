@@ -9,6 +9,9 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
+	"time"
+
+	"amigo-api/common/utils"
 
 	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/cache"
@@ -36,6 +39,8 @@ type (
 		FindOneByUsername(ctx context.Context, username string) (*Admin, error)
 		Update(ctx context.Context, data *Admin) error
 		Delete(ctx context.Context, adminId uint64) error
+		CheckDuplicate(ctx context.Context, data *Admin) (bool, error)
+		List(ctx context.Context, search *AdminSearch) ([]*Admin, int64, error)
 	}
 
 	defaultAdminModel struct {
@@ -49,9 +54,18 @@ type (
 		Avatar     string `db:"avatar"`
 		Username   string `db:"username"`
 		Password   string `db:"password"`
-		IsDelete   int64  `db:"is_delete"`
+		IsDelete   int64  `db:"is_delete"` // 1删除2未删除
 		CreateTime uint64 `db:"create_time"`
 		UpdateTime uint64 `db:"update_time"`
+	}
+
+	AdminSearch struct {
+		AdminId  string
+		Username string
+		Mobile   string
+		IsDelete int64
+		Page     int64
+		PageSize int64
 	}
 )
 
@@ -136,12 +150,42 @@ func (m *defaultAdminModel) FindOneByUsername(ctx context.Context, username stri
 }
 
 func (m *defaultAdminModel) Insert(ctx context.Context, data *Admin) (sql.Result, error) {
+	// 自动设置创建和更新时间
+	now := uint64(time.Now().Unix())
+	data.CreateTime = now
+	data.UpdateTime = now
+
 	amigoAdminAdminIdKey := fmt.Sprintf("%s%v", cacheAmigoAdminAdminIdPrefix, data.AdminId)
 	amigoAdminMobileKey := fmt.Sprintf("%s%v", cacheAmigoAdminMobilePrefix, data.Mobile)
 	amigoAdminUsernameKey := fmt.Sprintf("%s%v", cacheAmigoAdminUsernamePrefix, data.Username)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?)", m.table, adminRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.Mobile, data.Avatar, data.Username, data.Password, data.IsDelete)
+		// 重新计算字段列表，包含create_time和update_time
+		insertFieldNames := stringx.Remove(adminFieldNames, "`admin_id`")
+		insertFields := strings.Join(insertFieldNames, ",")
+		placeholders := strings.Repeat("?,", len(insertFieldNames)-1) + "?"
+
+		query := fmt.Sprintf("insert into %s (%s) values (%s)", m.table, insertFields, placeholders)
+		// 根据字段顺序构造参数列表
+		params := make([]interface{}, 0, len(insertFieldNames))
+		for _, field := range insertFieldNames {
+			switch field {
+			case "`mobile`":
+				params = append(params, data.Mobile)
+			case "`avatar`":
+				params = append(params, data.Avatar)
+			case "`username`":
+				params = append(params, data.Username)
+			case "`password`":
+				params = append(params, data.Password)
+			case "`is_delete`":
+				params = append(params, data.IsDelete)
+			case "`create_time`":
+				params = append(params, data.CreateTime)
+			case "`update_time`":
+				params = append(params, data.UpdateTime)
+			}
+		}
+		return conn.ExecCtx(ctx, query, params...)
 	}, amigoAdminAdminIdKey, amigoAdminMobileKey, amigoAdminUsernameKey)
 	return ret, err
 }
@@ -152,12 +196,40 @@ func (m *defaultAdminModel) Update(ctx context.Context, newData *Admin) error {
 		return err
 	}
 
+	// 自动设置更新时间
+	now := uint64(time.Now().Unix())
+	newData.UpdateTime = now
+
 	amigoAdminAdminIdKey := fmt.Sprintf("%s%v", cacheAmigoAdminAdminIdPrefix, data.AdminId)
 	amigoAdminMobileKey := fmt.Sprintf("%s%v", cacheAmigoAdminMobilePrefix, data.Mobile)
 	amigoAdminUsernameKey := fmt.Sprintf("%s%v", cacheAmigoAdminUsernamePrefix, data.Username)
 	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("update %s set %s where `admin_id` = ?", m.table, adminRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, newData.Mobile, newData.Avatar, newData.Username, newData.Password, newData.IsDelete, newData.AdminId)
+		// 修改更新语句，包含update_time字段
+		updateFieldNames := stringx.Remove(adminFieldNames, "`admin_id`", "`create_time`", "`create_at`", "`created_at`")
+		updateFields := strings.Join(updateFieldNames, "=?,") + "=?"
+		query := fmt.Sprintf("update %s set %s where `admin_id` = ?", m.table, updateFields)
+
+		// 根据字段顺序构造参数列表
+		params := make([]interface{}, 0, len(updateFieldNames))
+		for _, field := range updateFieldNames {
+			switch field {
+			case "`mobile`":
+				params = append(params, newData.Mobile)
+			case "`avatar`":
+				params = append(params, newData.Avatar)
+			case "`username`":
+				params = append(params, newData.Username)
+			case "`password`":
+				params = append(params, newData.Password)
+			case "`is_delete`":
+				params = append(params, newData.IsDelete)
+			case "`update_time`":
+				params = append(params, newData.UpdateTime)
+			}
+		}
+		params = append(params, newData.AdminId)
+
+		return conn.ExecCtx(ctx, query, params...)
 	}, amigoAdminAdminIdKey, amigoAdminMobileKey, amigoAdminUsernameKey)
 	return err
 }
@@ -173,4 +245,76 @@ func (m *defaultAdminModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn,
 
 func (m *defaultAdminModel) tableName() string {
 	return m.table
+}
+
+func (m *defaultAdminModel) CheckDuplicate(ctx context.Context, data *Admin) (bool, error) {
+	// 首先通过 Username 查找是否存在对应的记录
+	existing, err := m.FindOneByUsername(ctx, data.Username)
+	if err == sqlc.ErrNotFound {
+		// 没有找到，说明不重复
+		return false, nil
+	}
+	if err != nil {
+		// 查询出错
+		return false, err
+	}
+
+	// 找到了对应的 Username 记录
+	if data.AdminId == 0 {
+		// 主键id为0，表示新增数据，只要Username存在就认为是重复
+		return true, nil
+	}
+
+	// 主键id不为0，表示更新数据，需要判断找到的记录是否是自己
+	if existing.AdminId != data.AdminId {
+		// 找到了其他记录拥有相同的Username，认为是重复
+		return true, nil
+	}
+
+	// 找到的记录就是自己，不是重复
+	return false, nil
+}
+
+// List 方法根据搜索条件查询 Admin 列表
+func (m *defaultAdminModel) List(ctx context.Context, search *AdminSearch) ([]*Admin, int64, error) {
+	// 构建查询条件
+	var conditions []string
+
+	if search.Username != "" {
+		conditions = append(conditions, "`username` = '"+search.Username+"'")
+	}
+	if search.Mobile != "" {
+		conditions = append(conditions, "`mobile` = '"+search.Mobile+"'")
+	}
+	if search.AdminId != "" {
+		conditions = append(conditions, "`admin_id` = '"+search.AdminId+"'")
+	}
+	if search.IsDelete != 0 {
+		conditions = append(conditions, "`is_delete` = "+fmt.Sprintf("%d", search.IsDelete))
+	}
+
+	quertWhere := ""
+	if len(conditions) > 0 {
+		quertWhere = " where " + strings.Join(conditions, " and ")
+	}
+
+	// 获取总条数（不算分页的数据）
+	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, quertWhere)
+
+	var total int64
+	if m.QueryRowNoCacheCtx(ctx, &total, countQuery) != nil {
+		return nil, 0, fmt.Errorf("failed to get total count")
+	}
+
+	// 构建查询语句（按主键id降序）
+	pageSql := utils.DelSQLPage(search.Page, search.PageSize)
+	query := fmt.Sprintf("select %s from %s %s order by `admin_id` desc %s", adminRows, m.table, quertWhere, pageSql)
+
+	// 执行查询
+	var list []*Admin
+	if err := m.QueryRowsNoCacheCtx(ctx, &list, query); err != nil {
+		return nil, 0, err
+	}
+
+	return list, total, nil
 }

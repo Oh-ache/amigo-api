@@ -9,6 +9,9 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
+	"time"
+
+	"amigo-api/common/utils"
 
 	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/cache"
@@ -34,6 +37,8 @@ type (
 		FindOneByUsername(ctx context.Context, username string) (*User, error)
 		Update(ctx context.Context, data *User) error
 		Delete(ctx context.Context, userId uint64) error
+		CheckDuplicate(ctx context.Context, data *User) (bool, error)
+		List(ctx context.Context, search *UserSearch) ([]*User, int64, error)
 	}
 
 	defaultUserModel struct {
@@ -50,6 +55,15 @@ type (
 		IsDelete   int64  `db:"is_delete"` // 1删除2未删除
 		CreateTime uint64 `db:"create_time"`
 		UpdateTime uint64 `db:"update_time"`
+	}
+
+	UserSearch struct {
+		UserId   string
+		Username string
+		Mobile   string
+		IsDelete int64
+		Page     int64
+		PageSize int64
 	}
 )
 
@@ -113,11 +127,41 @@ func (m *defaultUserModel) FindOneByUsername(ctx context.Context, username strin
 }
 
 func (m *defaultUserModel) Insert(ctx context.Context, data *User) (sql.Result, error) {
+	// 自动设置创建和更新时间
+	now := uint64(time.Now().Unix())
+	data.CreateTime = now
+	data.UpdateTime = now
+
 	amigoUserUserIdKey := fmt.Sprintf("%s%v", cacheAmigoUserUserIdPrefix, data.UserId)
 	amigoUserUsernameKey := fmt.Sprintf("%s%v", cacheAmigoUserUsernamePrefix, data.Username)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?)", m.table, userRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.Mobile, data.Avatar, data.Username, data.Password, data.IsDelete)
+		// 重新计算字段列表，包含create_time和update_time
+		insertFieldNames := stringx.Remove(userFieldNames, "`user_id`")
+		insertFields := strings.Join(insertFieldNames, ",")
+		placeholders := strings.Repeat("?,", len(insertFieldNames)-1) + "?"
+
+		query := fmt.Sprintf("insert into %s (%s) values (%s)", m.table, insertFields, placeholders)
+		// 根据字段顺序构造参数列表
+		params := make([]interface{}, 0, len(insertFieldNames))
+		for _, field := range insertFieldNames {
+			switch field {
+			case "`mobile`":
+				params = append(params, data.Mobile)
+			case "`avatar`":
+				params = append(params, data.Avatar)
+			case "`username`":
+				params = append(params, data.Username)
+			case "`password`":
+				params = append(params, data.Password)
+			case "`is_delete`":
+				params = append(params, data.IsDelete)
+			case "`create_time`":
+				params = append(params, data.CreateTime)
+			case "`update_time`":
+				params = append(params, data.UpdateTime)
+			}
+		}
+		return conn.ExecCtx(ctx, query, params...)
 	}, amigoUserUserIdKey, amigoUserUsernameKey)
 	return ret, err
 }
@@ -128,11 +172,39 @@ func (m *defaultUserModel) Update(ctx context.Context, newData *User) error {
 		return err
 	}
 
+	// 自动设置更新时间
+	now := uint64(time.Now().Unix())
+	newData.UpdateTime = now
+
 	amigoUserUserIdKey := fmt.Sprintf("%s%v", cacheAmigoUserUserIdPrefix, data.UserId)
 	amigoUserUsernameKey := fmt.Sprintf("%s%v", cacheAmigoUserUsernamePrefix, data.Username)
 	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("update %s set %s where `user_id` = ?", m.table, userRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, newData.Mobile, newData.Avatar, newData.Username, newData.Password, newData.IsDelete, newData.UserId)
+		// 修改更新语句，包含update_time字段
+		updateFieldNames := stringx.Remove(userFieldNames, "`user_id`", "`create_time`", "`create_at`", "`created_at`")
+		updateFields := strings.Join(updateFieldNames, "=?,") + "=?"
+		query := fmt.Sprintf("update %s set %s where `user_id` = ?", m.table, updateFields)
+
+		// 根据字段顺序构造参数列表
+		params := make([]interface{}, 0, len(updateFieldNames))
+		for _, field := range updateFieldNames {
+			switch field {
+			case "`mobile`":
+				params = append(params, newData.Mobile)
+			case "`avatar`":
+				params = append(params, newData.Avatar)
+			case "`username`":
+				params = append(params, newData.Username)
+			case "`password`":
+				params = append(params, newData.Password)
+			case "`is_delete`":
+				params = append(params, newData.IsDelete)
+			case "`update_time`":
+				params = append(params, newData.UpdateTime)
+			}
+		}
+		params = append(params, newData.UserId)
+
+		return conn.ExecCtx(ctx, query, params...)
 	}, amigoUserUserIdKey, amigoUserUsernameKey)
 	return err
 }
@@ -148,4 +220,76 @@ func (m *defaultUserModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, 
 
 func (m *defaultUserModel) tableName() string {
 	return m.table
+}
+
+func (m *defaultUserModel) CheckDuplicate(ctx context.Context, data *User) (bool, error) {
+	// 首先通过 Username 查找是否存在对应的记录
+	existing, err := m.FindOneByUsername(ctx, data.Username)
+	if err == sqlc.ErrNotFound {
+		// 没有找到，说明不重复
+		return false, nil
+	}
+	if err != nil {
+		// 查询出错
+		return false, err
+	}
+
+	// 找到了对应的 Username 记录
+	if data.UserId == 0 {
+		// 主键id为0，表示新增数据，只要Username存在就认为是重复
+		return true, nil
+	}
+
+	// 主键id不为0，表示更新数据，需要判断找到的记录是否是自己
+	if existing.UserId != data.UserId {
+		// 找到了其他记录拥有相同的Username，认为是重复
+		return true, nil
+	}
+
+	// 找到的记录就是自己，不是重复
+	return false, nil
+}
+
+// List 方法根据搜索条件查询 User 列表
+func (m *defaultUserModel) List(ctx context.Context, search *UserSearch) ([]*User, int64, error) {
+	// 构建查询条件
+	var conditions []string
+
+	if search.Username != "" {
+		conditions = append(conditions, "`username` = '"+search.Username+"'")
+	}
+	if search.Mobile != "" {
+		conditions = append(conditions, "`mobile` = '"+search.Mobile+"'")
+	}
+	if search.UserId != "" {
+		conditions = append(conditions, "`user_id` = '"+search.UserId+"'")
+	}
+	if search.IsDelete != 0 {
+		conditions = append(conditions, "`is_delete` = "+fmt.Sprintf("%d", search.IsDelete))
+	}
+
+	quertWhere := ""
+	if len(conditions) > 0 {
+		quertWhere = " where " + strings.Join(conditions, " and ")
+	}
+
+	// 获取总条数（不算分页的数据）
+	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, quertWhere)
+
+	var total int64
+	if m.QueryRowNoCacheCtx(ctx, &total, countQuery) != nil {
+		return nil, 0, fmt.Errorf("failed to get total count")
+	}
+
+	// 构建查询语句（按主键id降序）
+	pageSql := utils.DelSQLPage(search.Page, search.PageSize)
+	query := fmt.Sprintf("select %s from %s %s order by `user_id` desc %s", userRows, m.table, quertWhere, pageSql)
+
+	// 执行查询
+	var list []*User
+	if err := m.QueryRowsNoCacheCtx(ctx, &list, query); err != nil {
+		return nil, 0, err
+	}
+
+	return list, total, nil
 }
