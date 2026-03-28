@@ -28,7 +28,9 @@
   "paths": {
     "/api/base_code/get": {
       "get": {
-        "tags": ["BaseCode"],
+        "tags": [
+          "BaseCode"
+        ],
         "summary": "获取基础代码",
         "description": "根据条件获取基础代码信息",
         "parameters": [
@@ -77,7 +79,9 @@
     },
     "/api/base_code/list": {
       "get": {
-        "tags": ["BaseCode"],
+        "tags": [
+          "BaseCode"
+        ],
         "summary": "获取基础代码列表",
         "description": "分页获取基础代码列表",
         "parameters": [
@@ -200,7 +204,9 @@
     },
     "/api/base_code/add": {
       "post": {
-        "tags": ["BaseCode"],
+        "tags": [
+          "BaseCode"
+        ],
         "summary": "添加基础代码",
         "description": "添加新的基础代码",
         "requestBody": {
@@ -229,7 +235,9 @@
     },
     "/api/base_code/update": {
       "post": {
-        "tags": ["BaseCode"],
+        "tags": [
+          "BaseCode"
+        ],
         "summary": "更新基础代码",
         "description": "更新基础代码信息",
         "requestBody": {
@@ -258,7 +266,9 @@
     },
     "/api/base_code/delete": {
       "post": {
-        "tags": ["BaseCode"],
+        "tags": [
+          "BaseCode"
+        ],
         "summary": "删除基础代码",
         "description": "删除基础代码",
         "requestBody": {
@@ -285,96 +295,11 @@
         }
       }
     },
-    "/api/base_code/add_sort": {
-      "post": {
-        "tags": ["BaseCode"],
-        "summary": "添加基础代码分类",
-        "description": "添加新的基础代码分类",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddBaseCodeSortReq"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "成功",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonResp"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/base_code/update_sort": {
-      "post": {
-        "tags": ["BaseCode"],
-        "summary": "更新基础代码分类",
-        "description": "更新基础代码分类信息",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBaseCodeSortReq"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "成功",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonResp"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/base_code/delete_sort": {
-      "post": {
-        "tags": ["BaseCode"],
-        "summary": "删除基础代码分类",
-        "description": "删除基础代码分类",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteBaseCodeSortReq"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "成功",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommonResp"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/base_code_item/get": {
       "get": {
-        "tags": ["BaseCodeItem"],
+        "tags": [
+          "BaseCodeItem"
+        ],
         "summary": "获取基础代码项",
         "description": "获取基础代码项详情",
         "parameters": [
@@ -405,7 +330,9 @@
     },
     "/api/base_code_item/list": {
       "get": {
-        "tags": ["BaseCodeItem"],
+        "tags": [
+          "BaseCodeItem"
+        ],
         "summary": "获取基础代码项列表",
         "description": "分页获取基础代码项列表",
         "parameters": [
@@ -529,7 +456,9 @@
     },
     "/api/base_code_item/add": {
       "post": {
-        "tags": ["BaseCodeItem"],
+        "tags": [
+          "BaseCodeItem"
+        ],
         "summary": "添加基础代码项",
         "description": "添加新的基础代码项",
         "requestBody": {
@@ -558,7 +487,9 @@
     },
     "/api/base_code_item/update": {
       "post": {
-        "tags": ["BaseCodeItem"],
+        "tags": [
+          "BaseCodeItem"
+        ],
         "summary": "更新基础代码项",
         "description": "更新基础代码项信息",
         "requestBody": {
@@ -587,7 +518,9 @@
     },
     "/api/base_code_item/delete": {
       "post": {
-        "tags": ["BaseCodeItem"],
+        "tags": [
+          "BaseCodeItem"
+        ],
         "summary": "删除基础代码项",
         "description": "删除基础代码项",
         "requestBody": {
@@ -616,7 +549,9 @@
     },
     "/api/base_code_sort/get": {
       "get": {
-        "tags": ["BaseCodeSort"],
+        "tags": [
+          "BaseCodeSort"
+        ],
         "summary": "获取基础代码分类",
         "description": "获取基础代码分类详情",
         "parameters": [
@@ -656,7 +591,9 @@
     },
     "/api/base_code_sort/list": {
       "get": {
-        "tags": ["BaseCodeSort"],
+        "tags": [
+          "BaseCodeSort"
+        ],
         "summary": "获取基础代码分类列表",
         "description": "分页获取基础代码分类列表",
         "parameters": [
@@ -731,6 +668,99 @@
           }
         }
       }
+    },
+    "/api/base_code_sort/add": {
+      "post": {
+        "tags": [
+          "BaseCodeSort"
+        ],
+        "summary": "添加基础代码分类",
+        "description": "添加新的基础代码分类",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddBaseCodeSortReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommonResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/base_code_sort/update": {
+      "post": {
+        "tags": [
+          "BaseCodeSort"
+        ],
+        "summary": "更新基础代码分类",
+        "description": "更新基础代码分类信息",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBaseCodeSortReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommonResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/base_code_sort/delete": {
+      "post": {
+        "tags": [
+          "BaseCodeSort"
+        ],
+        "summary": "删除基础代码分类",
+        "description": "删除基础代码分类",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteBaseCodeSortReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommonResp"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -754,7 +784,11 @@
       },
       "AddBaseCodeReq": {
         "type": "object",
-        "required": ["sort_key", "key", "name"],
+        "required": [
+          "sort_key",
+          "key",
+          "name"
+        ],
         "properties": {
           "sort_key": {
             "type": "string",
@@ -792,7 +826,12 @@
       },
       "UpdateBaseCodeReq": {
         "type": "object",
-        "required": ["base_code_id", "sort_key", "key", "name"],
+        "required": [
+          "base_code_id",
+          "sort_key",
+          "key",
+          "name"
+        ],
         "properties": {
           "base_code_id": {
             "type": "integer",
@@ -858,7 +897,11 @@
       },
       "AddBaseCodeSortReq": {
         "type": "object",
-        "required": ["sort_key", "sort_name", "sort_desc"],
+        "required": [
+          "sort_key",
+          "sort_name",
+          "sort_desc"
+        ],
         "properties": {
           "sort_key": {
             "type": "string",
@@ -876,7 +919,9 @@
       },
       "UpdateBaseCodeSortReq": {
         "type": "object",
-        "required": ["base_code_sort_id"],
+        "required": [
+          "base_code_sort_id"
+        ],
         "properties": {
           "base_code_sort_id": {
             "type": "integer",
@@ -905,20 +950,23 @@
       "DeleteBaseCodeSortReq": {
         "type": "object",
         "properties": {
-          "sort_ey": {
-            "type": "string",
-            "description": "分类键"
-          },
           "base_code_sort_id": {
             "type": "integer",
             "format": "uint64",
             "description": "基础代码分类ID"
+          },
+          "sort_key": {
+            "type": "string",
+            "description": "分类键"
           }
         }
       },
       "AddBaseCodeItemReq": {
         "type": "object",
-        "required": ["sort_key", "key"],
+        "required": [
+          "sort_key",
+          "key"
+        ],
         "properties": {
           "sort_key": {
             "type": "string",
@@ -957,7 +1005,11 @@
       },
       "UpdateBaseCodeItemReq": {
         "type": "object",
-        "required": ["base_code_item_id", "sort_key", "key"],
+        "required": [
+          "base_code_item_id",
+          "sort_key",
+          "key"
+        ],
         "properties": {
           "base_code_item_id": {
             "type": "integer",
@@ -1006,7 +1058,9 @@
       },
       "DeleteBaseCodeItemReq": {
         "type": "object",
-        "required": ["base_code_item_id"],
+        "required": [
+          "base_code_item_id"
+        ],
         "properties": {
           "base_code_item_id": {
             "type": "integer",

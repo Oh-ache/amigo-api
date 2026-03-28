@@ -26,9 +26,6 @@
 - `POST /api/base_code/add` - 添加基础代码
 - `POST /api/base_code/update` - 更新基础代码
 - `POST /api/base_code/delete` - 删除基础代码
-- `POST /api/base_code/add_sort` - 添加基础代码分类
-- `POST /api/base_code/update_sort` - 更新基础代码分类
-- `POST /api/base_code/delete_sort` - 删除基础代码分类
 
 ### 2. BaseCodeItem - 基础代码项管理
 - `GET /api/base_code_item/get` - 获取基础代码项
@@ -40,6 +37,9 @@
 ### 3. BaseCodeSort - 基础代码分类管理
 - `GET /api/base_code_sort/get` - 获取基础代码分类
 - `GET /api/base_code_sort/list` - 获取基础代码分类列表
+- `POST /api/base_code_sort/add` - 添加基础代码分类
+- `POST /api/base_code_sort/update` - 更新基础代码分类
+- `POST /api/base_code_sort/delete` - 删除基础代码分类
 
 ## 服务地址
 
