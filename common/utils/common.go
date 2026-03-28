@@ -21,7 +21,7 @@ import (
 
 // redis Key
 var (
-	SEND_CODE_KEY = "send_code-"
+	SEND_CODE_KEY = "send_code:"
 	CHAT_KEY      = "chat:"
 )
 

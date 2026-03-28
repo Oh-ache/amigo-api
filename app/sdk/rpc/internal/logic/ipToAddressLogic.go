@@ -5,7 +5,9 @@ import (
 
 	"amigo-api/app/sdk/rpc/internal/svc"
 	"amigo-api/common/pb"
+	"amigo-api/common/utils/plug/ip"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -24,7 +26,27 @@ func NewIpToAddressLogic(ctx context.Context, svcCtx *svc.ServiceContext) *IpToA
 }
 
 func (l *IpToAddressLogic) IpToAddress(in *pb.IpToAddressReq) (*pb.IpToAddressResp, error) {
-	// todo: add your logic here and delete this line
+	resp := &pb.IpToAddressResp{}
+	param := &ip.Ip2AddressReq{}
+	param.Ip = in.Ip
 
-	return &pb.IpToAddressResp{}, nil
+	getBaseCodeReq := &pb.GetBaseCodeReq{}
+	getBaseCodeReq.SortKey = "sdk"
+	item := &pb.BaseCodeResp{}
+
+	getBaseCodeReq.Key = "ip.tianyan.appid"
+	item, _ = l.svcCtx.BaseCodeRpc.GetBaseCode(l.ctx, getBaseCodeReq)
+	param.AppId = item.Content
+
+	getBaseCodeReq.Key = "ip.tianyan.appsecurity"
+	item, _ = l.svcCtx.BaseCodeRpc.GetBaseCode(l.ctx, getBaseCodeReq)
+	param.AppSecurity = item.Content
+
+	if result, err := ip.Ip2Address(param); err != nil {
+		return nil, err
+	} else {
+		copier.Copy(resp, result)
+	}
+
+	return resp, nil
 }

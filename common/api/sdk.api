@@ -62,7 +62,7 @@ type (
 	group:  sdk/message
 	prefix: /api/sdk/message
 )
-service api {
+service sdk {
 	//----------------------------------------------消息通知类
 	@handler SendCode
 	post /send_code (SendCodeReq) returns (EmptyResp)
@@ -75,7 +75,7 @@ service api {
 	group:  sdk/ip
 	prefix: /api/sdk/ip
 )
-service api {
+service sdk {
 	//----------------------------------------------IP
 	@handler IpToAddress
 	post /to_address (IpToAddressReq) returns (IpToAddressResp)
@@ -85,7 +85,7 @@ service api {
 	group:  sdk/oss
 	prefix: /api/sdk/oss
 )
-service api {
+service sdk {
 	//----------------------------------------------OSS
 	@handler UploadFile
 	post /upload_file (UploadFileReq) returns (UploadFileResp)
@@ -101,7 +101,7 @@ service api {
 	group:  sdk/convert
 	prefix: /api/sdk/convert
 )
-service api {
+service sdk {
 	//----------------------------------------------图片转换
 	@handler PngToElnk
 	post /png_to_elnk (PngToElnkReq) returns (PngToElnkResp)
