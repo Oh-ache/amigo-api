@@ -1,0 +1,30 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8092
+Mode: dev
+
+DB:
+  DataSource: ache:1qaz@WSX@tcp(rm-bp179va4h06ud8azdho.mysql.rds.aliyuncs.com:57856)/amigo?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+Cache:
+  - Host: 81.69.160.35:6379
+    Pass: secret_redis
+
+Redis:
+  Host: 81.69.160.35:6379
+  Type: node
+  Pass: secret_redis
+  Key : user-rpc-dev
+
+JwtAuth:
+  AccessSecret: "amigoProject" # AccessSecret的值要是8位以上的字符串
+  AccessExpire: 7200 #AccessExpire是过期时间，单位是秒
+
+Telemetry:
+  Name: user-rpc-dev
+  EndpointType: otlpgrpc
+  Sampler: 1.0
+  Endpoint: "81.69.160.35:4317"  # Zipkin 端点
+  Timeout: 5000
+
+BaseCodeRpcConf:
+  Target: 127.0.0.1:8090
