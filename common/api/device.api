@@ -64,7 +64,7 @@ type (
 	group:  device
 	prefix: /api/device
 )
-service api {
+service device {
 	@handler Get
 	get /get (GetDeviceReq) returns (GetDeviceResp)
 
@@ -76,7 +76,7 @@ service api {
 	group:  device
 	prefix: /api/device
 )
-service api {
+service device {
 	@handler Add
 	post /add (AddDeviceReq) returns (EmptyResp)
 
