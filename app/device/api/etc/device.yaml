@@ -1,3 +1,17 @@
 Name: device
 Host: 0.0.0.0
-Port: 8888
+Port: 9093
+
+DeviceRpcConf:
+  Target: 127.0.0.1:8093
+
+Auth:
+  AccessSecret: "amigoProject"
+  AccessExpire: 7200
+
+Telemetry:
+  Name: device-rpc-dev
+  EndpointType: otlpgrpc
+  Sampler: 1.0
+  Endpoint: "81.69.160.35:4317"
+  Timeout: 5000

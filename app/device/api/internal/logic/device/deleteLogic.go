@@ -5,7 +5,9 @@ import (
 
 	"amigo-api/app/device/api/internal/svc"
 	"amigo-api/app/device/api/internal/types"
+	"amigo-api/common/pb"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -24,7 +26,13 @@ func NewDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteLogi
 }
 
 func (l *DeleteLogic) Delete(req *types.DeleteDeviceReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	resp = &types.EmptyResp{}
+	param := &pb.DeleteDeviceReq{}
 
-	return
+	copier.Copy(param, req)
+	if _, err := l.svcCtx.DeviceRpcClient.DeleteDevice(l.ctx, param); err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }

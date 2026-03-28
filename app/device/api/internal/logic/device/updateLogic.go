@@ -5,7 +5,9 @@ import (
 
 	"amigo-api/app/device/api/internal/svc"
 	"amigo-api/app/device/api/internal/types"
+	"amigo-api/common/pb"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -24,7 +26,20 @@ func NewUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateLogi
 }
 
 func (l *UpdateLogic) Update(req *types.UpdateDeviceReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	resp = &types.EmptyResp{}
+	getReq := &pb.GetDeviceReq{
+		DeviceId: req.DeviceId,
+	}
+	existingItem, err := l.svcCtx.DeviceRpcClient.GetDevice(l.ctx, getReq)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	copier.Copy(existingItem, req)
+
+	if _, err := l.svcCtx.DeviceRpcClient.UpdateDevice(l.ctx, existingItem); err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }

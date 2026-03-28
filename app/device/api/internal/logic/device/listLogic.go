@@ -5,7 +5,9 @@ import (
 
 	"amigo-api/app/device/api/internal/svc"
 	"amigo-api/app/device/api/internal/types"
+	"amigo-api/common/pb"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -24,7 +26,15 @@ func NewListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListLogic {
 }
 
 func (l *ListLogic) List(req *types.ListDeviceReq) (resp *types.ListDeviceResp, err error) {
-	// todo: add your logic here and delete this line
+	resp = &types.ListDeviceResp{}
+	param := &pb.ListDeviceReq{}
 
-	return
+	copier.Copy(param, req)
+	rpcResp, err := l.svcCtx.DeviceRpcClient.ListDevice(l.ctx, param)
+	if err != nil {
+		return nil, err
+	}
+
+	copier.Copy(resp, rpcResp)
+	return resp, nil
 }
