@@ -5,7 +5,9 @@ import (
 
 	"amigo-api/app/sdk/api/internal/svc"
 	"amigo-api/app/sdk/api/internal/types"
+	"amigo-api/app/sdk/rpc/sdk"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -24,7 +26,13 @@ func NewSendCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SendCode
 }
 
 func (l *SendCodeLogic) SendCode(req *types.SendCodeReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	resp = &types.EmptyResp{}
+	param := &sdk.SendCodeReq{}
 
-	return
+	copier.Copy(param, req)
+	if _, err := l.svcCtx.SdkRpcClient.SendCode(l.ctx, param); err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }

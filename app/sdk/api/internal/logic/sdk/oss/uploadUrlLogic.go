@@ -5,7 +5,9 @@ import (
 
 	"amigo-api/app/sdk/api/internal/svc"
 	"amigo-api/app/sdk/api/internal/types"
+	"amigo-api/app/sdk/rpc/sdk"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -24,7 +26,15 @@ func NewUploadUrlLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UploadU
 }
 
 func (l *UploadUrlLogic) UploadUrl(req *types.UploadUrlReq) (resp *types.UploadUrlResp, err error) {
-	// todo: add your logic here and delete this line
+	resp = &types.UploadUrlResp{}
+	param := &sdk.UploadUrlReq{}
 
-	return
+	copier.Copy(param, req)
+	rpcResp, err := l.svcCtx.SdkRpcClient.UploadUrl(l.ctx, param)
+	if err != nil {
+		return nil, err
+	}
+
+	copier.Copy(resp, rpcResp)
+	return resp, nil
 }
