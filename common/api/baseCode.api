@@ -10,7 +10,7 @@ type (
 		SortDesc string `json:"sort_desc"`
 	}
 	DeleteBaseCodeSortReq {
-		SortKey        string `json:"sort_ey,default=,optional"`
+		SortKey        string `json:"sort_key,default=,optional"`
 		BaseCodeSortId uint64 `json:"base_code_sort_id,default=0,optional"`
 	}
 	UpdateBaseCodeSortReq {
@@ -108,7 +108,7 @@ type (
 		List  []GetBaseCodeResp `json:"list"`
 		Total int64             `json:"total"`
 	}
-	//----------------------------------------------标准码相关接口
+	//----------------------------------------------标准码Item相关接口
 	AddBaseCodeItemReq {
 		SortKey   string `json:"sort_key"`
 		Key       string `json:"key"`
@@ -180,6 +180,15 @@ service api {
 
 	@handler List
 	get /list (ListBaseCodeSortReq) returns (ListBaseCodeSortResp)
+
+	@handler Add
+	post /add (AddBaseCodeSortReq) returns (EmptyResp)
+
+	@handler Delete
+	post /delete (DeleteBaseCodeSortReq) returns (EmptyResp)
+
+	@handler Update
+	post /update (UpdateBaseCodeSortReq) returns (EmptyResp)
 }
 
 @server (
@@ -192,6 +201,15 @@ service api {
 
 	@handler List
 	get /list (ListBaseCodeReq) returns (ListBaseCodeResp)
+
+	@handler Add
+	post /add (AddBaseCodeReq) returns (EmptyResp)
+
+	@handler Delete
+	post /delete (DeleteBaseCodeReq) returns (EmptyResp)
+
+	@handler Update
+	post /update (UpdateBaseCodeReq) returns (EmptyResp)
 }
 
 @server (
@@ -204,46 +222,7 @@ service api {
 
 	@handler List
 	get /list (ListBaseCodeItemReq) returns (ListBaseCodeItemResp)
-}
 
-//----------------------------------------------标准码分类相关接口
-@server (
-	group:  baseCode
-	prefix: /api/base_code
-)
-service api {
-	@handler AddSort
-	post /add_sort (AddBaseCodeSortReq) returns (EmptyResp)
-
-	@handler DeleteSort
-	post /delete_sort (DeleteBaseCodeSortReq) returns (EmptyResp)
-
-	@handler UpdateSort
-	post /update_sort (UpdateBaseCodeSortReq) returns (EmptyResp)
-}
-
-//----------------------------------------------标准码相关接口
-@server (
-	group:  baseCode
-	prefix: /api/base_code
-)
-service api {
-	@handler Add
-	post /add (AddBaseCodeReq) returns (EmptyResp)
-
-	@handler Delete
-	post /delete (DeleteBaseCodeReq) returns (EmptyResp)
-
-	@handler Update
-	post /update (UpdateBaseCodeReq) returns (EmptyResp)
-}
-
-//----------------------------------------------标准码相关接口
-@server (
-	group:  baseCodeItem
-	prefix: /api/base_code_item
-)
-service api {
 	@handler Add
 	post /add (AddBaseCodeItemReq) returns (EmptyResp)
 

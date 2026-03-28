@@ -1,24 +1,24 @@
-package baseCode
+package baseCodeSort
 
 import (
 	"net/http"
 
-	"amigo-api/app/baseCode/api/internal/logic/baseCode"
+	"amigo-api/app/baseCode/api/internal/logic/baseCodeSort"
 	"amigo-api/app/baseCode/api/internal/svc"
 	"amigo-api/app/baseCode/api/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func UpdateSortHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func AddHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.UpdateBaseCodeSortReq
+		var req types.AddBaseCodeSortReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := baseCode.NewUpdateSortLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateSort(&req)
+		l := baseCodeSort.NewAddLogic(r.Context(), svcCtx)
+		resp, err := l.Add(&req)
 		result := &types.CommonResp{}
 		if err != nil {
 			result.Code = 1

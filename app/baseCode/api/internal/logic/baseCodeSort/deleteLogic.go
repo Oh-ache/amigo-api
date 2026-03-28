@@ -1,4 +1,4 @@
-package baseCode
+package baseCodeSort
 
 import (
 	"context"
@@ -11,26 +11,26 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type AddSortLogic struct {
+type DeleteLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewAddSortLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddSortLogic {
-	return &AddSortLogic{
+func NewDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteLogic {
+	return &DeleteLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *AddSortLogic) AddSort(req *types.AddBaseCodeSortReq) (resp *types.EmptyResp, err error) {
+func (l *DeleteLogic) Delete(req *types.DeleteBaseCodeSortReq) (resp *types.EmptyResp, err error) {
 	resp = &types.EmptyResp{}
-	param := &pb.AddBaseCodeSortReq{}
+	param := &pb.DeleteBaseCodeSortReq{}
 
 	copier.Copy(param, req)
-	if _, err := l.svcCtx.BaseCodeRpcClient.AddBaseCodeSort(l.ctx, param); err != nil {
+	if _, err := l.svcCtx.BaseCodeRpcClient.DeleteBaseCodeSort(l.ctx, param); err != nil {
 		return nil, err
 	}
 

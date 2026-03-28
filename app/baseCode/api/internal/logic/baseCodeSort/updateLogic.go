@@ -1,4 +1,4 @@
-package baseCode
+package baseCodeSort
 
 import (
 	"context"
@@ -11,21 +11,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UpdateSortLogic struct {
+type UpdateLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewUpdateSortLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateSortLogic {
-	return &UpdateSortLogic{
+func NewUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateLogic {
+	return &UpdateLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *UpdateSortLogic) UpdateSort(req *types.UpdateBaseCodeSortReq) (resp *types.EmptyResp, err error) {
+func (l *UpdateLogic) Update(req *types.UpdateBaseCodeSortReq) (resp *types.EmptyResp, err error) {
 	resp = &types.EmptyResp{}
 	// First, get the existing sort to populate the BaseCodeSortResp
 	getReq := &pb.GetBaseCodeSortReq{

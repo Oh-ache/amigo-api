@@ -48,7 +48,7 @@ type DeleteBaseCodeReq struct {
 }
 
 type DeleteBaseCodeSortReq struct {
-	SortKey        string `json:"sort_ey,default=,optional"`
+	SortKey        string `json:"sort_key,default=,optional"`
 	BaseCodeSortId uint64 `json:"base_code_sort_id,default=0,optional"`
 }
 

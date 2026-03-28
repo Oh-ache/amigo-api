@@ -18,43 +18,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodGet,
-				Path:    "/get",
-				Handler: baseCode.GetHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/list",
-				Handler: baseCode.ListHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/api/base_code"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/add_sort",
-				Handler: baseCode.AddSortHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/delete_sort",
-				Handler: baseCode.DeleteSortHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/update_sort",
-				Handler: baseCode.UpdateSortHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/api/base_code"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
 				Method:  http.MethodPost,
 				Path:    "/add",
 				Handler: baseCode.AddHandler(serverCtx),
@@ -65,28 +28,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: baseCode.DeleteHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodGet,
+				Path:    "/get",
+				Handler: baseCode.GetHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: baseCode.ListHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
 				Path:    "/update",
 				Handler: baseCode.UpdateHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/base_code"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodGet,
-				Path:    "/get",
-				Handler: baseCodeItem.GetHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/list",
-				Handler: baseCodeItem.ListHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/api/base_code_item"),
 	)
 
 	server.AddRoutes(
@@ -102,6 +59,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: baseCodeItem.DeleteHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodGet,
+				Path:    "/get",
+				Handler: baseCodeItem.GetHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: baseCodeItem.ListHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
 				Path:    "/update",
 				Handler: baseCodeItem.UpdateHandler(serverCtx),
@@ -113,6 +80,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodPost,
+				Path:    "/add",
+				Handler: baseCodeSort.AddHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: baseCodeSort.DeleteHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodGet,
 				Path:    "/get",
 				Handler: baseCodeSort.GetHandler(serverCtx),
@@ -121,6 +98,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/list",
 				Handler: baseCodeSort.ListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/update",
+				Handler: baseCodeSort.UpdateHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/base_code_sort"),
