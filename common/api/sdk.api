@@ -1,5 +1,7 @@
 syntax = "v1"
 
+import "common.api"
+
 type (
 	//----------------------------------------------图片转换
 	PngToElnkReq {
@@ -8,7 +10,6 @@ type (
 	PngToElnkResp {
 		Url string `json:"url"`
 	}
-
 	//----------------------------------------------消息通知类
 	SendCodeReq {
 		Platform string `json:"platform,optional,default=ali_sms"`
@@ -106,3 +107,4 @@ service sdk {
 	@handler PngToElnk
 	post /png_to_elnk (PngToElnkReq) returns (PngToElnkResp)
 }
+
