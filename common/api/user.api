@@ -9,7 +9,8 @@ type (
 		Username string `json:"username,optional"`
 		Password string `json:"password"`
 	}
-	UserLoginResp { UserId     uint64 `json:"user_id"`
+	UserLoginResp {
+		UserId     uint64 `json:"user_id"`
 		Mobile     string `json:"mobile"`
 		Username   string `json:"username"`
 		Avatar     string `json:"avatar"`
@@ -23,41 +24,41 @@ type (
 		Avatar     string `json:"avatar"`
 		CreateTime int64  `json:"create_time"`
 	}
-  UserUpdatePasswordReq {
-    UserId uint64 `json:"user_id"`
-    Password string `json:"password"`
-    RePassword string `json:"re_password"` }
-  UserUpdateReq {
-    UserId uint64 `json:"user_id"`
-    Username string `json:"username"`
-    Avatar string `json:"avatar"`
-  }
-  UserUpdateMobileReq {
-    UserId uint64 `json:"user_id"`
-    Mobile string `json:"mobile"`
-  }
-  UserDeleteReq {
-    UserId uint64 `json:"user_id"`
-  }
-  UserAddReq {
+	UserUpdatePasswordReq {
+		UserId     uint64 `json:"user_id"`
+		Password   string `json:"password"`
+		RePassword string `json:"re_password"`
+	}
+	UserUpdateReq {
+		UserId   uint64 `json:"user_id"`
+		Username string `json:"username"`
+		Avatar   string `json:"avatar"`
+	}
+	UserUpdateMobileReq {
+		UserId uint64 `json:"user_id"`
+		Mobile string `json:"mobile"`
+	}
+	UserDeleteReq {
+		UserId uint64 `json:"user_id"`
+	}
+	UserAddReq {
 		Mobile     string `json:"mobile"`
 		Username   string `json:"username"`
 		Avatar     string `json:"avatar"`
-    Password   string `json:"password"`
-    RePassword string `json:"re_password"`
-  }
-  UserLoginMiniappReq {
-    Code string `json:"code"`
-    AppType string `json:"app_type"`
-  }
-
-  //----------------------------------------------前台用户
-  AdminLoginReq {
-    Mobile string `json:"mobile"`
-    Password string `json:"password"`
-  }
+		Password   string `json:"password"`
+		RePassword string `json:"re_password"`
+	}
+	UserLoginMiniappReq {
+		Code    string `json:"code"`
+		AppType string `json:"app_type"`
+	}
+	//----------------------------------------------前台用户
+	AdminLoginReq {
+		Mobile   string `json:"mobile"`
+		Password string `json:"password"`
+	}
 	AdminLoginResp {
-		AdminId     uint64 `json:"admin_id"`
+		AdminId    uint64 `json:"admin_id"`
 		Mobile     string `json:"mobile"`
 		Username   string `json:"username"`
 		Avatar     string `json:"avatar"`
@@ -65,42 +66,41 @@ type (
 		Token      string `json:"token"`
 	}
 	GetAdminResp {
-		AdminId     uint64 `json:"admin_id"`
+		AdminId    uint64 `json:"admin_id"`
 		Mobile     string `json:"mobile"`
 		Username   string `json:"username"`
 		Avatar     string `json:"avatar"`
 		CreateTime int64  `json:"create_time"`
 	}
-  AdminUpdatePasswordReq {
-    AdminId uint64 `json:"admin_id"`
-    Password string `json:"password"`
-    RePassword string `json:"re_password"`
-  }
-  AdminUpdateReq {
-    AdminId uint64 `json:"admin_id"`
-    Username string `json:"username"`
-    Avatar string `json:"avatar"`
-  }
-  AdminUpdateMobileReq {
-    AdminId uint64 `json:"admin_id"`
-    Mobile string `json:"mobile"`
-  }
-  AdminDeleteReq {
-    AdminId uint64 `json:"admin_id"`
-  }
-  AdminAddReq {
+	AdminUpdatePasswordReq {
+		AdminId    uint64 `json:"admin_id"`
+		Password   string `json:"password"`
+		RePassword string `json:"re_password"`
+	}
+	AdminUpdateReq {
+		AdminId  uint64 `json:"admin_id"`
+		Username string `json:"username"`
+		Avatar   string `json:"avatar"`
+	}
+	AdminUpdateMobileReq {
+		AdminId uint64 `json:"admin_id"`
+		Mobile  string `json:"mobile"`
+	}
+	AdminDeleteReq {
+		AdminId uint64 `json:"admin_id"`
+	}
+	AdminAddReq {
 		Mobile     string `json:"mobile"`
 		Username   string `json:"username"`
 		Avatar     string `json:"avatar"`
-    Password   string `json:"password"`
-    RePassword string `json:"re_password"`
-  }
-  AdminLoginSmsReq {
-    Mobile string `json:"mobile"`
-    Code string `json:"code"`
-  }
+		Password   string `json:"password"`
+		RePassword string `json:"re_password"`
+	}
+	AdminLoginSmsReq {
+		Mobile string `json:"mobile"`
+		Code   string `json:"code"`
+	}
 )
-
 
 @server (
 	group:  user
@@ -135,20 +135,20 @@ service user {
 	@handler Get
 	get /get returns (GetUserResp)
 
-  @handler UserDelete
-  post /delete (UserDeleteReq) returns (EmptyResp)
+	@handler UserDelete
+	post /delete (UserDeleteReq) returns (EmptyResp)
 
-  @handler UserAdd
-  post /add (UserAddReq) returns (GetUserResp)
+	@handler UserAdd
+	post /add (UserAddReq) returns (GetUserResp)
 
-  @handler UserUpdate
-  post /update (UserUpdateReq) returns (EmptyResp)
+	@handler UserUpdate
+	post /update (UserUpdateReq) returns (EmptyResp)
 
-  @handler UserUpdatePassword
-  post /update_password (UserUpdatePasswordReq) returns (EmptyResp)
+	@handler UserUpdatePassword
+	post /update_password (UserUpdatePasswordReq) returns (EmptyResp)
 
-  @handler UserUpdateMobile
-  post /update_mobile (UserUpdateMobileReq) returns (EmptyResp)
+	@handler UserUpdateMobile
+	post /update_mobile (UserUpdateMobileReq) returns (EmptyResp)
 }
 
 @server (
@@ -160,18 +160,19 @@ service user {
 	@handler Get
 	get /get returns (GetAdminResp)
 
-  @handler Delete
-  post /delete (AdminDeleteReq) returns (EmptyResp)
+	@handler Delete
+	post /delete (AdminDeleteReq) returns (EmptyResp)
 
-  @handler Add
-  post /add (AdminAddReq) returns (GetAdminResp)
+	@handler Add
+	post /add (AdminAddReq) returns (GetAdminResp)
 
-  @handler Update
-  post /update (AdminUpdateReq) returns (EmptyResp)
+	@handler Update
+	post /update (AdminUpdateReq) returns (EmptyResp)
 
-  @handler UpdatePassword
-  post /update_password (AdminUpdatePasswordReq) returns (EmptyResp)
+	@handler UpdatePassword
+	post /update_password (AdminUpdatePasswordReq) returns (EmptyResp)
 
-  @handler UpdateMobile
-  post /update_mobile (AdminUpdateMobileReq) returns (EmptyResp)
+	@handler UpdateMobile
+	post /update_mobile (AdminUpdateMobileReq) returns (EmptyResp)
 }
+
