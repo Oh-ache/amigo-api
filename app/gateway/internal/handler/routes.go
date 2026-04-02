@@ -5,6 +5,9 @@ package handler
 
 import (
 	"net/http"
+	"net/http/httputil"
+	"net/url"
+	"strings"
 
 	"amigo-api/app/gateway/internal/svc"
 
@@ -12,13 +15,94 @@ import (
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
-	server.AddRoutes(
-		[]rest.Route{
+	// Create proxy handlers for each upstream
+	proxyUserAdmin := newReverseProxy(serverCtx.Config.Upstreams.UserAdmin)
+	proxyDevice := newReverseProxy(serverCtx.Config.Upstreams.Device)
+	proxySdk := newReverseProxy(serverCtx.Config.Upstreams.Sdk)
+	proxyBaseCode := newReverseProxy(serverCtx.Config.Upstreams.BaseCode)
+
+	// Custom handler that checks path and forwards to correct proxy
+	proxyHandler := func(w http.ResponseWriter, r *http.Request) {
+		path := r.URL.Path
+		switch {
+		case strings.HasPrefix(path, "/api/user/"), strings.HasPrefix(path, "/api/admin/"):
+			proxyUserAdmin(w, r)
+		case strings.HasPrefix(path, "/api/device/"):
+			proxyDevice(w, r)
+		case strings.HasPrefix(path, "/api/sdk/"):
+			proxySdk(w, r)
+		case strings.HasPrefix(path, "/api/base_code/"), strings.HasPrefix(path, "/api/base_code_item/"), strings.HasPrefix(path, "/api/base_code_sort/"):
+			proxyBaseCode(w, r)
+		default:
+			// If no match, maybe 404 or let the original not found handler handle it
+			http.NotFound(w, r)
+		}
+	}
+
+	// Register a catch-all route for all methods
+	for _, method := range []string{
+		http.MethodGet,
+		http.MethodPost,
+		http.MethodPut,
+		http.MethodPatch,
+		http.MethodDelete,
+		http.MethodOptions,
+		http.MethodHead,
+	} {
+		server.AddRoutes([]rest.Route{
 			{
-				Method:  http.MethodGet,
-				Path:    "/from/:name",
-				Handler: GatewayHandler(serverCtx),
+				Method:  method,
+				Path:    "/api/:a",
+				Handler: proxyHandler,
 			},
+			{
+				Method:  method,
+				Path:    "/api/:a/:b",
+				Handler: proxyHandler,
+			},
+			{
+				Method:  method,
+				Path:    "/api/:a/:b/:c",
+				Handler: proxyHandler,
+			},
+			{
+				Method:  method,
+				Path:    "/api/:a/:b/:c/:d",
+				Handler: proxyHandler,
+			},
+			{
+				Method:  method,
+				Path:    "/api/:a/:b/:c/:d/:e",
+				Handler: proxyHandler,
+			},
+		})
+	}
+
+	// Keep the existing GatewayHandler route just in case
+	server.AddRoutes([]rest.Route{
+		{
+			Method:  http.MethodGet,
+			Path:    "/from/:name",
+			Handler: GatewayHandler(serverCtx),
 		},
-	)
+	})
+}
+
+func newReverseProxy(target string) http.HandlerFunc {
+	u, err := url.Parse(target)
+	if err != nil {
+		// If target is invalid, return a 500 handler
+		return func(w http.ResponseWriter, r *http.Request) {
+			http.Error(w, "invalid upstream target", http.StatusInternalServerError)
+		}
+	}
+	proxy := httputil.NewSingleHostReverseProxy(u)
+	return func(w http.ResponseWriter, r *http.Request) {
+		// Fix the request URL's Host and Scheme to match the target
+		r.URL.Scheme = u.Scheme
+		r.URL.Host = u.Host
+		// Set the Host header to the target host
+		r.Host = u.Host
+		proxy.ServeHTTP(w, r)
+	}
 }
