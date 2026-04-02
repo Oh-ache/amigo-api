@@ -30,6 +30,7 @@ const (
 	User_GetAdmin_FullMethodName             = "/user.User/GetAdmin"
 	User_ListAdmin_FullMethodName            = "/user.User/ListAdmin"
 	User_DeleteAdmin_FullMethodName          = "/user.User/DeleteAdmin"
+	User_LoginAdmin_FullMethodName           = "/user.User/LoginAdmin"
 	User_GetAllDomain_FullMethodName         = "/user.User/GetAllDomain"
 	User_GetRole_FullMethodName              = "/user.User/GetRole"
 	User_GetRoleList_FullMethodName          = "/user.User/GetRoleList"
@@ -60,6 +61,7 @@ type UserClient interface {
 	GetAdmin(ctx context.Context, in *GetAdminReq, opts ...grpc.CallOption) (*AdminResp, error)
 	ListAdmin(ctx context.Context, in *ListAdminReq, opts ...grpc.CallOption) (*ListAdminResp, error)
 	DeleteAdmin(ctx context.Context, in *DeleteAdminReq, opts ...grpc.CallOption) (*SuccessResp, error)
+	LoginAdmin(ctx context.Context, in *LoginAdminReq, opts ...grpc.CallOption) (*AdminLoginSuccessResp, error)
 	GetAllDomain(ctx context.Context, in *GetAllDomainReq, opts ...grpc.CallOption) (*GetAllDomainResp, error)
 	GetRole(ctx context.Context, in *BaseRoleItem, opts ...grpc.CallOption) (*SuccessResp, error)
 	GetRoleList(ctx context.Context, in *BaseRoleItem, opts ...grpc.CallOption) (*GetRoleListeResp, error)
@@ -187,6 +189,16 @@ func (c *userClient) DeleteAdmin(ctx context.Context, in *DeleteAdminReq, opts .
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SuccessResp)
 	err := c.cc.Invoke(ctx, User_DeleteAdmin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) LoginAdmin(ctx context.Context, in *LoginAdminReq, opts ...grpc.CallOption) (*AdminLoginSuccessResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AdminLoginSuccessResp)
+	err := c.cc.Invoke(ctx, User_LoginAdmin_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -338,6 +350,7 @@ type UserServer interface {
 	GetAdmin(context.Context, *GetAdminReq) (*AdminResp, error)
 	ListAdmin(context.Context, *ListAdminReq) (*ListAdminResp, error)
 	DeleteAdmin(context.Context, *DeleteAdminReq) (*SuccessResp, error)
+	LoginAdmin(context.Context, *LoginAdminReq) (*AdminLoginSuccessResp, error)
 	GetAllDomain(context.Context, *GetAllDomainReq) (*GetAllDomainResp, error)
 	GetRole(context.Context, *BaseRoleItem) (*SuccessResp, error)
 	GetRoleList(context.Context, *BaseRoleItem) (*GetRoleListeResp, error)
@@ -393,6 +406,9 @@ func (UnimplementedUserServer) ListAdmin(context.Context, *ListAdminReq) (*ListA
 }
 func (UnimplementedUserServer) DeleteAdmin(context.Context, *DeleteAdminReq) (*SuccessResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAdmin not implemented")
+}
+func (UnimplementedUserServer) LoginAdmin(context.Context, *LoginAdminReq) (*AdminLoginSuccessResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginAdmin not implemented")
 }
 func (UnimplementedUserServer) GetAllDomain(context.Context, *GetAllDomainReq) (*GetAllDomainResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllDomain not implemented")
@@ -648,6 +664,24 @@ func _User_DeleteAdmin_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).DeleteAdmin(ctx, req.(*DeleteAdminReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_LoginAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginAdminReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).LoginAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_LoginAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).LoginAdmin(ctx, req.(*LoginAdminReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -936,6 +970,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteAdmin",
 			Handler:    _User_DeleteAdmin_Handler,
+		},
+		{
+			MethodName: "LoginAdmin",
+			Handler:    _User_LoginAdmin_Handler,
 		},
 		{
 			MethodName: "GetAllDomain",

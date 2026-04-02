@@ -131,6 +131,19 @@ message ListAdminResp {
     int64 total = 2;
 }
 
+message LoginAdminReq {
+  string mobile = 1;
+  string password = 2;
+}
+
+message AdminLoginSuccessResp {
+  uint64 admin_id = 1;
+  string mobile = 2;
+  string username = 3;
+  string avatar = 4;
+  string token = 5;
+}
+
 // -------------------rule--------------------
 message BaseRoleItem {
     string domain = 1;
@@ -194,6 +207,7 @@ service User {
     rpc GetAdmin (GetAdminReq) returns (AdminResp);
     rpc ListAdmin (ListAdminReq) returns (ListAdminResp);
     rpc DeleteAdmin (DeleteAdminReq) returns (SuccessResp);
+    rpc LoginAdmin (LoginAdminReq) returns (AdminLoginSuccessResp);
 
     rpc GetAllDomain (GetAllDomainReq) returns (GetAllDomainResp);
     rpc GetRole(BaseRoleItem) returns (SuccessResp);

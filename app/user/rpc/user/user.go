@@ -16,6 +16,7 @@ import (
 type (
 	AddAdminReq             = pb.AddAdminReq
 	AddUserReq              = pb.AddUserReq
+	AdminLoginSuccessResp   = pb.AdminLoginSuccessResp
 	AdminResp               = pb.AdminResp
 	BasePolicyItem          = pb.BasePolicyItem
 	BaseRoleItem            = pb.BaseRoleItem
@@ -34,6 +35,7 @@ type (
 	ListAdminResp           = pb.ListAdminResp
 	ListUserReq             = pb.ListUserReq
 	ListUserResp            = pb.ListUserResp
+	LoginAdminReq           = pb.LoginAdminReq
 	LoginSuccessResp        = pb.LoginSuccessResp
 	MiniappCodeReq          = pb.MiniappCodeReq
 	MiniappCodeResp         = pb.MiniappCodeResp
@@ -55,6 +57,7 @@ type (
 		GetAdmin(ctx context.Context, in *GetAdminReq, opts ...grpc.CallOption) (*AdminResp, error)
 		ListAdmin(ctx context.Context, in *ListAdminReq, opts ...grpc.CallOption) (*ListAdminResp, error)
 		DeleteAdmin(ctx context.Context, in *DeleteAdminReq, opts ...grpc.CallOption) (*SuccessResp, error)
+		LoginAdmin(ctx context.Context, in *LoginAdminReq, opts ...grpc.CallOption) (*AdminLoginSuccessResp, error)
 		GetAllDomain(ctx context.Context, in *GetAllDomainReq, opts ...grpc.CallOption) (*GetAllDomainResp, error)
 		GetRole(ctx context.Context, in *BaseRoleItem, opts ...grpc.CallOption) (*SuccessResp, error)
 		GetRoleList(ctx context.Context, in *BaseRoleItem, opts ...grpc.CallOption) (*GetRoleListeResp, error)
@@ -134,6 +137,11 @@ func (m *defaultUser) ListAdmin(ctx context.Context, in *ListAdminReq, opts ...g
 func (m *defaultUser) DeleteAdmin(ctx context.Context, in *DeleteAdminReq, opts ...grpc.CallOption) (*SuccessResp, error) {
 	client := pb.NewUserClient(m.cli.Conn())
 	return client.DeleteAdmin(ctx, in, opts...)
+}
+
+func (m *defaultUser) LoginAdmin(ctx context.Context, in *LoginAdminReq, opts ...grpc.CallOption) (*AdminLoginSuccessResp, error) {
+	client := pb.NewUserClient(m.cli.Conn())
+	return client.LoginAdmin(ctx, in, opts...)
 }
 
 func (m *defaultUser) GetAllDomain(ctx context.Context, in *GetAllDomainReq, opts ...grpc.CallOption) (*GetAllDomainResp, error) {

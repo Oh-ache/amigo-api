@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 
+	"amigo-api/app/user/rpc/internal/logic/service/userThirdService"
 	"amigo-api/app/user/rpc/internal/svc"
 	"amigo-api/common/pb"
 
@@ -24,7 +25,5 @@ func NewMiniappCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Minia
 }
 
 func (l *MiniappCodeLogic) MiniappCode(in *pb.MiniappCodeReq) (*pb.MiniappCodeResp, error) {
-	// todo: add your logic here and delete this line
-
-	return &pb.MiniappCodeResp{}, nil
+	return userThirdService.Code2Session(l.ctx, l.svcCtx, in.AppType, in.Code)
 }

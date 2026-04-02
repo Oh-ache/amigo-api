@@ -78,6 +78,11 @@ func (s *UserServer) DeleteAdmin(ctx context.Context, in *pb.DeleteAdminReq) (*p
 	return l.DeleteAdmin(in)
 }
 
+func (s *UserServer) LoginAdmin(ctx context.Context, in *pb.LoginAdminReq) (*pb.AdminLoginSuccessResp, error) {
+	l := logic.NewLoginAdminLogic(ctx, s.svcCtx)
+	return l.LoginAdmin(in)
+}
+
 func (s *UserServer) GetAllDomain(ctx context.Context, in *pb.GetAllDomainReq) (*pb.GetAllDomainResp, error) {
 	l := logic.NewGetAllDomainLogic(ctx, s.svcCtx)
 	return l.GetAllDomain(in)
