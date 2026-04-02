@@ -6,6 +6,7 @@ import (
 
 	"amigo-api/app/gateway/internal/config"
 	"amigo-api/app/gateway/internal/handler"
+	"amigo-api/app/gateway/internal/middleware"
 	"amigo-api/app/gateway/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
@@ -22,6 +23,10 @@ func main() {
 
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
+
+	// Register JWT middleware
+	jwtMiddleware := middleware.NewJWTMiddleware(c.Auth)
+	server.Use(jwtMiddleware.Handle)
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
