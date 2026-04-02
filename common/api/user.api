@@ -46,7 +46,7 @@ type (
     Password   string `json:"password"`
     RePassword string `json:"re_password"`
   }
-  UserLoginMiniappReq {
+  UserThirdLoginReq {
     Code string `json:"code"`
     AppType string `json:"app_type"`
   }
@@ -95,10 +95,6 @@ type (
     Password   string `json:"password"`
     RePassword string `json:"re_password"`
   }
-  AdminLoginSmsReq {
-    Mobile string `json:"mobile"`
-    Code string `json:"code"`
-  }
 )
 
 
@@ -110,8 +106,8 @@ service user {
 	@handler Login
 	post /login (UserLoginReq) returns (UserLoginResp)
 
-	@handler LoginMiniapp
-	post /login_miniapp (UserLoginMiniappReq) returns (UserLoginResp)
+	@handler ThirdLogin
+	post /third_login (UserLoginMiniappReq) returns (UserLoginResp)
 }
 
 @server (
@@ -121,9 +117,6 @@ service user {
 service user {
 	@handler Login
 	post /login (AdminLoginReq) returns (AdminLoginResp)
-
-	@handler LoginSms
-	post /login_sms (AdminLoginSmsReq) returns (AdminLoginResp)
 }
 
 @server (
@@ -169,8 +162,7 @@ service user {
   @handler Update
   post /update (AdminUpdateReq) returns (EmptyResp)
 
-  @handler UpdatePassword
-  post /update_password (AdminUpdatePasswordReq) returns (EmptyResp)
+  @handler UpdatePasswordl  post /update_password (AdminUpdatePasswordReq) returns (EmptyResp)
 
   @handler UpdateMobile
   post /update_mobile (AdminUpdateMobileReq) returns (EmptyResp)
