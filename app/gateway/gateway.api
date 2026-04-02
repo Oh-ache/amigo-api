@@ -4,6 +4,14 @@ type Request {
 	Name string `path:"name,options=you|me"`
 }
 
+CommonResp{
+    Code int `json:"code"`
+    Msg string `json:"msg"`
+    Data interface{} `json:"data"`
+}
+
+EmptyResp{}
+
 type Response {
 	Message string `json:"message"`
 }

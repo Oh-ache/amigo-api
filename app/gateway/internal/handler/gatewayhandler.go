@@ -6,7 +6,7 @@ import (
 	"amigo-api/app/gateway/internal/logic"
 	"amigo-api/app/gateway/internal/svc"
 	"amigo-api/app/gateway/internal/types"
-	"amigo/app/api/internal/types"
+
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 

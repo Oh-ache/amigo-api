@@ -10,3 +10,11 @@ type Request struct {
 type Response struct {
 	Message string `json:"message"`
 }
+
+type CommonResp struct {
+	Code int         `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
+}
+
+type EmptyResp struct{}
