@@ -1,0 +1,449 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/sdk/convert/png_to_elnk": {
+      "post": {
+        "operationId": "PngToElnk",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PngToElnkResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------图片转换",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PngToElnkReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/convert"
+        ]
+      }
+    },
+    "/api/sdk/ip/to_address": {
+      "post": {
+        "operationId": "IpToAddress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/IpToAddressResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------IP",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IpToAddressReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/ip"
+        ]
+      }
+    },
+    "/api/sdk/message/check_code": {
+      "post": {
+        "operationId": "CheckCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CheckCodeReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/message"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/sdk/message/send_code": {
+      "post": {
+        "operationId": "SendCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------消息通知类",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendCodeReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/message"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/sdk/oss/upload_file": {
+      "post": {
+        "operationId": "UploadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UploadFileResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------OSS",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UploadFileReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/oss"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/sdk/oss/upload_token": {
+      "post": {
+        "operationId": "UploadToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UploadTokenResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UploadTokenReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/oss"
+        ]
+      }
+    },
+    "/api/sdk/oss/upload_url": {
+      "post": {
+        "operationId": "UploadUrl",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UploadUrlResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UploadUrlReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/oss"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "CheckCodeReq": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "default": "ali_sms"
+        },
+        "send_type": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "title": "CheckCodeReq",
+      "required": [
+        "send_type",
+        "mobile",
+        "code"
+      ]
+    },
+    "CommonResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "title": "CommonResp",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "EmptyResp": {
+      "type": "object",
+      "title": "EmptyResp"
+    },
+    "IpToAddressReq": {
+      "type": "object",
+      "properties": {
+        "ip": {
+          "type": "string"
+        }
+      },
+      "title": "IpToAddressReq",
+      "required": [
+        "ip"
+      ]
+    },
+    "IpToAddressResp": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "province": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "area": {
+          "type": "string"
+        },
+        "isp": {
+          "type": "string"
+        },
+        "lng": {
+          "type": "string"
+        },
+        "lat": {
+          "type": "string"
+        }
+      },
+      "title": "IpToAddressResp",
+      "required": [
+        "country",
+        "province",
+        "city",
+        "area",
+        "isp",
+        "lng",
+        "lat"
+      ]
+    },
+    "PngToElnkReq": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "PngToElnkReq",
+      "required": [
+        "url"
+      ]
+    },
+    "PngToElnkResp": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "PngToElnkResp",
+      "required": [
+        "url"
+      ]
+    },
+    "SendCodeReq": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "default": "ali_sms"
+        },
+        "send_type": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        }
+      },
+      "title": "SendCodeReq",
+      "required": [
+        "send_type",
+        "mobile"
+      ]
+    },
+    "UploadFileReq": {
+      "type": "object",
+      "properties": {
+        "file_name": {
+          "type": "string"
+        },
+        "file": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/byte"
+          }
+        }
+      },
+      "title": "UploadFileReq"
+    },
+    "UploadFileResp": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "UploadFileResp",
+      "required": [
+        "url"
+      ]
+    },
+    "UploadTokenReq": {
+      "type": "object",
+      "properties": {
+        "file_name": {
+          "type": "string"
+        }
+      },
+      "title": "UploadTokenReq",
+      "required": [
+        "file_name"
+      ]
+    },
+    "UploadTokenResp": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "expire": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UploadTokenResp",
+      "required": [
+        "token",
+        "expire"
+      ]
+    },
+    "UploadUrlReq": {
+      "type": "object",
+      "properties": {
+        "file_name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "UploadUrlReq",
+      "required": [
+        "file_name",
+        "url"
+      ]
+    },
+    "UploadUrlResp": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "UploadUrlResp",
+      "required": [
+        "url"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

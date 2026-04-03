@@ -1,0 +1,474 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/device/add": {
+      "post": {
+        "operationId": "Add",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddDeviceReq"
+            }
+          }
+        ],
+        "tags": [
+          "device"
+        ]
+      }
+    },
+    "/api/device/delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteDeviceReq"
+            }
+          }
+        ],
+        "tags": [
+          "device"
+        ]
+      }
+    },
+    "/api/device/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetDeviceResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "mac_address",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "device"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/device/list": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ListDeviceResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "mac_address",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "internal_ip",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "is_running",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "is_delete",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "2"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "1"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "10"
+          }
+        ],
+        "tags": [
+          "device"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/device/update": {
+      "post": {
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateDeviceReq"
+            }
+          }
+        ],
+        "tags": [
+          "device"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AddDeviceReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mac_address": {
+          "type": "string"
+        },
+        "internal_ip": {
+          "type": "string"
+        },
+        "bmp_image": {
+          "type": "string"
+        },
+        "is_running": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "extra_data": {
+          "type": "string"
+        }
+      },
+      "title": "AddDeviceReq",
+      "required": [
+        "name",
+        "user_id",
+        "mac_address",
+        "internal_ip"
+      ]
+    },
+    "CommonResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "title": "CommonResp",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "DeleteDeviceReq": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "mac_address": {
+          "type": "string"
+        }
+      },
+      "title": "DeleteDeviceReq"
+    },
+    "EmptyResp": {
+      "type": "object",
+      "title": "EmptyResp"
+    },
+    "GetDeviceReq": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "mac_address": {
+          "type": "string"
+        }
+      },
+      "title": "GetDeviceReq"
+    },
+    "GetDeviceResp": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mac_address": {
+          "type": "string"
+        },
+        "internal_ip": {
+          "type": "string"
+        },
+        "bmp_image": {
+          "type": "string"
+        },
+        "is_running": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "extra_data": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetDeviceResp",
+      "required": [
+        "device_id",
+        "name",
+        "user_id",
+        "mac_address",
+        "internal_ip",
+        "bmp_image",
+        "is_running",
+        "extra_data",
+        "is_delete",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "ListDeviceReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "mac_address": {
+          "type": "string"
+        },
+        "internal_ip": {
+          "type": "string"
+        },
+        "is_running": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "default": "10"
+        }
+      },
+      "title": "ListDeviceReq"
+    },
+    "ListDeviceResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetDeviceResp"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ListDeviceResp",
+      "required": [
+        "list",
+        "total"
+      ]
+    },
+    "UpdateDeviceReq": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mac_address": {
+          "type": "string"
+        },
+        "internal_ip": {
+          "type": "string"
+        },
+        "bmp_image": {
+          "type": "string"
+        },
+        "is_running": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "extra_data": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UpdateDeviceReq",
+      "required": [
+        "device_id",
+        "name",
+        "user_id",
+        "mac_address",
+        "internal_ip",
+        "is_delete"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

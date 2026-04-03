@@ -28,9 +28,9 @@ type CommonResp struct {
 
 // Whitelist of paths that don't require token validation
 var whitelist = map[string]bool{
-	"/api/user/third_login": true,
-	"/api/admin/login":      true,
-	"/api/sdk/send_code":    true,
+	"/api/user/third_login":      true,
+	"/api/admin/login":           true,
+	"/api/sdk/message/send_code": true,
 }
 
 func (m *JWTMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {

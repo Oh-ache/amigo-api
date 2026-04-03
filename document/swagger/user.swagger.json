@@ -1,0 +1,880 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/admin/add": {
+      "post": {
+        "operationId": "Add",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetAdminResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminAddReq"
+            }
+          }
+        ],
+        "tags": [
+          "admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/admin/delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminDeleteReq"
+            }
+          }
+        ],
+        "tags": [
+          "admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/admin/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetAdminResp"
+            }
+          }
+        },
+        "tags": [
+          "admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/admin/login": {
+      "post": {
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AdminLoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------后台用户",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/api/admin/update": {
+      "post": {
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminUpdateReq"
+            }
+          }
+        ],
+        "tags": [
+          "admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/admin/update_mobile": {
+      "post": {
+        "operationId": "UpdateMobile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminUpdateMobileReq"
+            }
+          }
+        ],
+        "tags": [
+          "admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/admin/update_password": {
+      "post": {
+        "operationId": "UpdatePassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminUpdatePasswordReq"
+            }
+          }
+        ],
+        "tags": [
+          "admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/add": {
+      "post": {
+        "operationId": "UserAdd",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetUserResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserAddReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/delete": {
+      "post": {
+        "operationId": "UserDelete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserDeleteReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetUserResp"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserLoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------前台用户",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/user/third_login": {
+      "post": {
+        "operationId": "ThirdLogin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserLoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserThirdLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/user/update": {
+      "post": {
+        "operationId": "UserUpdate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdateReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/update_mobile": {
+      "post": {
+        "operationId": "UserUpdateMobile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdateMobileReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/update_password": {
+      "post": {
+        "operationId": "UserUpdatePassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdatePasswordReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AdminAddReq": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "re_password": {
+          "type": "string"
+        }
+      },
+      "title": "AdminAddReq",
+      "required": [
+        "mobile",
+        "username",
+        "avatar",
+        "password",
+        "re_password"
+      ]
+    },
+    "AdminDeleteReq": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "AdminDeleteReq",
+      "required": [
+        "admin_id"
+      ]
+    },
+    "AdminLoginReq": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "AdminLoginReq",
+      "required": [
+        "mobile",
+        "password"
+      ]
+    },
+    "AdminLoginResp": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "token": {
+          "type": "string"
+        }
+      },
+      "title": "AdminLoginResp",
+      "required": [
+        "admin_id",
+        "mobile",
+        "username",
+        "avatar",
+        "create_time",
+        "token"
+      ]
+    },
+    "AdminLoginSmsReq": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "title": "AdminLoginSmsReq",
+      "required": [
+        "mobile",
+        "code"
+      ]
+    },
+    "AdminUpdateMobileReq": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        }
+      },
+      "title": "AdminUpdateMobileReq",
+      "required": [
+        "admin_id",
+        "mobile"
+      ]
+    },
+    "AdminUpdatePasswordReq": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "password": {
+          "type": "string"
+        },
+        "re_password": {
+          "type": "string"
+        }
+      },
+      "title": "AdminUpdatePasswordReq",
+      "required": [
+        "admin_id",
+        "password",
+        "re_password"
+      ]
+    },
+    "AdminUpdateReq": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        }
+      },
+      "title": "AdminUpdateReq",
+      "required": [
+        "admin_id",
+        "username",
+        "avatar"
+      ]
+    },
+    "CommonResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "title": "CommonResp",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "EmptyResp": {
+      "type": "object",
+      "title": "EmptyResp"
+    },
+    "GetAdminResp": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetAdminResp",
+      "required": [
+        "admin_id",
+        "mobile",
+        "username",
+        "avatar",
+        "create_time"
+      ]
+    },
+    "GetUserResp": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetUserResp",
+      "required": [
+        "user_id",
+        "mobile",
+        "username",
+        "avatar",
+        "create_time"
+      ]
+    },
+    "UserAddReq": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "re_password": {
+          "type": "string"
+        }
+      },
+      "title": "UserAddReq",
+      "required": [
+        "mobile",
+        "username",
+        "avatar",
+        "password",
+        "re_password"
+      ]
+    },
+    "UserDeleteReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UserDeleteReq",
+      "required": [
+        "user_id"
+      ]
+    },
+    "UserLoginReq": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "UserLoginReq",
+      "required": [
+        "password"
+      ]
+    },
+    "UserLoginResp": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "token": {
+          "type": "string"
+        }
+      },
+      "title": "UserLoginResp",
+      "required": [
+        "user_id",
+        "mobile",
+        "username",
+        "avatar",
+        "create_time",
+        "token"
+      ]
+    },
+    "UserThirdLoginReq": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "app_type": {
+          "type": "string"
+        }
+      },
+      "title": "UserThirdLoginReq",
+      "required": [
+        "code",
+        "app_type"
+      ]
+    },
+    "UserUpdateMobileReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        }
+      },
+      "title": "UserUpdateMobileReq",
+      "required": [
+        "user_id",
+        "mobile"
+      ]
+    },
+    "UserUpdatePasswordReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "password": {
+          "type": "string"
+        },
+        "re_password": {
+          "type": "string"
+        }
+      },
+      "title": "UserUpdatePasswordReq",
+      "required": [
+        "user_id",
+        "password",
+        "re_password"
+      ]
+    },
+    "UserUpdateReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        }
+      },
+      "title": "UserUpdateReq",
+      "required": [
+        "user_id",
+        "username",
+        "avatar"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

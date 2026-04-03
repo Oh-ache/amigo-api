@@ -1,0 +1,1285 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/base_code/add": {
+      "post": {
+        "operationId": "Add",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------标准码相关接口",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddBaseCodeReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode"
+        ]
+      }
+    },
+    "/api/base_code/delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteBaseCodeReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode"
+        ]
+      }
+    },
+    "/api/base_code/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetBaseCodeResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "base_code_id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "baseCode"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code/list": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ListBaseCodeResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content1",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content2",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content3",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content4",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "is_delete",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "2"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "1"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "10"
+          }
+        ],
+        "tags": [
+          "baseCode"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code/update": {
+      "post": {
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateBaseCodeReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode"
+        ]
+      }
+    },
+    "/api/base_code_item/add": {
+      "post": {
+        "operationId": "Add",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------标准码Item相关接口",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddBaseCodeItemReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCodeItem"
+        ]
+      }
+    },
+    "/api/base_code_item/delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteBaseCodeItemReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCodeItem"
+        ]
+      }
+    },
+    "/api/base_code_item/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetBaseCodeItemResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "base_code_item_id",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "baseCodeItem"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code_item/list": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ListBaseCodeItemResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "foreign_id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "content",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content1",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content2",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content3",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content4",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "is_delete",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "2"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "1"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "10"
+          }
+        ],
+        "tags": [
+          "baseCodeItem"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code_item/update": {
+      "post": {
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateBaseCodeItemReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCodeItem"
+        ]
+      }
+    },
+    "/api/base_code_sort/add": {
+      "post": {
+        "operationId": "Add",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------标准码分类相关接口",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddBaseCodeSortReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCodeSort"
+        ]
+      }
+    },
+    "/api/base_code_sort/delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteBaseCodeSortReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCodeSort"
+        ]
+      }
+    },
+    "/api/base_code_sort/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetBaseCodeSortResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "base_code_sort_id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "baseCodeSort"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code_sort/list": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ListBaseCodeSortResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_desc",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "is_delete",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "2"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "1"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "10"
+          }
+        ],
+        "tags": [
+          "baseCodeSort"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code_sort/update": {
+      "post": {
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateBaseCodeSortReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCodeSort"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AddBaseCodeItemReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "foreign_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        }
+      },
+      "title": "AddBaseCodeItemReq",
+      "required": [
+        "sort_key",
+        "key"
+      ]
+    },
+    "AddBaseCodeReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        }
+      },
+      "title": "AddBaseCodeReq",
+      "required": [
+        "sort_key",
+        "key",
+        "name"
+      ]
+    },
+    "AddBaseCodeSortReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "sort_name": {
+          "type": "string"
+        },
+        "sort_desc": {
+          "type": "string"
+        }
+      },
+      "title": "AddBaseCodeSortReq",
+      "required": [
+        "sort_key",
+        "sort_name",
+        "sort_desc"
+      ]
+    },
+    "CommonResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "title": "CommonResp",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "DeleteBaseCodeItemReq": {
+      "type": "object",
+      "properties": {
+        "base_code_item_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeleteBaseCodeItemReq",
+      "required": [
+        "base_code_item_id"
+      ]
+    },
+    "DeleteBaseCodeReq": {
+      "type": "object",
+      "properties": {
+        "base_code_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        }
+      },
+      "title": "DeleteBaseCodeReq"
+    },
+    "DeleteBaseCodeSortReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "base_code_sort_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        }
+      },
+      "title": "DeleteBaseCodeSortReq"
+    },
+    "EmptyResp": {
+      "type": "object",
+      "title": "EmptyResp"
+    },
+    "GetBaseCodeItemReq": {
+      "type": "object",
+      "properties": {
+        "base_code_item_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetBaseCodeItemReq",
+      "required": [
+        "base_code_item_id"
+      ]
+    },
+    "GetBaseCodeItemResp": {
+      "type": "object",
+      "properties": {
+        "base_code_item_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "foreign_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetBaseCodeItemResp",
+      "required": [
+        "base_code_item_id",
+        "sort_key",
+        "key",
+        "foreign_id",
+        "content",
+        "content1",
+        "content2",
+        "content3",
+        "content4",
+        "is_delete",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "GetBaseCodeReq": {
+      "type": "object",
+      "properties": {
+        "base_code_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        }
+      },
+      "title": "GetBaseCodeReq"
+    },
+    "GetBaseCodeResp": {
+      "type": "object",
+      "properties": {
+        "base_code_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetBaseCodeResp",
+      "required": [
+        "base_code_id",
+        "sort_key",
+        "key",
+        "name",
+        "content",
+        "content1",
+        "content2",
+        "content3",
+        "content4",
+        "is_delete",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "GetBaseCodeSortReq": {
+      "type": "object",
+      "properties": {
+        "base_code_sort_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "sort_key": {
+          "type": "string"
+        }
+      },
+      "title": "GetBaseCodeSortReq"
+    },
+    "GetBaseCodeSortResp": {
+      "type": "object",
+      "properties": {
+        "base_code_sort_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "sort_name": {
+          "type": "string"
+        },
+        "sort_desc": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetBaseCodeSortResp",
+      "required": [
+        "base_code_sort_id",
+        "sort_key",
+        "sort_name",
+        "sort_desc",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "ListBaseCodeItemReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "foreign_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "default": "10"
+        }
+      },
+      "title": "ListBaseCodeItemReq"
+    },
+    "ListBaseCodeItemResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetBaseCodeItemResp"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ListBaseCodeItemResp",
+      "required": [
+        "list",
+        "total"
+      ]
+    },
+    "ListBaseCodeReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "default": "10"
+        }
+      },
+      "title": "ListBaseCodeReq"
+    },
+    "ListBaseCodeResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetBaseCodeResp"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ListBaseCodeResp",
+      "required": [
+        "list",
+        "total"
+      ]
+    },
+    "ListBaseCodeSortReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "sort_name": {
+          "type": "string"
+        },
+        "sort_desc": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "default": "10"
+        }
+      },
+      "title": "ListBaseCodeSortReq"
+    },
+    "ListBaseCodeSortResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetBaseCodeSortResp"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ListBaseCodeSortResp",
+      "required": [
+        "list",
+        "total"
+      ]
+    },
+    "UpdateBaseCodeItemReq": {
+      "type": "object",
+      "properties": {
+        "base_code_item_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "foreign_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UpdateBaseCodeItemReq",
+      "required": [
+        "base_code_item_id",
+        "sort_key",
+        "key",
+        "is_delete"
+      ]
+    },
+    "UpdateBaseCodeReq": {
+      "type": "object",
+      "properties": {
+        "base_code_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UpdateBaseCodeReq",
+      "required": [
+        "base_code_id",
+        "sort_key",
+        "key",
+        "name",
+        "is_delete"
+      ]
+    },
+    "UpdateBaseCodeSortReq": {
+      "type": "object",
+      "properties": {
+        "base_code_sort_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "sort_name": {
+          "type": "string"
+        },
+        "sort_desc": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        }
+      },
+      "title": "UpdateBaseCodeSortReq",
+      "required": [
+        "base_code_sort_id",
+        "sort_key",
+        "sort_name",
+        "sort_desc",
+        "is_delete"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

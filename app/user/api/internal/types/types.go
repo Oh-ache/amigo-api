@@ -88,11 +88,6 @@ type UserDeleteReq struct {
 	UserId uint64 `json:"user_id"`
 }
 
-type UserLoginMiniappReq struct {
-	Code    string `json:"code"`
-	AppType string `json:"app_type"`
-}
-
 type UserLoginReq struct {
 	Mobile   string `json:"mobile,optional"`
 	Username string `json:"username,optional"`
@@ -106,6 +101,11 @@ type UserLoginResp struct {
 	Avatar     string `json:"avatar"`
 	CreateTime int64  `json:"create_time"`
 	Token      string `json:"token"`
+}
+
+type UserThirdLoginReq struct {
+	Code    string `json:"code"`
+	AppType string `json:"app_type"`
 }
 
 type UserUpdateMobileReq struct {

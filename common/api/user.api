@@ -45,19 +45,18 @@ type (
 		Mobile     string `json:"mobile"`
 		Username   string `json:"username"`
 		Avatar     string `json:"avatar"`
-    Password   string `json:"password"`
-    RePassword string `json:"re_password"`
-  }
-  UserThirdLoginReq {
-    Code string `json:"code"`
-    AppType string `json:"app_type"`
-  }
-
-  //----------------------------------------------前台用户
-  AdminLoginReq {
-    Mobile string `json:"mobile"`
-    Password string `json:"password"`
-  }
+		Password   string `json:"password"`
+		RePassword string `json:"re_password"`
+	}
+	UserThirdLoginReq {
+		Code    string `json:"code"`
+		AppType string `json:"app_type"`
+	}
+	//----------------------------------------------后台用户
+	AdminLoginReq {
+		Mobile   string `json:"mobile"`
+		Password string `json:"password"`
+	}
 	AdminLoginResp {
 		AdminId    uint64 `json:"admin_id"`
 		Mobile     string `json:"mobile"`
@@ -94,11 +93,6 @@ type (
 		Mobile     string `json:"mobile"`
 		Username   string `json:"username"`
 		Avatar     string `json:"avatar"`
-<<<<<<< HEAD
-    Password   string `json:"password"`
-    RePassword string `json:"re_password"`
-  }
-=======
 		Password   string `json:"password"`
 		RePassword string `json:"re_password"`
 	}
@@ -106,7 +100,6 @@ type (
 		Mobile string `json:"mobile"`
 		Code   string `json:"code"`
 	}
->>>>>>> 58f9645eae1ae11c7a8d11c331f98db7d68dd7f1
 )
 
 @server (
@@ -118,7 +111,7 @@ service user {
 	post /login (UserLoginReq) returns (UserLoginResp)
 
 	@handler ThirdLogin
-	post /third_login (UserLoginMiniappReq) returns (UserLoginResp)
+	post /third_login (UserThirdLoginReq) returns (UserLoginResp)
 }
 
 @server (
@@ -173,12 +166,8 @@ service user {
 	@handler Update
 	post /update (AdminUpdateReq) returns (EmptyResp)
 
-<<<<<<< HEAD
-  @handler UpdatePasswordl  post /update_password (AdminUpdatePasswordReq) returns (EmptyResp)
-=======
 	@handler UpdatePassword
 	post /update_password (AdminUpdatePasswordReq) returns (EmptyResp)
->>>>>>> 58f9645eae1ae11c7a8d11c331f98db7d68dd7f1
 
 	@handler UpdateMobile
 	post /update_mobile (AdminUpdateMobileReq) returns (EmptyResp)

@@ -21,11 +21,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/login",
 				Handler: admin.LoginHandler(serverCtx),
 			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/login_sms",
-				Handler: admin.LoginSmsHandler(serverCtx),
-			},
 		},
 		rest.WithPrefix("/api/admin"),
 	)
@@ -76,8 +71,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/login_miniapp",
-				Handler: user.LoginMiniappHandler(serverCtx),
+				Path:    "/third_login",
+				Handler: user.ThirdLoginHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/user"),

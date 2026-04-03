@@ -1,0 +1,540 @@
+### 1. N/A
+
+1. route definition
+
+- Url: /api/base_code/add
+- Method: POST
+- Request: `AddBaseCodeReq`
+- Response: `EmptyResp`
+
+2. request definition
+
+
+
+```golang
+type AddBaseCodeReq struct {
+	SortKey string `json:"sort_key"`
+	Key string `json:"key"`
+	Name string `json:"name"`
+	Content string `json:"content,optional,default="`
+	Content1 string `json:"content1,optional,default="`
+	Content2 string `json:"content2,optional,default="`
+	Content3 string `json:"content3,optional,default="`
+	Content4 string `json:"content4,optional,default="`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type EmptyResp struct {
+}
+```
+
+### 2. N/A
+
+1. route definition
+
+- Url: /api/base_code/delete
+- Method: POST
+- Request: `DeleteBaseCodeReq`
+- Response: `EmptyResp`
+
+2. request definition
+
+
+
+```golang
+type DeleteBaseCodeReq struct {
+	BaseCodeId uint64 `json:"base_code_id,default=0,optional"`
+	SortKey string `json:"sort_key,default=,optional"`
+	Key string `json:"key,default=,optional"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type EmptyResp struct {
+}
+```
+
+### 3. N/A
+
+1. route definition
+
+- Url: /api/base_code/get
+- Method: GET
+- Request: `GetBaseCodeReq`
+- Response: `GetBaseCodeResp`
+
+2. request definition
+
+
+
+```golang
+type GetBaseCodeReq struct {
+	BaseCodeId uint64 `form:"base_code_id,default=0,optional"`
+	SortKey string `form:"sort_key,default=,optional"`
+	Key string `form:"key,default=,optional"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type GetBaseCodeResp struct {
+	BaseCodeId uint64 `json:"base_code_id"`
+	SortKey string `json:"sort_key"`
+	Key string `json:"key"`
+	Name string `json:"name"`
+	Content string `json:"content"`
+	Content1 string `json:"content1"`
+	Content2 string `json:"content2"`
+	Content3 string `json:"content3"`
+	Content4 string `json:"content4"`
+	IsDelete int64 `json:"is_delete"`
+	CreateTime uint64 `json:"create_time"`
+	UpdateTime uint64 `json:"update_time"`
+}
+```
+
+### 4. N/A
+
+1. route definition
+
+- Url: /api/base_code/list
+- Method: GET
+- Request: `ListBaseCodeReq`
+- Response: `ListBaseCodeResp`
+
+2. request definition
+
+
+
+```golang
+type ListBaseCodeReq struct {
+	SortKey string `form:"sort_key,default=,optional"`
+	Key string `form:"key,default=,optional"`
+	Name string `form:"name,default=,optional"`
+	Content string `form:"content,default=,optional"`
+	Content1 string `form:"content1,default=,optional"`
+	Content2 string `form:"content2,default=,optional"`
+	Content3 string `form:"content3,default=,optional"`
+	Content4 string `form:"content4,default=,optional"`
+	IsDelete int64 `form:"is_delete,default=2,optional"`
+	Page int64 `form:"page,default=1,optional"`
+	PageSize int64 `form:"page_size,default=10,optional"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type ListBaseCodeResp struct {
+	List []GetBaseCodeResp `json:"list"`
+	Total int64 `json:"total"`
+}
+```
+
+### 5. N/A
+
+1. route definition
+
+- Url: /api/base_code/update
+- Method: POST
+- Request: `UpdateBaseCodeReq`
+- Response: `EmptyResp`
+
+2. request definition
+
+
+
+```golang
+type UpdateBaseCodeReq struct {
+	BaseCodeId uint64 `json:"base_code_id"`
+	SortKey string `json:"sort_key"`
+	Key string `json:"key"`
+	Name string `json:"name"`
+	Content string `json:"content,optional,default="`
+	Content1 string `json:"content1,optional,default="`
+	Content2 string `json:"content2,optional,default="`
+	Content3 string `json:"content3,optional,default="`
+	Content4 string `json:"content4,optional,default="`
+	IsDelete int64 `json:"is_delete"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type EmptyResp struct {
+}
+```
+
+### 6. N/A
+
+1. route definition
+
+- Url: /api/base_code_item/add
+- Method: POST
+- Request: `AddBaseCodeItemReq`
+- Response: `EmptyResp`
+
+2. request definition
+
+
+
+```golang
+type AddBaseCodeItemReq struct {
+	SortKey string `json:"sort_key"`
+	Key string `json:"key"`
+	ForeignId uint64 `json:"foreign_id,optional,default=0"`
+	Content string `json:"content,optional,default="`
+	Content1 string `json:"content1,optional,default="`
+	Content2 string `json:"content2,optional,default="`
+	Content3 string `json:"content3,optional,default="`
+	Content4 string `json:"content4,optional,default="`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type EmptyResp struct {
+}
+```
+
+### 7. N/A
+
+1. route definition
+
+- Url: /api/base_code_item/delete
+- Method: POST
+- Request: `DeleteBaseCodeItemReq`
+- Response: `EmptyResp`
+
+2. request definition
+
+
+
+```golang
+type DeleteBaseCodeItemReq struct {
+	BaseCodeItemId uint64 `json:"base_code_item_id"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type EmptyResp struct {
+}
+```
+
+### 8. N/A
+
+1. route definition
+
+- Url: /api/base_code_item/get
+- Method: GET
+- Request: `GetBaseCodeItemReq`
+- Response: `GetBaseCodeItemResp`
+
+2. request definition
+
+
+
+```golang
+type GetBaseCodeItemReq struct {
+	BaseCodeItemId uint64 `form:"base_code_item_id"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type GetBaseCodeItemResp struct {
+	BaseCodeItemId uint64 `json:"base_code_item_id"`
+	SortKey string `json:"sort_key"`
+	Key string `json:"key"`
+	ForeignId uint64 `json:"foreign_id"`
+	Content string `json:"content"`
+	Content1 string `json:"content1"`
+	Content2 string `json:"content2"`
+	Content3 string `json:"content3"`
+	Content4 string `json:"content4"`
+	IsDelete int64 `json:"is_delete"`
+	CreateTime uint64 `json:"create_time"`
+	UpdateTime uint64 `json:"update_time"`
+}
+```
+
+### 9. N/A
+
+1. route definition
+
+- Url: /api/base_code_item/list
+- Method: GET
+- Request: `ListBaseCodeItemReq`
+- Response: `ListBaseCodeItemResp`
+
+2. request definition
+
+
+
+```golang
+type ListBaseCodeItemReq struct {
+	SortKey string `form:"sort_key,default=,optional"`
+	Key string `form:"key,default=,optional"`
+	ForeignId uint64 `form:"foreign_id,default=0,optional"`
+	Content string `form:"content,default=,optional"`
+	Content1 string `form:"content1,default=,optional"`
+	Content2 string `form:"content2,default=,optional"`
+	Content3 string `form:"content3,default=,optional"`
+	Content4 string `form:"content4,default=,optional"`
+	IsDelete int64 `form:"is_delete,default=2,optional"`
+	Page int64 `form:"page,default=1,optional"`
+	PageSize int64 `form:"page_size,default=10,optional"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type ListBaseCodeItemResp struct {
+	List []GetBaseCodeItemResp `json:"list"`
+	Total int64 `json:"total"`
+}
+```
+
+### 10. N/A
+
+1. route definition
+
+- Url: /api/base_code_item/update
+- Method: POST
+- Request: `UpdateBaseCodeItemReq`
+- Response: `EmptyResp`
+
+2. request definition
+
+
+
+```golang
+type UpdateBaseCodeItemReq struct {
+	BaseCodeItemId uint64 `json:"base_code_item_id"`
+	SortKey string `json:"sort_key"`
+	Key string `json:"key"`
+	ForeignId uint64 `json:"foreign_id,optional,default=0"`
+	Content string `json:"content,optional,default="`
+	Content1 string `json:"content1,optional,default="`
+	Content2 string `json:"content2,optional,default="`
+	Content3 string `json:"content3,optional,default="`
+	Content4 string `json:"content4,optional,default="`
+	IsDelete int64 `json:"is_delete"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type EmptyResp struct {
+}
+```
+
+### 11. N/A
+
+1. route definition
+
+- Url: /api/base_code_sort/add
+- Method: POST
+- Request: `AddBaseCodeSortReq`
+- Response: `EmptyResp`
+
+2. request definition
+
+
+
+```golang
+type AddBaseCodeSortReq struct {
+	SortKey string `json:"sort_key"`
+	SortName string `json:"sort_name"`
+	SortDesc string `json:"sort_desc"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type EmptyResp struct {
+}
+```
+
+### 12. N/A
+
+1. route definition
+
+- Url: /api/base_code_sort/delete
+- Method: POST
+- Request: `DeleteBaseCodeSortReq`
+- Response: `EmptyResp`
+
+2. request definition
+
+
+
+```golang
+type DeleteBaseCodeSortReq struct {
+	SortKey string `json:"sort_key,default=,optional"`
+	BaseCodeSortId uint64 `json:"base_code_sort_id,default=0,optional"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type EmptyResp struct {
+}
+```
+
+### 13. N/A
+
+1. route definition
+
+- Url: /api/base_code_sort/get
+- Method: GET
+- Request: `GetBaseCodeSortReq`
+- Response: `GetBaseCodeSortResp`
+
+2. request definition
+
+
+
+```golang
+type GetBaseCodeSortReq struct {
+	BaseCodeSortId uint64 `form:"base_code_sort_id,default=0,optional"`
+	SortKey string `form:"sort_key,default=,optional"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type GetBaseCodeSortResp struct {
+	BaseCodeSortId uint64 `json:"base_code_sort_id"`
+	SortKey string `json:"sort_key"`
+	SortName string `json:"sort_name"`
+	SortDesc string `json:"sort_desc"`
+	CreateTime uint64 `json:"create_time"`
+	UpdateTime uint64 `json:"update_time"`
+}
+```
+
+### 14. N/A
+
+1. route definition
+
+- Url: /api/base_code_sort/list
+- Method: GET
+- Request: `ListBaseCodeSortReq`
+- Response: `ListBaseCodeSortResp`
+
+2. request definition
+
+
+
+```golang
+type ListBaseCodeSortReq struct {
+	SortKey string `form:"sort_key,default=,optional"`
+	SortName string `form:"sort_name,default=,optional"`
+	SortDesc string `form:"sort_desc,default=,optional"`
+	IsDelete int64 `form:"is_delete,default=2,optional"`
+	Page int64 `form:"page,default=1,optional"`
+	PageSize int64 `form:"page_size,default=10,optional"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type ListBaseCodeSortResp struct {
+	List []GetBaseCodeSortResp `json:"list"`
+	Total int64 `json:"total"`
+}
+```
+
+### 15. N/A
+
+1. route definition
+
+- Url: /api/base_code_sort/update
+- Method: POST
+- Request: `UpdateBaseCodeSortReq`
+- Response: `EmptyResp`
+
+2. request definition
+
+
+
+```golang
+type UpdateBaseCodeSortReq struct {
+	BaseCodeSortId uint64 `json:"base_code_sort_id"`
+	SortKey string `json:"sort_key,default="`
+	SortName string `json:"sort_name,default="`
+	SortDesc string `json:"sort_desc,default="`
+	IsDelete int64 `json:"is_delete,default=2"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type EmptyResp struct {
+}
+```
+

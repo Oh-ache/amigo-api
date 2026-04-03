@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 RUN go build -ldflags="-s -w" -o /app/user app/user/api/user.go
-RUN cp deploy/DockerFile/etc/userApi.yaml app/user/api/etc/sdk.yaml
+RUN cp deploy/DockerFile/etc/userApi.yaml app/user/api/etc/user.yaml
 
 
 FROM busybox:musl
