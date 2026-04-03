@@ -1,0 +1,9 @@
+#!/bin/sh
+
+tag=$(date "+%Y%m%d%H%M%S")
+REGISTRY="registry.cn-hangzhou.aliyuncs.com"
+NAMESPACE="theacheapp"
+APP="gateway"
+
+docker build --platform linux/amd64 -f deploy/DockerFile/gatewayDockerfile -t $REGISTRY/$NAMESPACE/$APP:$tag .
+docker push $REGISTRY/$NAMESPACE/$APP:$tag

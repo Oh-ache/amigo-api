@@ -16,7 +16,7 @@ import (
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	// Create proxy handlers for each upstream
-	proxyUserAdmin := newReverseProxy(serverCtx.Config.Upstreams.UserAdmin)
+	proxyUser := newReverseProxy(serverCtx.Config.Upstreams.User)
 	proxyDevice := newReverseProxy(serverCtx.Config.Upstreams.Device)
 	proxySdk := newReverseProxy(serverCtx.Config.Upstreams.Sdk)
 	proxyBaseCode := newReverseProxy(serverCtx.Config.Upstreams.BaseCode)
@@ -26,7 +26,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		path := r.URL.Path
 		switch {
 		case strings.HasPrefix(path, "/api/user/"), strings.HasPrefix(path, "/api/admin/"):
-			proxyUserAdmin(w, r)
+			proxyUser(w, r)
 		case strings.HasPrefix(path, "/api/device/"):
 			proxyDevice(w, r)
 		case strings.HasPrefix(path, "/api/sdk/"):

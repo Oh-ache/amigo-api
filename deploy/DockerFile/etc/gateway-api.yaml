@@ -1,0 +1,13 @@
+Name: gateway-api
+Host: 0.0.0.0
+Port: 8888
+
+Auth:
+  AccessSecret: "amigoProject"
+  AccessExpire: 7200
+
+Upstreams:
+  BaseCode: http://basecode-api:9090
+  Sdk: http://sdk-api:9091
+  UserAdmin: http://user-api:9092
+  Device: http://device-api:9093
