@@ -1,0 +1,77 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # 网关服务
+  gateway:
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/gateway:20260402175348
+    container_name: gateway
+    ports:
+      - "8888:8888"  # 对外暴露端口
+    environment:
+      - TZ=Asia/Shanghai
+      - APP_ENV=docker
+    networks:
+      - app-network
+    depends_on:
+      - basecode-rpc
+      - basecode-api
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8888/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # RPC 服务
+  basecode-rpc:
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/basecode-rpc:20260402181022
+    container_name: basecode-rpc
+    # 不对外暴露端口，仅供内部服务访问
+    expose:
+      - "8080"  # gRPC 端口
+    environment:
+      - TZ=Asia/Shanghai
+      - APP_ENV=docker
+      - PORT=8080
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "grpc_health_probe", "-addr=localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # API 服务
+  basecode-api:
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/basecode-api:20260402230429
+    container_name: basecode-api
+    # 对外暴露端口（可选）
+    ports:
+      - "9090"
+    environment:
+      - TZ=Asia/Shanghai
+      - APP_ENV=docker
+      - PORT=9090
+      # 配置 RPC 服务地址
+      - RPC_BASECODE_HOST=basecode-rpc
+      - RPC_BASECODE_PORT=9090
+    networks:
+      - app-network
+    depends_on:
+      - basecode-rpc
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9090/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1

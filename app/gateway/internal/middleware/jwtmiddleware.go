@@ -27,18 +27,18 @@ type CommonResp struct {
 }
 
 // Whitelist of paths that don't require token validation
-var whitelist = []string{
-	"/api/user/third_login",
+var whitelist = map[string]bool{
+	"/api/user/third_login": true,
+	"/api/admin/login":      true,
+	"/api/sdk/send_code":    true,
 }
 
 func (m *JWTMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Check if path is in whitelist
-		for _, path := range whitelist {
-			if r.URL.Path == path {
-				next(w, r)
-				return
-			}
+		if whitelist[r.URL.Path] {
+			next(w, r)
+			return
 		}
 
 		// Get token from Authorization header

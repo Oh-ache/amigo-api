@@ -14,8 +14,8 @@ type Auth struct {
 }
 
 type Upstreams struct {
-	UserAdmin    string `json:",optional"`
-	Device       string `json:",optional"`
-	Sdk          string `json:",optional"`
-	BaseCode     string `json:",optional"`
+	User     string `json:",optional"`
+	Device   string `json:",optional"`
+	Sdk      string `json:",optional"`
+	BaseCode string `json:",optional"`
 }

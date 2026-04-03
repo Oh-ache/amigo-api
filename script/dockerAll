@@ -1,0 +1,13 @@
+#!/bin/sh
+
+tag=$(date "+%Y%m%d%H%M%S")
+
+sh script/dockerGateway $tag
+sh script/dockerRpc baseCode $tag
+sh script/dockerApi baseCode $tag
+sh script/dockerRpc sdk $tag
+sh script/dockerApi sdk $tag
+sh script/dockerRpc user $tag
+sh script/dockerApi user $tag
+sh script/dockerRpc device $tag
+sh script/dockerApi device $tag
