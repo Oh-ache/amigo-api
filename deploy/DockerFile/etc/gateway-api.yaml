@@ -9,5 +9,5 @@ Auth:
 Upstreams:
   BaseCode: http://basecode-api:9090
   Sdk: http://sdk-api:9091
-  UserAdmin: http://user-api:9092
+  User: http://user-api:9092
   Device: http://device-api:9093
