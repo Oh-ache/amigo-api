@@ -11,6 +11,7 @@ import (
 
 	"amigo-api/app/job/queue/internal/config"
 	"amigo-api/app/job/queue/queue"
+	"amigo-api/app/job/queue/queue/handler"
 
 	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/conf"
@@ -85,5 +86,5 @@ func main() {
 
 func registerHandlers(consumer queue.Consumer) {
 	// 注册所有任务处理器
-	consumer.RegisterHandler("send_sms", &SendSmsHandler{})
+	consumer.RegisterHandler("send_sms", &handler.SendSmsHandler{})
 }

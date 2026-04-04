@@ -5,6 +5,7 @@ import (
 
 	"amigo-api/app/job/queue/internal/config"
 	"amigo-api/app/job/queue/queue"
+	"amigo-api/app/job/queue/queue/handler"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -54,7 +55,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	consumer := queue.NewRedisConsumer(queueClient, consumerConfig)
 
 	// 注册处理器
-	consumer.RegisterHandler("send_sms", &SendSmsHandler{})
+	consumer.RegisterHandler("send_sms", &handler.SendSmsHandler{})
 
 	return &ServiceContext{
 		Config:   c,
