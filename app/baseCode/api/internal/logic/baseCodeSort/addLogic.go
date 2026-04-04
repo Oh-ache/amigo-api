@@ -8,12 +8,9 @@ import (
 	"amigo-api/common/pb"
 
 	"github.com/jinzhu/copier"
-	jsoniter "github.com/json-iterator/go"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/trace"
-	"go.opentelemetry.io/otel/attribute"
-)
 
+)
 type AddLogic struct {
 	logx.Logger
 	ctx    context.Context
@@ -29,30 +26,14 @@ func NewAddLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddLogic {
 }
 
 func (l *AddLogic) Add(req *types.AddBaseCodeSortReq) (resp *types.EmptyResp, err error) {
-	// 从上下文中获取tracer
-	tracer := trace.TracerFromContext(l.ctx)
-	// 创建自定义span
-	ctx, span := tracer.Start(l.ctx, "开始添加")
-	// 设置span属性
-
-	fast := jsoniter.ConfigFastest
-	bytes2, _ := fast.Marshal(req)
-	span.SetAttributes(
-		attribute.String("add.param", string(bytes2)),
-	)
-	defer span.End()
-
 	resp = &types.EmptyResp{}
 	param := &pb.AddBaseCodeSortReq{}
 
 	copier.Copy(param, req)
-	if _, err := l.svcCtx.BaseCodeRpcClient.AddBaseCodeSort(ctx, param); err != nil {
+	if _, err := l.svcCtx.BaseCodeRpcClient.AddBaseCodeSort(l.ctx, param); err != nil {
 		return nil, err
 	}
 
-	span.SetAttributes(
-		attribute.String("add.success", "ok"),
-	)
 
 	return resp, nil
 }
