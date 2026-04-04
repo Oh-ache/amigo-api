@@ -1,17 +1,15 @@
 package logic
 
 import (
-	"amigo-api/app/baseCode/model"
 	"context"
+
+	"amigo-api/app/baseCode/model"
 
 	"amigo-api/app/baseCode/rpc/internal/svc"
 	"amigo-api/common/pb"
 
 	"github.com/jinzhu/copier"
-	jsoniter "github.com/json-iterator/go"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/trace"
-	"go.opentelemetry.io/otel/attribute"
 )
 
 type UpdateBaseCodeLogic struct {
@@ -29,40 +27,24 @@ func NewUpdateBaseCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 func (l *UpdateBaseCodeLogic) UpdateBaseCode(in *pb.BaseCodeResp) (*pb.BaseCodeResp, error) {
-	// 从上下文中获取tracer
-	tracer := trace.TracerFromContext(l.ctx)
-	// 创建自定义span
-	ctx, span := tracer.Start(l.ctx, "开始更新")
-	// 设置span属性
-
-	fast := jsoniter.ConfigFastest
-	bytes2, _ := fast.Marshal(in)
-	span.SetAttributes(
-		attribute.String("update.param", string(bytes2)),
-	)
-	defer span.End()
-
 	// 检查数据是否存在
-	_, err := l.svcCtx.BaseCodeModel.FindOne(ctx, in.BaseCodeId)
+	_, err := l.svcCtx.BaseCodeModel.FindOne(l.ctx, in.BaseCodeId)
 	if err != nil {
 		if err == model.ErrNotFound {
 			return nil, model.ErrNotFound
 		}
-		l.Errorf("Failed to find base code by id %d: %v", in.BaseCodeId, err)
 		return nil, err
 	}
 
 	// 创建数据模型
 	var m model.BaseCode
 	if err := copier.Copy(&m, in); err != nil {
-		l.Errorf("Failed to copy request data to model: %v", err)
 		return nil, err
 	}
 
 	// 检查重复
-	isDuplicate, err := l.svcCtx.BaseCodeModel.CheckDuplicate(ctx, &m)
+	isDuplicate, err := l.svcCtx.BaseCodeModel.CheckDuplicate(l.ctx, &m)
 	if err != nil {
-		l.Errorf("Failed to check duplicate: %v", err)
 		return nil, err
 	}
 	if isDuplicate {
@@ -70,21 +52,15 @@ func (l *UpdateBaseCodeLogic) UpdateBaseCode(in *pb.BaseCodeResp) (*pb.BaseCodeR
 	}
 
 	// 更新数据
-	if err := l.svcCtx.BaseCodeModel.Update(ctx, &m); err != nil {
-		l.Errorf("Failed to update base code: %v", err)
+	if err := l.svcCtx.BaseCodeModel.Update(l.ctx, &m); err != nil {
 		return nil, err
 	}
 
 	// 构造响应
 	var resp pb.BaseCodeResp
 	if err := copier.Copy(&resp, &m); err != nil {
-		l.Errorf("Failed to copy model to response: %v", err)
 		return nil, err
 	}
-
-	span.SetAttributes(
-		attribute.String("update.success", "ok"),
-	)
 
 	return &resp, nil
 }

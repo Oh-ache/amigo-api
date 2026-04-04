@@ -9,10 +9,7 @@ import (
 	"amigo-api/common/pb"
 
 	"github.com/jinzhu/copier"
-	jsoniter "github.com/json-iterator/go"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/trace"
-	"go.opentelemetry.io/otel/attribute"
 )
 
 type AddBaseCodeSortLogic struct {
@@ -30,19 +27,6 @@ func NewAddBaseCodeSortLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 }
 
 func (l *AddBaseCodeSortLogic) AddBaseCodeSort(in *pb.AddBaseCodeSortReq) (*pb.BaseCodeSortResp, error) {
-	// 从上下文中获取tracer
-	tracer := trace.TracerFromContext(l.ctx)
-	// 创建自定义span
-	ctx, span := tracer.Start(l.ctx, "开始添加")
-	// 设置span属性
-
-	fast := jsoniter.ConfigFastest
-	bytes2, _ := fast.Marshal(in)
-	span.SetAttributes(
-		attribute.String("addSort.param", string(bytes2)),
-	)
-	defer span.End()
-
 	// 创建 model.BaseCodeSort 实例
 	var sort model.BaseCodeSort
 
@@ -56,7 +40,7 @@ func (l *AddBaseCodeSortLogic) AddBaseCodeSort(in *pb.AddBaseCodeSortReq) (*pb.B
 	sort.IsDelete = 2 // 2表示未删除
 
 	// 先判断是否重复
-	isDuplicate, err := l.svcCtx.BaseCodeSortModel.CheckDuplicate(ctx, &sort)
+	isDuplicate, err := l.svcCtx.BaseCodeSortModel.CheckDuplicate(l.ctx, &sort)
 	if err != nil {
 		l.Errorf("Failed to check duplicate for BaseCodeSort: %v", err)
 		return nil, err
@@ -66,7 +50,7 @@ func (l *AddBaseCodeSortLogic) AddBaseCodeSort(in *pb.AddBaseCodeSortReq) (*pb.B
 	}
 
 	// 写入数据库
-	result, err := l.svcCtx.BaseCodeSortModel.Insert(ctx, &sort)
+	result, err := l.svcCtx.BaseCodeSortModel.Insert(l.ctx, &sort)
 	if err != nil {
 		l.Errorf("Failed to insert BaseCodeSort: %v", err)
 		return nil, err
@@ -86,10 +70,6 @@ func (l *AddBaseCodeSortLogic) AddBaseCodeSort(in *pb.AddBaseCodeSortReq) (*pb.B
 		l.Errorf("Failed to copy BaseCodeSort to BaseCodeSortResp: %v", err)
 		return nil, err
 	}
-
-	span.SetAttributes(
-		attribute.String("addSort.success", "ok"),
-	)
 
 	return &resp, nil
 }

@@ -3,15 +3,12 @@ package logic
 import (
 	"context"
 
-	"amigo-api/app/user/rpc/internal/svc"
 	"amigo-api/app/user/model"
+	"amigo-api/app/user/rpc/internal/svc"
 	"amigo-api/common/pb"
 
 	"github.com/jinzhu/copier"
-	jsoniter "github.com/json-iterator/go"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/trace"
-	"go.opentelemetry.io/otel/attribute"
 )
 
 type ListAdminLogic struct {
@@ -29,30 +26,15 @@ func NewListAdminLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListAdm
 }
 
 func (l *ListAdminLogic) ListAdmin(in *pb.ListAdminReq) (*pb.ListAdminResp, error) {
-	// 从上下文中获取tracer
-	tracer := trace.TracerFromContext(l.ctx)
-	// 创建自定义span
-	ctx, span := tracer.Start(l.ctx, "开始列表查询")
-	// 设置span属性
-
-	fast := jsoniter.ConfigFastest
-	bytes2, _ := fast.Marshal(in)
-	span.SetAttributes(
-		attribute.String("list.param", string(bytes2)),
-	)
-	defer span.End()
-
 	// 构建查询条件
 	search := &model.AdminSearch{}
 	if err := copier.Copy(search, in); err != nil {
-		l.Errorf("Failed to copy request to search: %v", err)
 		return nil, err
 	}
 
 	// 查询数据
-	list, total, err := l.svcCtx.AdminModel.List(ctx, search)
+	list, total, err := l.svcCtx.AdminModel.List(l.ctx, search)
 	if err != nil {
-		l.Errorf("Failed to list admins: %v", err)
 		return nil, err
 	}
 
@@ -65,13 +47,8 @@ func (l *ListAdminLogic) ListAdmin(in *pb.ListAdminReq) (*pb.ListAdminResp, erro
 		List:  list,
 		Total: total,
 	}); err != nil {
-		l.Errorf("Failed to copy list to response: %v", err)
 		return nil, err
 	}
-
-	span.SetAttributes(
-		attribute.String("list.success", "ok"),
-	)
 
 	return resp, nil
 }

@@ -7,10 +7,7 @@ import (
 	"amigo-api/app/device/rpc/internal/svc"
 	"amigo-api/common/pb"
 
-	jsoniter "github.com/json-iterator/go"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/trace"
-	"go.opentelemetry.io/otel/attribute"
 )
 
 type DeleteDeviceLogic struct {
@@ -28,23 +25,13 @@ func NewDeleteDeviceLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 func (l *DeleteDeviceLogic) DeleteDevice(in *pb.DeleteDeviceReq) (*pb.DeleteDeviceResp, error) {
-	tracer := trace.TracerFromContext(l.ctx)
-	ctx, span := tracer.Start(l.ctx, "开始删除设备")
-
-	fast := jsoniter.ConfigFastest
-	bytes2, _ := fast.Marshal(in)
-	span.SetAttributes(
-		attribute.String("delete.device.param", string(bytes2)),
-	)
-	defer span.End()
-
 	var device *model.Device
 	var err error
 
 	if in.DeviceId != 0 {
-		device, err = l.svcCtx.DeviceModel.FindOne(ctx, in.DeviceId)
+		device, err = l.svcCtx.DeviceModel.FindOne(l.ctx, in.DeviceId)
 	} else if in.MacAddress != "" {
-		device, err = l.svcCtx.DeviceModel.FindOneByMacAddress(ctx, in.MacAddress)
+		device, err = l.svcCtx.DeviceModel.FindOneByMacAddress(l.ctx, in.MacAddress)
 	} else {
 		return &pb.DeleteDeviceResp{Success: false}, nil
 	}
@@ -53,18 +40,12 @@ func (l *DeleteDeviceLogic) DeleteDevice(in *pb.DeleteDeviceReq) (*pb.DeleteDevi
 		if err == model.ErrNotFound {
 			return &pb.DeleteDeviceResp{Success: false}, nil
 		}
-		l.Errorf("Failed to find device for deletion: %v", err)
 		return nil, err
 	}
 
-	if err := l.svcCtx.DeviceModel.Delete(ctx, device.DeviceId); err != nil {
-		l.Errorf("Failed to delete device: %v", err)
+	if err := l.svcCtx.DeviceModel.Delete(l.ctx, device.DeviceId); err != nil {
 		return nil, err
 	}
-
-	span.SetAttributes(
-		attribute.String("delete.device.success", "ok"),
-	)
 
 	return &pb.DeleteDeviceResp{Success: true}, nil
 }

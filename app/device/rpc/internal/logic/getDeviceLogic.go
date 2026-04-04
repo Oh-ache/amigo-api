@@ -8,10 +8,7 @@ import (
 	"amigo-api/common/pb"
 
 	"github.com/jinzhu/copier"
-	jsoniter "github.com/json-iterator/go"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/trace"
-	"go.opentelemetry.io/otel/attribute"
 )
 
 type GetDeviceLogic struct {
@@ -29,23 +26,13 @@ func NewGetDeviceLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetDevi
 }
 
 func (l *GetDeviceLogic) GetDevice(in *pb.GetDeviceReq) (*pb.DeviceResp, error) {
-	tracer := trace.TracerFromContext(l.ctx)
-	ctx, span := tracer.Start(l.ctx, "开始获取设备")
-
-	fast := jsoniter.ConfigFastest
-	bytes2, _ := fast.Marshal(in)
-	span.SetAttributes(
-		attribute.String("get.device.param", string(bytes2)),
-	)
-	defer span.End()
-
 	var device *model.Device
 	var err error
 
 	if in.DeviceId != 0 {
-		device, err = l.svcCtx.DeviceModel.FindOne(ctx, in.DeviceId)
+		device, err = l.svcCtx.DeviceModel.FindOne(l.ctx, in.DeviceId)
 	} else if in.MacAddress != "" {
-		device, err = l.svcCtx.DeviceModel.FindOneByMacAddress(ctx, in.MacAddress)
+		device, err = l.svcCtx.DeviceModel.FindOneByMacAddress(l.ctx, in.MacAddress)
 	} else {
 		return nil, model.ErrNotFound
 	}
@@ -54,19 +41,13 @@ func (l *GetDeviceLogic) GetDevice(in *pb.GetDeviceReq) (*pb.DeviceResp, error) 
 		if err == model.ErrNotFound {
 			return nil, model.ErrNotFound
 		}
-		l.Errorf("Failed to get device: %v", err)
 		return nil, err
 	}
 
 	var resp pb.DeviceResp
 	if err := copier.Copy(&resp, device); err != nil {
-		l.Errorf("Failed to copy device: %v", err)
 		return nil, err
 	}
-
-	span.SetAttributes(
-		attribute.String("get.device.success", "ok"),
-	)
 
 	return &resp, nil
 }
