@@ -174,7 +174,7 @@ type (
 	group:  baseCodeSort
 	prefix: /api/base_code_sort
 )
-service api {
+service baseCode {
 	@handler Get
 	get /get (GetBaseCodeSortReq) returns (GetBaseCodeSortResp)
 
@@ -195,7 +195,7 @@ service api {
 	group:  baseCode
 	prefix: /api/base_code
 )
-service api {
+service baseCode {
 	@handler Get
 	get /get (GetBaseCodeReq) returns (GetBaseCodeResp)
 
@@ -216,7 +216,7 @@ service api {
 	group:  baseCodeItem
 	prefix: /api/base_code_item
 )
-service api {
+service baseCode {
 	@handler Get
 	get /get (GetBaseCodeItemReq) returns (GetBaseCodeItemResp)
 

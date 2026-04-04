@@ -13,8 +13,8 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 
-RUN go build -ldflags="-s -w" -o /app/api app/baseCode/api/api.go
-RUN cp deploy/DockerFile/etc/apiApi.yaml app/baseCode/api/etc/api.yaml
+RUN go build -ldflags="-s -w" -o /app/baseCode app/baseCode/api/baseCode.go
+RUN cp deploy/DockerFile/etc/baseCodeApi.yaml app/baseCode/api/etc/baseCode.yaml
 
 
 FROM busybox:musl
@@ -24,7 +24,7 @@ COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/S
 ENV TZ=Asia/Shanghai
 
 WORKDIR /app
-COPY --from=builder /app/api /app/api
+COPY --from=builder /app/baseCode /app/baseCode
 COPY --from=builder /build/app/baseCode/api/etc /app/etc
 
-CMD ["./api", "-f", "etc/api.yaml"]
+CMD ["./baseCode", "-f", "etc/baseCode.yaml"]
