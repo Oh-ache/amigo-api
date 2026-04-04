@@ -7,15 +7,13 @@ import (
 	"sync"
 	"time"
 
-	"amigo-api/app/job/queue/internal/types"
-
 	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
 // 消费者接口
 type Consumer interface {
-	RegisterHandler(name string, handler types.Handler)
+	RegisterHandler(name string, handler Handler)
 	Start(ctx context.Context) error
 	Stop() error
 	ProcessOne(ctx context.Context, queue string) error
@@ -24,7 +22,7 @@ type Consumer interface {
 // 消费者实现
 type RedisConsumer struct {
 	client   *RedisQueueClient
-	handlers map[string]types.Handler
+	handlers map[string]Handler
 	config   *ConsumerConfig
 	stopChan chan struct{}
 	wg       sync.WaitGroup
@@ -50,14 +48,14 @@ func NewRedisConsumer(client *RedisQueueClient, config *ConsumerConfig) *RedisCo
 
 	return &RedisConsumer{
 		client:   client,
-		handlers: make(map[string]types.Handler),
+		handlers: make(map[string]Handler),
 		config:   config,
 		stopChan: make(chan struct{}),
 	}
 }
 
 // 注册处理器
-func (c *RedisConsumer) RegisterHandler(name string, handler types.Handler) {
+func (c *RedisConsumer) RegisterHandler(name string, handler Handler) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	c.handlers[name] = handler
@@ -143,7 +141,7 @@ func (c *RedisConsumer) ProcessOne(ctx context.Context, queue string) error {
 		return fmt.Errorf("get task error: %w", err)
 	}
 
-	var task types.Task
+	var task Task
 	if err := json.Unmarshal(taskData, &task); err != nil {
 		// 数据格式错误，删除任务
 		c.client.rdb.Del(ctx, taskKey)
@@ -172,7 +170,7 @@ func (c *RedisConsumer) ProcessOne(ctx context.Context, queue string) error {
 }
 
 // 处理任务
-func (c *RedisConsumer) handleTask(ctx context.Context, task *types.Task) {
+func (c *RedisConsumer) handleTask(ctx context.Context, task *Task) {
 	startTime := time.Now()
 
 	// 查找处理器
@@ -200,7 +198,7 @@ func (c *RedisConsumer) handleTask(ctx context.Context, task *types.Task) {
 }
 
 // 处理成功任务
-func (c *RedisConsumer) handleSuccessTask(ctx context.Context, task *types.Task, duration int64) {
+func (c *RedisConsumer) handleSuccessTask(ctx context.Context, task *Task, duration int64) {
 	// 从处理中集合移除
 	processingKey := c.client.getProcessingKey(task.Queue)
 	c.client.rdb.ZRem(ctx, processingKey, task.ID)
@@ -210,9 +208,9 @@ func (c *RedisConsumer) handleSuccessTask(ctx context.Context, task *types.Task,
 	c.client.rdb.Del(ctx, taskKey)
 
 	// 记录结果（可选）
-	result := &types.TaskResult{
+	result := &TaskResult{
 		TaskID:     task.ID,
-		Status:     types.StatusCompleted,
+		Status:     StatusCompleted,
 		Duration:   duration,
 		FinishedAt: time.Now().Unix(),
 	}
@@ -222,7 +220,7 @@ func (c *RedisConsumer) handleSuccessTask(ctx context.Context, task *types.Task,
 }
 
 // 处理失败任务
-func (c *RedisConsumer) handleFailedTask(ctx context.Context, task *types.Task, err error) {
+func (c *RedisConsumer) handleFailedTask(ctx context.Context, task *Task, err error) {
 	// 从处理中集合移除
 	processingKey := c.client.getProcessingKey(task.Queue)
 	c.client.rdb.ZRem(ctx, processingKey, task.ID)
@@ -240,7 +238,7 @@ func (c *RedisConsumer) handleFailedTask(ctx context.Context, task *types.Task, 
 }
 
 // 重试任务
-func (c *RedisConsumer) retryTask(ctx context.Context, task *types.Task, err error) {
+func (c *RedisConsumer) retryTask(ctx context.Context, task *Task, err error) {
 	// 延迟重试（指数退避）
 	retryDelay := time.Duration(1<<uint(task.RetryCount)) * time.Second
 
@@ -264,7 +262,7 @@ func (c *RedisConsumer) retryTask(ctx context.Context, task *types.Task, err err
 }
 
 // 转移到死信队列
-func (c *RedisConsumer) moveToDeadLetter(ctx context.Context, task *types.Task, err error) {
+func (c *RedisConsumer) moveToDeadLetter(ctx context.Context, task *Task, err error) {
 	// 更新任务状态
 	taskData, _ := json.Marshal(task)
 	taskKey := c.client.getTaskKey(task.ID)
@@ -279,9 +277,9 @@ func (c *RedisConsumer) moveToDeadLetter(ctx context.Context, task *types.Task, 
 	c.client.rdb.ZAdd(ctx, deadLetterKey, z)
 
 	// 记录失败结果
-	result := &types.TaskResult{
+	result := &TaskResult{
 		TaskID:     task.ID,
-		Status:     types.StatusDeadLetter,
+		Status:     StatusDeadLetter,
 		Error:      err.Error(),
 		FinishedAt: time.Now().Unix(),
 	}
@@ -358,7 +356,7 @@ func (c *RedisConsumer) processDelayedQueue(ctx context.Context, queue string) {
 			continue
 		}
 
-		var task types.Task
+		var task Task
 		if err := json.Unmarshal(taskData, &task); err != nil {
 			logx.Errorf("Unmarshal delayed task error: %v", err)
 			c.client.rdb.Del(ctx, taskKey)
@@ -440,7 +438,7 @@ func (c *RedisConsumer) recoverQueueProcessingTasks(ctx context.Context, queue s
 			continue
 		}
 
-		var task types.Task
+		var task Task
 		if err := json.Unmarshal(taskData, &task); err != nil {
 			logx.Errorf("Unmarshal processing task error: %v", err)
 			c.client.rdb.Del(ctx, taskKey)
@@ -462,4 +460,3 @@ func (c *RedisConsumer) recoverQueueProcessingTasks(ctx context.Context, queue s
 		}
 	}
 }
-

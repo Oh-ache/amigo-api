@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"amigo-api/app/job/queue/internal/config"
-	"amigo-api/app/job/queue/queue"
 	"amigo-api/app/job/queue/queue/handler"
+	"amigo-api/common/queue"
 
 	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/conf"
