@@ -6,6 +6,7 @@ import (
 
 	"amigo-api/app/sdk/rpc/internal/svc"
 	"amigo-api/common/pb"
+	"amigo-api/common/queue"
 	"amigo-api/common/utils"
 	"amigo-api/common/utils/plug/message"
 
@@ -50,12 +51,32 @@ func (l *SendCodeLogic) SendCode(in *pb.SendCodeReq) (*pb.SendCodeResp, error) {
 	content := fmt.Sprintf("{\"code\": \"%s\"}", code)
 	ctx.Content = content
 
-	if err := message.PushMessage(ctx); err != nil {
+	task := &queue.Task{
+		Queue:    "default",
+		Handler:  "send_sms",
+		Priority: queue.PriorityNormal,
+		Data: map[string]interface{}{
+			"data":      ctx,
+			"send_type": in.SendType,
+			"code":      code,
+			// data, _ := task.Data["data"].(string)
+			// sendType, _ := task.Data["send_type"].(string)
+			// code, _ := task.Data["code"].(string)
+		},
+	}
+
+	// 使用全局队列客户端
+	_, err := queue.GetProducer().Enqueue(l.ctx, task)
+	if err != nil {
 		return nil, err
 	}
 
-	redisKey := fmt.Sprintf("%s%s:%s", utils.SEND_CODE_KEY, in.SendType, ctx.Mobile)
-	l.svcCtx.RedisClient.Setex(redisKey, code, 180)
+	//if err := message.PushMessage(ctx); err != nil {
+	//return nil, err
+	//}
+	//
+	//redisKey := fmt.Sprintf("%s%s:%s", utils.SEND_CODE_KEY, in.SendType, ctx.Mobile)
+	//l.svcCtx.RedisClient.Setex(redisKey, code, 180)
 
 	resp.Success = true
 

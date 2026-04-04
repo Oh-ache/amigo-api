@@ -8,7 +8,9 @@ import (
 	"amigo-api/app/sdk/rpc/internal/server"
 	"amigo-api/app/sdk/rpc/internal/svc"
 	"amigo-api/common/pb"
+	"amigo-api/common/queue"
 
+	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -23,6 +25,21 @@ func main() {
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
+
+	// 初始化队列客户端
+	err := queue.InitGlobalQueue(&redis.Options{
+		Addr:     c.Redis.Host,
+		Password: c.Redis.Pass,
+		DB:       0,
+	}, &queue.QueueConfig{
+		Prefix:       "queue:",
+		DefaultQueue: "default",
+		MaxRetry:     3,
+	})
+	if err != nil {
+		fmt.Println("init queue failed:", err)
+	}
+
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
