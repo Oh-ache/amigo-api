@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"amigo-api/common/queue"
@@ -17,18 +18,19 @@ func (h *SendSmsHandler) Name() string {
 
 func (h *SendSmsHandler) Handle(ctx context.Context, task *queue.Task) error {
 	// 从task.Data中获取参数
-	// to, _ := task.Data["to"].(string)
-	mobile, _ := task.Data["mobile"].(string)
+	data, _ := task.Data["data"].(string)
 	sendType, _ := task.Data["send_type"].(string)
+	code, _ := task.Data["code"].(string)
 
 	pushContext := &message.PushContext{}
+	json.Unmarshal([]byte(data), pushContext)
 
 	if err := message.PushMessage(pushContext); err != nil {
 		return nil
 	}
 
-	redisKey := fmt.Sprintf("%s%s:%s", utils.SEND_CODE_KEY, sendType, mobile)
-	fmt.Println(redisKey)
+	redisKey := fmt.Sprintf("%s%s:%s", utils.SEND_CODE_KEY, sendType, pushContext.Mobile)
+	RedisClient.Set(ctx, redisKey, code, 180)
 
 	return nil
 }

@@ -54,6 +54,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	// 创建消费者
 	consumer := queue.NewRedisConsumer(queueClient, consumerConfig)
 
+	// 初始化处理器的 Redis 客户端
+	handler.InitRedis(redisClient)
+
 	// 注册处理器
 	consumer.RegisterHandler("send_sms", &handler.SendSmsHandler{})
 
