@@ -59,9 +59,6 @@ func (l *SendCodeLogic) SendCode(in *pb.SendCodeReq) (*pb.SendCodeResp, error) {
 			"data":      ctx,
 			"send_type": in.SendType,
 			"code":      code,
-			// data, _ := task.Data["data"].(string)
-			// sendType, _ := task.Data["send_type"].(string)
-			// code, _ := task.Data["code"].(string)
 		},
 	}
 
@@ -70,13 +67,6 @@ func (l *SendCodeLogic) SendCode(in *pb.SendCodeReq) (*pb.SendCodeResp, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	//if err := message.PushMessage(ctx); err != nil {
-	//return nil, err
-	//}
-	//
-	//redisKey := fmt.Sprintf("%s%s:%s", utils.SEND_CODE_KEY, in.SendType, ctx.Mobile)
-	//l.svcCtx.RedisClient.Setex(redisKey, code, 180)
 
 	resp.Success = true
 
