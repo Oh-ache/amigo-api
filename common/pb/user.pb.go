@@ -722,6 +722,58 @@ func (x *LoginSuccessResp) GetToken() string {
 	return ""
 }
 
+type LoginResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Username      string                 `protobuf:"bytes,1,opt,name=Username,proto3" json:"Username,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=Password,proto3" json:"Password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LoginResp) Reset() {
+	*x = LoginResp{}
+	mi := &file_user_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginResp) ProtoMessage() {}
+
+func (x *LoginResp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginResp.ProtoReflect.Descriptor instead.
+func (*LoginResp) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *LoginResp) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *LoginResp) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
 // -------------------admin-------------------
 type AddAdminReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -735,7 +787,7 @@ type AddAdminReq struct {
 
 func (x *AddAdminReq) Reset() {
 	*x = AddAdminReq{}
-	mi := &file_user_proto_msgTypes[11]
+	mi := &file_user_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -747,7 +799,7 @@ func (x *AddAdminReq) String() string {
 func (*AddAdminReq) ProtoMessage() {}
 
 func (x *AddAdminReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[11]
+	mi := &file_user_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -760,7 +812,7 @@ func (x *AddAdminReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddAdminReq.ProtoReflect.Descriptor instead.
 func (*AddAdminReq) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{11}
+	return file_user_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *AddAdminReq) GetMobile() string {
@@ -807,7 +859,7 @@ type AdminResp struct {
 
 func (x *AdminResp) Reset() {
 	*x = AdminResp{}
-	mi := &file_user_proto_msgTypes[12]
+	mi := &file_user_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -819,7 +871,7 @@ func (x *AdminResp) String() string {
 func (*AdminResp) ProtoMessage() {}
 
 func (x *AdminResp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[12]
+	mi := &file_user_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -832,7 +884,7 @@ func (x *AdminResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminResp.ProtoReflect.Descriptor instead.
 func (*AdminResp) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{12}
+	return file_user_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *AdminResp) GetAdminId() uint64 {
@@ -905,7 +957,7 @@ type UpdateAdminReq struct {
 
 func (x *UpdateAdminReq) Reset() {
 	*x = UpdateAdminReq{}
-	mi := &file_user_proto_msgTypes[13]
+	mi := &file_user_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -917,7 +969,7 @@ func (x *UpdateAdminReq) String() string {
 func (*UpdateAdminReq) ProtoMessage() {}
 
 func (x *UpdateAdminReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[13]
+	mi := &file_user_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -930,7 +982,7 @@ func (x *UpdateAdminReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAdminReq.ProtoReflect.Descriptor instead.
 func (*UpdateAdminReq) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{13}
+	return file_user_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *UpdateAdminReq) GetAdminId() uint64 {
@@ -986,7 +1038,7 @@ type GetAdminReq struct {
 
 func (x *GetAdminReq) Reset() {
 	*x = GetAdminReq{}
-	mi := &file_user_proto_msgTypes[14]
+	mi := &file_user_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -998,7 +1050,7 @@ func (x *GetAdminReq) String() string {
 func (*GetAdminReq) ProtoMessage() {}
 
 func (x *GetAdminReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[14]
+	mi := &file_user_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1011,7 +1063,7 @@ func (x *GetAdminReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAdminReq.ProtoReflect.Descriptor instead.
 func (*GetAdminReq) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{14}
+	return file_user_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GetAdminReq) GetAdminId() uint64 {
@@ -1044,7 +1096,7 @@ type DeleteAdminReq struct {
 
 func (x *DeleteAdminReq) Reset() {
 	*x = DeleteAdminReq{}
-	mi := &file_user_proto_msgTypes[15]
+	mi := &file_user_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1056,7 +1108,7 @@ func (x *DeleteAdminReq) String() string {
 func (*DeleteAdminReq) ProtoMessage() {}
 
 func (x *DeleteAdminReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[15]
+	mi := &file_user_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1069,7 +1121,7 @@ func (x *DeleteAdminReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteAdminReq.ProtoReflect.Descriptor instead.
 func (*DeleteAdminReq) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{15}
+	return file_user_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *DeleteAdminReq) GetAdminId() uint64 {
@@ -1088,7 +1140,7 @@ type DeleteAdminResp struct {
 
 func (x *DeleteAdminResp) Reset() {
 	*x = DeleteAdminResp{}
-	mi := &file_user_proto_msgTypes[16]
+	mi := &file_user_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1100,7 +1152,7 @@ func (x *DeleteAdminResp) String() string {
 func (*DeleteAdminResp) ProtoMessage() {}
 
 func (x *DeleteAdminResp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[16]
+	mi := &file_user_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1113,7 +1165,7 @@ func (x *DeleteAdminResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteAdminResp.ProtoReflect.Descriptor instead.
 func (*DeleteAdminResp) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{16}
+	return file_user_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *DeleteAdminResp) GetSuccess() bool {
@@ -1136,7 +1188,7 @@ type ListAdminReq struct {
 
 func (x *ListAdminReq) Reset() {
 	*x = ListAdminReq{}
-	mi := &file_user_proto_msgTypes[17]
+	mi := &file_user_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1148,7 +1200,7 @@ func (x *ListAdminReq) String() string {
 func (*ListAdminReq) ProtoMessage() {}
 
 func (x *ListAdminReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[17]
+	mi := &file_user_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1161,7 +1213,7 @@ func (x *ListAdminReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAdminReq.ProtoReflect.Descriptor instead.
 func (*ListAdminReq) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{17}
+	return file_user_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ListAdminReq) GetPage() int64 {
@@ -1209,7 +1261,7 @@ type ListAdminResp struct {
 
 func (x *ListAdminResp) Reset() {
 	*x = ListAdminResp{}
-	mi := &file_user_proto_msgTypes[18]
+	mi := &file_user_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1221,7 +1273,7 @@ func (x *ListAdminResp) String() string {
 func (*ListAdminResp) ProtoMessage() {}
 
 func (x *ListAdminResp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[18]
+	mi := &file_user_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1234,7 +1286,7 @@ func (x *ListAdminResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAdminResp.ProtoReflect.Descriptor instead.
 func (*ListAdminResp) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{18}
+	return file_user_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *ListAdminResp) GetList() []*AdminResp {
@@ -1261,7 +1313,7 @@ type LoginAdminReq struct {
 
 func (x *LoginAdminReq) Reset() {
 	*x = LoginAdminReq{}
-	mi := &file_user_proto_msgTypes[19]
+	mi := &file_user_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1273,7 +1325,7 @@ func (x *LoginAdminReq) String() string {
 func (*LoginAdminReq) ProtoMessage() {}
 
 func (x *LoginAdminReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[19]
+	mi := &file_user_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1286,7 +1338,7 @@ func (x *LoginAdminReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginAdminReq.ProtoReflect.Descriptor instead.
 func (*LoginAdminReq) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{19}
+	return file_user_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *LoginAdminReq) GetMobile() string {
@@ -1316,7 +1368,7 @@ type AdminLoginSuccessResp struct {
 
 func (x *AdminLoginSuccessResp) Reset() {
 	*x = AdminLoginSuccessResp{}
-	mi := &file_user_proto_msgTypes[20]
+	mi := &file_user_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1328,7 +1380,7 @@ func (x *AdminLoginSuccessResp) String() string {
 func (*AdminLoginSuccessResp) ProtoMessage() {}
 
 func (x *AdminLoginSuccessResp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[20]
+	mi := &file_user_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1341,7 +1393,7 @@ func (x *AdminLoginSuccessResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminLoginSuccessResp.ProtoReflect.Descriptor instead.
 func (*AdminLoginSuccessResp) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{20}
+	return file_user_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *AdminLoginSuccessResp) GetAdminId() uint64 {
@@ -1391,7 +1443,7 @@ type BaseRoleItem struct {
 
 func (x *BaseRoleItem) Reset() {
 	*x = BaseRoleItem{}
-	mi := &file_user_proto_msgTypes[21]
+	mi := &file_user_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1403,7 +1455,7 @@ func (x *BaseRoleItem) String() string {
 func (*BaseRoleItem) ProtoMessage() {}
 
 func (x *BaseRoleItem) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[21]
+	mi := &file_user_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1416,7 +1468,7 @@ func (x *BaseRoleItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BaseRoleItem.ProtoReflect.Descriptor instead.
 func (*BaseRoleItem) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{21}
+	return file_user_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *BaseRoleItem) GetDomain() string {
@@ -1452,7 +1504,7 @@ type BasePolicyItem struct {
 
 func (x *BasePolicyItem) Reset() {
 	*x = BasePolicyItem{}
-	mi := &file_user_proto_msgTypes[22]
+	mi := &file_user_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1464,7 +1516,7 @@ func (x *BasePolicyItem) String() string {
 func (*BasePolicyItem) ProtoMessage() {}
 
 func (x *BasePolicyItem) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[22]
+	mi := &file_user_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1477,7 +1529,7 @@ func (x *BasePolicyItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BasePolicyItem.ProtoReflect.Descriptor instead.
 func (*BasePolicyItem) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{22}
+	return file_user_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *BasePolicyItem) GetDomain() string {
@@ -1516,7 +1568,7 @@ type GetAllDomainReq struct {
 
 func (x *GetAllDomainReq) Reset() {
 	*x = GetAllDomainReq{}
-	mi := &file_user_proto_msgTypes[23]
+	mi := &file_user_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1528,7 +1580,7 @@ func (x *GetAllDomainReq) String() string {
 func (*GetAllDomainReq) ProtoMessage() {}
 
 func (x *GetAllDomainReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[23]
+	mi := &file_user_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1541,7 +1593,7 @@ func (x *GetAllDomainReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllDomainReq.ProtoReflect.Descriptor instead.
 func (*GetAllDomainReq) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{23}
+	return file_user_proto_rawDescGZIP(), []int{24}
 }
 
 type GetAllDomainResp struct {
@@ -1553,7 +1605,7 @@ type GetAllDomainResp struct {
 
 func (x *GetAllDomainResp) Reset() {
 	*x = GetAllDomainResp{}
-	mi := &file_user_proto_msgTypes[24]
+	mi := &file_user_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1565,7 +1617,7 @@ func (x *GetAllDomainResp) String() string {
 func (*GetAllDomainResp) ProtoMessage() {}
 
 func (x *GetAllDomainResp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[24]
+	mi := &file_user_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1578,7 +1630,7 @@ func (x *GetAllDomainResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllDomainResp.ProtoReflect.Descriptor instead.
 func (*GetAllDomainResp) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{24}
+	return file_user_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *GetAllDomainResp) GetList() []string {
@@ -1597,7 +1649,7 @@ type GetRoleListeResp struct {
 
 func (x *GetRoleListeResp) Reset() {
 	*x = GetRoleListeResp{}
-	mi := &file_user_proto_msgTypes[25]
+	mi := &file_user_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1609,7 +1661,7 @@ func (x *GetRoleListeResp) String() string {
 func (*GetRoleListeResp) ProtoMessage() {}
 
 func (x *GetRoleListeResp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[25]
+	mi := &file_user_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1622,7 +1674,7 @@ func (x *GetRoleListeResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRoleListeResp.ProtoReflect.Descriptor instead.
 func (*GetRoleListeResp) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{25}
+	return file_user_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *GetRoleListeResp) GetList() []*BaseRoleItem {
@@ -1641,7 +1693,7 @@ type GetPolicyListResp struct {
 
 func (x *GetPolicyListResp) Reset() {
 	*x = GetPolicyListResp{}
-	mi := &file_user_proto_msgTypes[26]
+	mi := &file_user_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1653,7 +1705,7 @@ func (x *GetPolicyListResp) String() string {
 func (*GetPolicyListResp) ProtoMessage() {}
 
 func (x *GetPolicyListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[26]
+	mi := &file_user_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1666,7 +1718,7 @@ func (x *GetPolicyListResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPolicyListResp.ProtoReflect.Descriptor instead.
 func (*GetPolicyListResp) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{26}
+	return file_user_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *GetPolicyListResp) GetList() []*BasePolicyItem {
@@ -1688,7 +1740,7 @@ type CheckAdminPermissionReq struct {
 
 func (x *CheckAdminPermissionReq) Reset() {
 	*x = CheckAdminPermissionReq{}
-	mi := &file_user_proto_msgTypes[27]
+	mi := &file_user_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1700,7 +1752,7 @@ func (x *CheckAdminPermissionReq) String() string {
 func (*CheckAdminPermissionReq) ProtoMessage() {}
 
 func (x *CheckAdminPermissionReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[27]
+	mi := &file_user_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1713,7 +1765,7 @@ func (x *CheckAdminPermissionReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckAdminPermissionReq.ProtoReflect.Descriptor instead.
 func (*CheckAdminPermissionReq) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{27}
+	return file_user_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *CheckAdminPermissionReq) GetDomain() string {
@@ -1755,7 +1807,7 @@ type MiniappCodeReq struct {
 
 func (x *MiniappCodeReq) Reset() {
 	*x = MiniappCodeReq{}
-	mi := &file_user_proto_msgTypes[28]
+	mi := &file_user_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1767,7 +1819,7 @@ func (x *MiniappCodeReq) String() string {
 func (*MiniappCodeReq) ProtoMessage() {}
 
 func (x *MiniappCodeReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[28]
+	mi := &file_user_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1780,7 +1832,7 @@ func (x *MiniappCodeReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MiniappCodeReq.ProtoReflect.Descriptor instead.
 func (*MiniappCodeReq) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{28}
+	return file_user_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *MiniappCodeReq) GetAppType() string {
@@ -1810,7 +1862,7 @@ type MiniappCodeResp struct {
 
 func (x *MiniappCodeResp) Reset() {
 	*x = MiniappCodeResp{}
-	mi := &file_user_proto_msgTypes[29]
+	mi := &file_user_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1822,7 +1874,7 @@ func (x *MiniappCodeResp) String() string {
 func (*MiniappCodeResp) ProtoMessage() {}
 
 func (x *MiniappCodeResp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[29]
+	mi := &file_user_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1835,7 +1887,7 @@ func (x *MiniappCodeResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MiniappCodeResp.ProtoReflect.Descriptor instead.
 func (*MiniappCodeResp) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{29}
+	return file_user_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *MiniappCodeResp) GetOpenid() string {
@@ -1931,7 +1983,10 @@ const file_user_proto_rawDesc = "" +
 	"\x06mobile\x18\x02 \x01(\tR\x06mobile\x12\x1a\n" +
 	"\busername\x18\x03 \x01(\tR\busername\x12\x16\n" +
 	"\x06avatar\x18\x04 \x01(\tR\x06avatar\x12\x14\n" +
-	"\x05token\x18\x05 \x01(\tR\x05token\"u\n" +
+	"\x05token\x18\x05 \x01(\tR\x05token\"C\n" +
+	"\tLoginResp\x12\x1a\n" +
+	"\bUsername\x18\x01 \x01(\tR\bUsername\x12\x1a\n" +
+	"\bPassword\x18\x02 \x01(\tR\bPassword\"u\n" +
 	"\vAddAdminReq\x12\x16\n" +
 	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x16\n" +
 	"\x06avatar\x18\x02 \x01(\tR\x06avatar\x12\x1a\n" +
@@ -2011,7 +2066,7 @@ const file_user_proto_rawDesc = "" +
 	"sessionKey\x12\x18\n" +
 	"\aunionid\x18\x03 \x01(\tR\aunionid\x12\x18\n" +
 	"\aerrcode\x18\x04 \x01(\x03R\aerrcode\x12\x16\n" +
-	"\x06errmsg\x18\x05 \x01(\tR\x06errmsg2\x82\v\n" +
+	"\x06errmsg\x18\x05 \x01(\tR\x06errmsg2\xb4\v\n" +
 	"\x04User\x123\n" +
 	"\aAddUser\x12\x10.user.AddUserReq\x1a\x16.user.LoginSuccessResp\x124\n" +
 	"\n" +
@@ -2021,6 +2076,7 @@ const file_user_proto_rawDesc = "" +
 	"\aGetUser\x12\x10.user.GetUserReq\x1a\x0e.user.UserResp\x121\n" +
 	"\bListUser\x12\x11.user.ListUserReq\x1a\x12.user.ListUserResp\x12A\n" +
 	"\x0eUserThirdLogin\x12\x17.user.UserThirdLoginReq\x1a\x16.user.LoginSuccessResp\x120\n" +
+	"\x05Login\x12\x0f.user.LoginResp\x1a\x16.user.LoginSuccessResp\x120\n" +
 	"\bAddAdmin\x12\x11.user.AddAdminReq\x1a\x11.user.SuccessResp\x126\n" +
 	"\vUpdateAdmin\x12\x14.user.UpdateAdminReq\x1a\x11.user.SuccessResp\x12.\n" +
 	"\bGetAdmin\x12\x11.user.GetAdminReq\x1a\x0f.user.AdminResp\x124\n" +
@@ -2055,7 +2111,7 @@ func file_user_proto_rawDescGZIP() []byte {
 	return file_user_proto_rawDescData
 }
 
-var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
 var file_user_proto_goTypes = []any{
 	(*SuccessResp)(nil),             // 0: user.SuccessResp
 	(*AddUserReq)(nil),              // 1: user.AddUserReq
@@ -2068,83 +2124,86 @@ var file_user_proto_goTypes = []any{
 	(*ListUserResp)(nil),            // 8: user.ListUserResp
 	(*UserThirdLoginReq)(nil),       // 9: user.UserThirdLoginReq
 	(*LoginSuccessResp)(nil),        // 10: user.LoginSuccessResp
-	(*AddAdminReq)(nil),             // 11: user.AddAdminReq
-	(*AdminResp)(nil),               // 12: user.AdminResp
-	(*UpdateAdminReq)(nil),          // 13: user.UpdateAdminReq
-	(*GetAdminReq)(nil),             // 14: user.GetAdminReq
-	(*DeleteAdminReq)(nil),          // 15: user.DeleteAdminReq
-	(*DeleteAdminResp)(nil),         // 16: user.DeleteAdminResp
-	(*ListAdminReq)(nil),            // 17: user.ListAdminReq
-	(*ListAdminResp)(nil),           // 18: user.ListAdminResp
-	(*LoginAdminReq)(nil),           // 19: user.LoginAdminReq
-	(*AdminLoginSuccessResp)(nil),   // 20: user.AdminLoginSuccessResp
-	(*BaseRoleItem)(nil),            // 21: user.BaseRoleItem
-	(*BasePolicyItem)(nil),          // 22: user.BasePolicyItem
-	(*GetAllDomainReq)(nil),         // 23: user.GetAllDomainReq
-	(*GetAllDomainResp)(nil),        // 24: user.GetAllDomainResp
-	(*GetRoleListeResp)(nil),        // 25: user.GetRoleListeResp
-	(*GetPolicyListResp)(nil),       // 26: user.GetPolicyListResp
-	(*CheckAdminPermissionReq)(nil), // 27: user.CheckAdminPermissionReq
-	(*MiniappCodeReq)(nil),          // 28: user.MiniappCodeReq
-	(*MiniappCodeResp)(nil),         // 29: user.MiniappCodeResp
+	(*LoginResp)(nil),               // 11: user.LoginResp
+	(*AddAdminReq)(nil),             // 12: user.AddAdminReq
+	(*AdminResp)(nil),               // 13: user.AdminResp
+	(*UpdateAdminReq)(nil),          // 14: user.UpdateAdminReq
+	(*GetAdminReq)(nil),             // 15: user.GetAdminReq
+	(*DeleteAdminReq)(nil),          // 16: user.DeleteAdminReq
+	(*DeleteAdminResp)(nil),         // 17: user.DeleteAdminResp
+	(*ListAdminReq)(nil),            // 18: user.ListAdminReq
+	(*ListAdminResp)(nil),           // 19: user.ListAdminResp
+	(*LoginAdminReq)(nil),           // 20: user.LoginAdminReq
+	(*AdminLoginSuccessResp)(nil),   // 21: user.AdminLoginSuccessResp
+	(*BaseRoleItem)(nil),            // 22: user.BaseRoleItem
+	(*BasePolicyItem)(nil),          // 23: user.BasePolicyItem
+	(*GetAllDomainReq)(nil),         // 24: user.GetAllDomainReq
+	(*GetAllDomainResp)(nil),        // 25: user.GetAllDomainResp
+	(*GetRoleListeResp)(nil),        // 26: user.GetRoleListeResp
+	(*GetPolicyListResp)(nil),       // 27: user.GetPolicyListResp
+	(*CheckAdminPermissionReq)(nil), // 28: user.CheckAdminPermissionReq
+	(*MiniappCodeReq)(nil),          // 29: user.MiniappCodeReq
+	(*MiniappCodeResp)(nil),         // 30: user.MiniappCodeResp
 }
 var file_user_proto_depIdxs = []int32{
 	2,  // 0: user.ListUserResp.list:type_name -> user.UserResp
-	12, // 1: user.ListAdminResp.list:type_name -> user.AdminResp
-	21, // 2: user.GetRoleListeResp.list:type_name -> user.BaseRoleItem
-	22, // 3: user.GetPolicyListResp.list:type_name -> user.BasePolicyItem
+	13, // 1: user.ListAdminResp.list:type_name -> user.AdminResp
+	22, // 2: user.GetRoleListeResp.list:type_name -> user.BaseRoleItem
+	23, // 3: user.GetPolicyListResp.list:type_name -> user.BasePolicyItem
 	1,  // 4: user.User.AddUser:input_type -> user.AddUserReq
 	3,  // 5: user.User.DeleteUser:input_type -> user.DeleteUserReq
 	5,  // 6: user.User.UpdateUser:input_type -> user.UpdateUserReq
 	6,  // 7: user.User.GetUser:input_type -> user.GetUserReq
 	7,  // 8: user.User.ListUser:input_type -> user.ListUserReq
 	9,  // 9: user.User.UserThirdLogin:input_type -> user.UserThirdLoginReq
-	11, // 10: user.User.AddAdmin:input_type -> user.AddAdminReq
-	13, // 11: user.User.UpdateAdmin:input_type -> user.UpdateAdminReq
-	14, // 12: user.User.GetAdmin:input_type -> user.GetAdminReq
-	17, // 13: user.User.ListAdmin:input_type -> user.ListAdminReq
-	15, // 14: user.User.DeleteAdmin:input_type -> user.DeleteAdminReq
-	19, // 15: user.User.LoginAdmin:input_type -> user.LoginAdminReq
-	23, // 16: user.User.GetAllDomain:input_type -> user.GetAllDomainReq
-	21, // 17: user.User.GetRole:input_type -> user.BaseRoleItem
-	21, // 18: user.User.GetRoleList:input_type -> user.BaseRoleItem
-	21, // 19: user.User.AddRole:input_type -> user.BaseRoleItem
-	21, // 20: user.User.DeleteRole:input_type -> user.BaseRoleItem
-	22, // 21: user.User.GetPolicy:input_type -> user.BasePolicyItem
-	22, // 22: user.User.GetPolicyList:input_type -> user.BasePolicyItem
-	22, // 23: user.User.AddPolicy:input_type -> user.BasePolicyItem
-	22, // 24: user.User.DeletePolicy:input_type -> user.BasePolicyItem
-	27, // 25: user.User.CheckAdminPermission:input_type -> user.CheckAdminPermissionReq
-	21, // 26: user.User.LoadUserPolicy:input_type -> user.BaseRoleItem
-	21, // 27: user.User.LoadRolePolicy:input_type -> user.BaseRoleItem
-	28, // 28: user.User.MiniappCode:input_type -> user.MiniappCodeReq
-	10, // 29: user.User.AddUser:output_type -> user.LoginSuccessResp
-	0,  // 30: user.User.DeleteUser:output_type -> user.SuccessResp
-	0,  // 31: user.User.UpdateUser:output_type -> user.SuccessResp
-	2,  // 32: user.User.GetUser:output_type -> user.UserResp
-	8,  // 33: user.User.ListUser:output_type -> user.ListUserResp
-	10, // 34: user.User.UserThirdLogin:output_type -> user.LoginSuccessResp
-	0,  // 35: user.User.AddAdmin:output_type -> user.SuccessResp
-	0,  // 36: user.User.UpdateAdmin:output_type -> user.SuccessResp
-	12, // 37: user.User.GetAdmin:output_type -> user.AdminResp
-	18, // 38: user.User.ListAdmin:output_type -> user.ListAdminResp
-	0,  // 39: user.User.DeleteAdmin:output_type -> user.SuccessResp
-	20, // 40: user.User.LoginAdmin:output_type -> user.AdminLoginSuccessResp
-	24, // 41: user.User.GetAllDomain:output_type -> user.GetAllDomainResp
-	0,  // 42: user.User.GetRole:output_type -> user.SuccessResp
-	25, // 43: user.User.GetRoleList:output_type -> user.GetRoleListeResp
-	0,  // 44: user.User.AddRole:output_type -> user.SuccessResp
-	0,  // 45: user.User.DeleteRole:output_type -> user.SuccessResp
-	0,  // 46: user.User.GetPolicy:output_type -> user.SuccessResp
-	26, // 47: user.User.GetPolicyList:output_type -> user.GetPolicyListResp
-	0,  // 48: user.User.AddPolicy:output_type -> user.SuccessResp
-	0,  // 49: user.User.DeletePolicy:output_type -> user.SuccessResp
-	0,  // 50: user.User.CheckAdminPermission:output_type -> user.SuccessResp
-	0,  // 51: user.User.LoadUserPolicy:output_type -> user.SuccessResp
-	0,  // 52: user.User.LoadRolePolicy:output_type -> user.SuccessResp
-	29, // 53: user.User.MiniappCode:output_type -> user.MiniappCodeResp
-	29, // [29:54] is the sub-list for method output_type
-	4,  // [4:29] is the sub-list for method input_type
+	11, // 10: user.User.Login:input_type -> user.LoginResp
+	12, // 11: user.User.AddAdmin:input_type -> user.AddAdminReq
+	14, // 12: user.User.UpdateAdmin:input_type -> user.UpdateAdminReq
+	15, // 13: user.User.GetAdmin:input_type -> user.GetAdminReq
+	18, // 14: user.User.ListAdmin:input_type -> user.ListAdminReq
+	16, // 15: user.User.DeleteAdmin:input_type -> user.DeleteAdminReq
+	20, // 16: user.User.LoginAdmin:input_type -> user.LoginAdminReq
+	24, // 17: user.User.GetAllDomain:input_type -> user.GetAllDomainReq
+	22, // 18: user.User.GetRole:input_type -> user.BaseRoleItem
+	22, // 19: user.User.GetRoleList:input_type -> user.BaseRoleItem
+	22, // 20: user.User.AddRole:input_type -> user.BaseRoleItem
+	22, // 21: user.User.DeleteRole:input_type -> user.BaseRoleItem
+	23, // 22: user.User.GetPolicy:input_type -> user.BasePolicyItem
+	23, // 23: user.User.GetPolicyList:input_type -> user.BasePolicyItem
+	23, // 24: user.User.AddPolicy:input_type -> user.BasePolicyItem
+	23, // 25: user.User.DeletePolicy:input_type -> user.BasePolicyItem
+	28, // 26: user.User.CheckAdminPermission:input_type -> user.CheckAdminPermissionReq
+	22, // 27: user.User.LoadUserPolicy:input_type -> user.BaseRoleItem
+	22, // 28: user.User.LoadRolePolicy:input_type -> user.BaseRoleItem
+	29, // 29: user.User.MiniappCode:input_type -> user.MiniappCodeReq
+	10, // 30: user.User.AddUser:output_type -> user.LoginSuccessResp
+	0,  // 31: user.User.DeleteUser:output_type -> user.SuccessResp
+	0,  // 32: user.User.UpdateUser:output_type -> user.SuccessResp
+	2,  // 33: user.User.GetUser:output_type -> user.UserResp
+	8,  // 34: user.User.ListUser:output_type -> user.ListUserResp
+	10, // 35: user.User.UserThirdLogin:output_type -> user.LoginSuccessResp
+	10, // 36: user.User.Login:output_type -> user.LoginSuccessResp
+	0,  // 37: user.User.AddAdmin:output_type -> user.SuccessResp
+	0,  // 38: user.User.UpdateAdmin:output_type -> user.SuccessResp
+	13, // 39: user.User.GetAdmin:output_type -> user.AdminResp
+	19, // 40: user.User.ListAdmin:output_type -> user.ListAdminResp
+	0,  // 41: user.User.DeleteAdmin:output_type -> user.SuccessResp
+	21, // 42: user.User.LoginAdmin:output_type -> user.AdminLoginSuccessResp
+	25, // 43: user.User.GetAllDomain:output_type -> user.GetAllDomainResp
+	0,  // 44: user.User.GetRole:output_type -> user.SuccessResp
+	26, // 45: user.User.GetRoleList:output_type -> user.GetRoleListeResp
+	0,  // 46: user.User.AddRole:output_type -> user.SuccessResp
+	0,  // 47: user.User.DeleteRole:output_type -> user.SuccessResp
+	0,  // 48: user.User.GetPolicy:output_type -> user.SuccessResp
+	27, // 49: user.User.GetPolicyList:output_type -> user.GetPolicyListResp
+	0,  // 50: user.User.AddPolicy:output_type -> user.SuccessResp
+	0,  // 51: user.User.DeletePolicy:output_type -> user.SuccessResp
+	0,  // 52: user.User.CheckAdminPermission:output_type -> user.SuccessResp
+	0,  // 53: user.User.LoadUserPolicy:output_type -> user.SuccessResp
+	0,  // 54: user.User.LoadRolePolicy:output_type -> user.SuccessResp
+	30, // 55: user.User.MiniappCode:output_type -> user.MiniappCodeResp
+	30, // [30:56] is the sub-list for method output_type
+	4,  // [4:30] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
 	4,  // [4:4] is the sub-list for extension extendee
 	0,  // [0:4] is the sub-list for field type_name
@@ -2161,7 +2220,7 @@ func file_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_proto_rawDesc), len(file_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   30,
+			NumMessages:   31,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

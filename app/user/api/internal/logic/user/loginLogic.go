@@ -7,6 +7,7 @@ import (
 	"amigo-api/app/user/api/internal/types"
 	"amigo-api/common/pb"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -27,42 +28,17 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 func (l *LoginLogic) Login(req *types.UserLoginReq) (resp *types.UserLoginResp, err error) {
 	resp = &types.UserLoginResp{}
 
-	// 先尝试通过手机号获取用户
-	if req.Mobile != "" {
-		getUserReq := &pb.GetUserReq{
-			Mobile: req.Mobile,
-		}
-		userResp, err := l.svcCtx.UserRpcClient.GetUser(l.ctx, getUserReq)
-		if err == nil && userResp != nil && userResp.Password == req.Password {
-			// 密码匹配，生成登录token
-			// 这里可以调用专门的登录RPC来生成token
-			// 暂时直接返回用户信息
-			resp.UserId = userResp.UserId
-			resp.Mobile = userResp.Mobile
-			resp.Username = userResp.Username
-			resp.Avatar = userResp.Avatar
-			resp.CreateTime = int64(userResp.CreateTime)
-			resp.Token = "token_placeholder" // 实际应该调用RPC生成token
-			return resp, nil
-		}
+	// 使用 username 登录
+	param := &pb.LoginResp{
+		Username: req.Username,
+		Password: req.Password,
 	}
 
-	// 尝试通过用户名获取用户
-	if req.Username != "" {
-		getUserReq := &pb.GetUserReq{
-			Username: req.Username,
-		}
-		userResp, err := l.svcCtx.UserRpcClient.GetUser(l.ctx, getUserReq)
-		if err == nil && userResp != nil && userResp.Password == req.Password {
-			resp.UserId = userResp.UserId
-			resp.Mobile = userResp.Mobile
-			resp.Username = userResp.Username
-			resp.Avatar = userResp.Avatar
-			resp.CreateTime = int64(userResp.CreateTime)
-			resp.Token = "token_placeholder"
-			return resp, nil
-		}
+	rpcResp, err := l.svcCtx.UserRpcClient.Login(l.ctx, param)
+	if err != nil {
+		return nil, err
 	}
 
+	copier.Copy(resp, rpcResp)
 	return resp, nil
 }

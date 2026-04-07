@@ -53,6 +53,11 @@ func (s *UserServer) UserThirdLogin(ctx context.Context, in *pb.UserThirdLoginRe
 	return l.UserThirdLogin(in)
 }
 
+func (s *UserServer) Login(ctx context.Context, in *pb.LoginResp) (*pb.LoginSuccessResp, error) {
+	l := logic.NewLoginLogic(ctx, s.svcCtx)
+	return l.Login(in)
+}
+
 func (s *UserServer) AddAdmin(ctx context.Context, in *pb.AddAdminReq) (*pb.SuccessResp, error) {
 	l := logic.NewAddAdminLogic(ctx, s.svcCtx)
 	return l.AddAdmin(in)

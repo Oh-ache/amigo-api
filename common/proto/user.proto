@@ -76,6 +76,11 @@ message LoginSuccessResp {
   string token = 5;
 }
 
+message LoginResp {
+  string Username = 1;
+  string Password = 2;
+}
+
 // -------------------admin-------------------
 message AddAdminReq {
     string mobile = 1;
@@ -201,6 +206,7 @@ service User {
     rpc GetUser (GetUserReq) returns (UserResp);
     rpc ListUser (ListUserReq) returns (ListUserResp);
     rpc UserThirdLogin (UserThirdLoginReq) returns (LoginSuccessResp);
+    rpc Login (LoginResp) returns (LoginSuccessResp);
 
     rpc AddAdmin (AddAdminReq) returns (SuccessResp);
     rpc UpdateAdmin (UpdateAdminReq) returns (SuccessResp);

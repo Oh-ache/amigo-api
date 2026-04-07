@@ -25,6 +25,7 @@ const (
 	User_GetUser_FullMethodName              = "/user.User/GetUser"
 	User_ListUser_FullMethodName             = "/user.User/ListUser"
 	User_UserThirdLogin_FullMethodName       = "/user.User/UserThirdLogin"
+	User_Login_FullMethodName                = "/user.User/Login"
 	User_AddAdmin_FullMethodName             = "/user.User/AddAdmin"
 	User_UpdateAdmin_FullMethodName          = "/user.User/UpdateAdmin"
 	User_GetAdmin_FullMethodName             = "/user.User/GetAdmin"
@@ -56,6 +57,7 @@ type UserClient interface {
 	GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*UserResp, error)
 	ListUser(ctx context.Context, in *ListUserReq, opts ...grpc.CallOption) (*ListUserResp, error)
 	UserThirdLogin(ctx context.Context, in *UserThirdLoginReq, opts ...grpc.CallOption) (*LoginSuccessResp, error)
+	Login(ctx context.Context, in *LoginResp, opts ...grpc.CallOption) (*LoginSuccessResp, error)
 	AddAdmin(ctx context.Context, in *AddAdminReq, opts ...grpc.CallOption) (*SuccessResp, error)
 	UpdateAdmin(ctx context.Context, in *UpdateAdminReq, opts ...grpc.CallOption) (*SuccessResp, error)
 	GetAdmin(ctx context.Context, in *GetAdminReq, opts ...grpc.CallOption) (*AdminResp, error)
@@ -139,6 +141,16 @@ func (c *userClient) UserThirdLogin(ctx context.Context, in *UserThirdLoginReq, 
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(LoginSuccessResp)
 	err := c.cc.Invoke(ctx, User_UserThirdLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) Login(ctx context.Context, in *LoginResp, opts ...grpc.CallOption) (*LoginSuccessResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LoginSuccessResp)
+	err := c.cc.Invoke(ctx, User_Login_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -345,6 +357,7 @@ type UserServer interface {
 	GetUser(context.Context, *GetUserReq) (*UserResp, error)
 	ListUser(context.Context, *ListUserReq) (*ListUserResp, error)
 	UserThirdLogin(context.Context, *UserThirdLoginReq) (*LoginSuccessResp, error)
+	Login(context.Context, *LoginResp) (*LoginSuccessResp, error)
 	AddAdmin(context.Context, *AddAdminReq) (*SuccessResp, error)
 	UpdateAdmin(context.Context, *UpdateAdminReq) (*SuccessResp, error)
 	GetAdmin(context.Context, *GetAdminReq) (*AdminResp, error)
@@ -391,6 +404,9 @@ func (UnimplementedUserServer) ListUser(context.Context, *ListUserReq) (*ListUse
 }
 func (UnimplementedUserServer) UserThirdLogin(context.Context, *UserThirdLoginReq) (*LoginSuccessResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserThirdLogin not implemented")
+}
+func (UnimplementedUserServer) Login(context.Context, *LoginResp) (*LoginSuccessResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
 func (UnimplementedUserServer) AddAdmin(context.Context, *AddAdminReq) (*SuccessResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAdmin not implemented")
@@ -574,6 +590,24 @@ func _User_UserThirdLogin_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).UserThirdLogin(ctx, req.(*UserThirdLoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginResp)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_Login_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).Login(ctx, req.(*LoginResp))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -950,6 +984,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserThirdLogin",
 			Handler:    _User_UserThirdLogin_Handler,
+		},
+		{
+			MethodName: "Login",
+			Handler:    _User_Login_Handler,
 		},
 		{
 			MethodName: "AddAdmin",

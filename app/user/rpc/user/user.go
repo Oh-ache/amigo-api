@@ -36,6 +36,7 @@ type (
 	ListUserReq             = pb.ListUserReq
 	ListUserResp            = pb.ListUserResp
 	LoginAdminReq           = pb.LoginAdminReq
+	LoginResp               = pb.LoginResp
 	LoginSuccessResp        = pb.LoginSuccessResp
 	MiniappCodeReq          = pb.MiniappCodeReq
 	MiniappCodeResp         = pb.MiniappCodeResp
@@ -52,6 +53,7 @@ type (
 		GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*UserResp, error)
 		ListUser(ctx context.Context, in *ListUserReq, opts ...grpc.CallOption) (*ListUserResp, error)
 		UserThirdLogin(ctx context.Context, in *UserThirdLoginReq, opts ...grpc.CallOption) (*LoginSuccessResp, error)
+		Login(ctx context.Context, in *LoginResp, opts ...grpc.CallOption) (*LoginSuccessResp, error)
 		AddAdmin(ctx context.Context, in *AddAdminReq, opts ...grpc.CallOption) (*SuccessResp, error)
 		UpdateAdmin(ctx context.Context, in *UpdateAdminReq, opts ...grpc.CallOption) (*SuccessResp, error)
 		GetAdmin(ctx context.Context, in *GetAdminReq, opts ...grpc.CallOption) (*AdminResp, error)
@@ -112,6 +114,11 @@ func (m *defaultUser) ListUser(ctx context.Context, in *ListUserReq, opts ...grp
 func (m *defaultUser) UserThirdLogin(ctx context.Context, in *UserThirdLoginReq, opts ...grpc.CallOption) (*LoginSuccessResp, error) {
 	client := pb.NewUserClient(m.cli.Conn())
 	return client.UserThirdLogin(ctx, in, opts...)
+}
+
+func (m *defaultUser) Login(ctx context.Context, in *LoginResp, opts ...grpc.CallOption) (*LoginSuccessResp, error) {
+	client := pb.NewUserClient(m.cli.Conn())
+	return client.Login(ctx, in, opts...)
 }
 
 func (m *defaultUser) AddAdmin(ctx context.Context, in *AddAdminReq, opts ...grpc.CallOption) (*SuccessResp, error) {
