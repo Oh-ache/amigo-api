@@ -29,6 +29,7 @@ type CommonResp struct {
 // Whitelist of paths that don't require token validation
 var whitelist = map[string]bool{
 	"/api/user/third_login":      true,
+	"/api/user/login":            true,
 	"/api/admin/login":           true,
 	"/api/sdk/message/send_code": true,
 }
