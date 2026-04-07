@@ -63,6 +63,7 @@ type (
 @server (
 	group:  device
 	prefix: /api/device
+	jwt:    Auth
 )
 service device {
 	@handler Get
@@ -70,13 +71,7 @@ service device {
 
 	@handler List
 	get /list (ListDeviceReq) returns (ListDeviceResp)
-}
 
-@server (
-	group:  device
-	prefix: /api/device
-)
-service device {
 	@handler Add
 	post /add (AddDeviceReq) returns (EmptyResp)
 

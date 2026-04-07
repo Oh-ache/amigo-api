@@ -39,20 +39,32 @@ func (l *AddDeviceLogic) AddDevice(in *pb.AddDeviceReq) (*pb.DeviceResp, error) 
 	if err != nil {
 		return nil, err
 	}
+
 	if isDuplicate {
-		return nil, model.ErrDuplicate
-	}
+		// 重复的话，查找已存在的设备并更新
+		existing, err := l.svcCtx.DeviceModel.FindOneByMacAddress(l.ctx, m.MacAddress)
+		if err != nil {
+			return nil, err
+		}
+		// 设置deviceId为已存在的设备id
+		m.DeviceId = existing.DeviceId
+		// 更新设备信息
+		if err := l.svcCtx.DeviceModel.Update(l.ctx, &m); err != nil {
+			return nil, err
+		}
+	} else {
+		// 不重复的话，走新增逻辑
+		result, err := l.svcCtx.DeviceModel.Insert(l.ctx, &m)
+		if err != nil {
+			return nil, err
+		}
 
-	result, err := l.svcCtx.DeviceModel.Insert(l.ctx, &m)
-	if err != nil {
-		return nil, err
+		id, err := result.LastInsertId()
+		if err != nil {
+			return nil, err
+		}
+		m.DeviceId = uint64(id)
 	}
-
-	id, err := result.LastInsertId()
-	if err != nil {
-		return nil, err
-	}
-	m.DeviceId = uint64(id)
 
 	var resp pb.DeviceResp
 	if err := copier.Copy(&resp, &m); err != nil {

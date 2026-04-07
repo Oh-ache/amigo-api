@@ -16,22 +16,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodGet,
-				Path:    "/get",
-				Handler: device.GetHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/list",
-				Handler: device.ListHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/api/device"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
 				Method:  http.MethodPost,
 				Path:    "/add",
 				Handler: device.AddHandler(serverCtx),
@@ -42,11 +26,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: device.DeleteHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodGet,
+				Path:    "/get",
+				Handler: device.GetHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: device.ListHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
 				Path:    "/update",
 				Handler: device.UpdateHandler(serverCtx),
 			},
 		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/device"),
 	)
 }

@@ -199,7 +199,13 @@ func EncodeJwtToken(secretKey string, iat, seconds int64, payload *JwtPayload) (
 }
 
 func DecodeJwtToken(payload any, data any) error {
-	payloadStr := payload.(string)
+	if payload == nil {
+		return nil
+	}
+	payloadStr, ok := payload.(string)
+	if !ok {
+		return nil
+	}
 	return json.Unmarshal([]byte(payloadStr), data)
 }
 
