@@ -14,7 +14,7 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v5"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/valyala/fasthttp"
 )
@@ -189,12 +189,12 @@ func EncodeJwtToken(secretKey string, iat, seconds int64, payload *JwtPayload) (
 	json := jsoniter.ConfigCompatibleWithStandardLibrary
 
 	payloadStr, _ := json.MarshalToString(payload)
-	claims := make(jwt.MapClaims)
-	claims["exp"] = iat + seconds
-	claims["iat"] = iat
-	claims["payload"] = payloadStr
-	token := jwt.New(jwt.SigningMethodHS256)
-	token.Claims = claims
+	claims := jwt.MapClaims{
+		"exp":     iat + seconds,
+		"iat":     iat,
+		"payload": payloadStr,
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(secretKey))
 }
 

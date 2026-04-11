@@ -173,6 +173,7 @@ type (
 @server (
 	group:  baseCodeSort
 	prefix: /api/base_code_sort
+	jwt:    Auth
 )
 service baseCode {
 	@handler Get
@@ -194,6 +195,7 @@ service baseCode {
 @server (
 	group:  baseCode
 	prefix: /api/base_code
+	jwt:    Auth
 )
 service baseCode {
 	@handler Get
@@ -215,6 +217,7 @@ service baseCode {
 @server (
 	group:  baseCodeItem
 	prefix: /api/base_code_item
+	jwt:    Auth
 )
 service baseCode {
 	@handler Get

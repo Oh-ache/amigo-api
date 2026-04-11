@@ -6,7 +6,7 @@ import (
 
 	"amigo-api/app/gateway/internal/config"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
@@ -64,8 +64,12 @@ func (m *JWTMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		}
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 
-		// Parse and validate token
+		// Parse and validate token, explicitly verify signing method
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+			// 防止算法混淆攻击：只允许 HMAC 签名方法
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, jwt.ErrSignatureInvalid
+			}
 			return []byte(m.Config.AccessSecret), nil
 		})
 
