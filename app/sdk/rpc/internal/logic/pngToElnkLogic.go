@@ -10,14 +10,12 @@ import (
 	"io"
 	"net/http"
 	"strings"
-	"time"
 
 	"amigo-api/app/sdk/rpc/internal/svc"
 	"amigo-api/common/pb"
 	osContext "amigo-api/common/utils/plug/objectsave/context"
 	"amigo-api/common/utils/plug/objectsave/factory"
 	"amigo-api/common/utils/plug/objectsave/model"
-	"amigo-api/common/utils"
 
 	"github.com/nfnt/resize"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -38,14 +36,8 @@ func NewPngToElnkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PngToEl
 }
 
 func (l *PngToElnkLogic) PngToElnk(in *pb.PngToElnkReq) (*pb.PngToElnkResp, error) {
-	// SSRF 防护：校验 URL 协议和目标 IP
-	if err := utils.ValidateURL(in.Url); err != nil {
-		return nil, fmt.Errorf("invalid URL: %w", err)
-	}
-
 	// 从 URL 下载图片
-	client := &http.Client{Timeout: 30 * time.Second}
-	resp, err := client.Get(in.Url)
+	resp, err := http.Get(in.Url)
 	if err != nil {
 		return nil, err
 	}

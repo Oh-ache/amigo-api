@@ -250,39 +250,40 @@ func (m *defaultBaseCodeSortModel) CheckDuplicate(ctx context.Context, data *Bas
 
 // List 方法根据搜索条件查询 BaseCodeSort 列表
 func (m *defaultBaseCodeSortModel) List(ctx context.Context, search *BaseCodeSortSearch) ([]*BaseCodeSort, int64, error) {
-	// 构建查询条件（参数化查询，防止 SQL 注入）
-	var conditions []utils.SQLCondition
+	// 构建查询条件
+	var conditions []string
 
+	// 处理前三个查询条件（等值查询）
 	if search.SortKey != "" {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`sort_key` = ?", Args: []any{search.SortKey}})
+		conditions = append(conditions, "`sort_key` = '"+search.SortKey+"'")
 	}
 	if search.SortName != "" {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`sort_name` = ?", Args: []any{search.SortName}})
+		conditions = append(conditions, "`sort_name` = '"+search.SortName+"'")
 	}
 	if search.IsDelete != 0 {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`is_delete` = ?", Args: []any{search.IsDelete}})
+		conditions = append(conditions, "`is_delete` = "+fmt.Sprintf("%d", search.IsDelete))
 	}
 
-	queryWhere, whereArgs := utils.BuildWhereClause(conditions)
+	quertWhere := ""
+	if len(conditions) > 0 {
+		quertWhere = " where " + strings.Join(conditions, " and ")
+	}
 
 	// 获取总条数（不算分页的数据）
-	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, queryWhere)
+	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, quertWhere)
 
 	var total int64
-	if err := m.QueryRowNoCacheCtx(ctx, &total, countQuery, whereArgs...); err != nil {
-		return nil, 0, fmt.Errorf("failed to get total count: %w", err)
+	if m.QueryRowNoCacheCtx(ctx, &total, countQuery) != nil {
+		return nil, 0, fmt.Errorf("failed to get total count")
 	}
 
 	// 构建查询语句（按主键id降序）
-	pageClause, pageArgs := utils.DelSQLPage(search.Page, search.PageSize)
-	query := fmt.Sprintf("select %s from %s %s order by `base_code_sort_id` desc %s", baseCodeSortRows, m.table, queryWhere, pageClause)
-
-	// 合并所有参数
-	args := append(whereArgs, pageArgs...)
+	pageSql := utils.DelSQLPage(search.Page, search.PageSize)
+	query := fmt.Sprintf("select %s from %s %s order by `base_code_sort_id` desc %s", baseCodeSortRows, m.table, quertWhere, pageSql)
 
 	// 执行查询
 	var list []*BaseCodeSort
-	if err := m.QueryRowsNoCacheCtx(ctx, &list, query, args...); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &list, query); err != nil {
 		return nil, 0, err
 	}
 

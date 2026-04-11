@@ -3,6 +3,7 @@ package model
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"amigo-api/common/utils"
 
@@ -76,45 +77,44 @@ func (m *customDeviceModel) CheckDuplicate(ctx context.Context, data *Device) (b
 
 // List 方法根据搜索条件查询 Device 列表（按主键id降序）
 func (m *customDeviceModel) List(ctx context.Context, search *DeviceSearch) ([]*Device, int64, error) {
-	// 构建查询条件（参数化查询，防止 SQL 注入）
-	var conditions []utils.SQLCondition
+	var conditions []string
 
 	if search.Name != "" {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`name` = ?", Args: []any{search.Name}})
+		conditions = append(conditions, "`name` = '"+search.Name+"'")
 	}
 	if search.UserId != 0 {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`user_id` = ?", Args: []any{search.UserId}})
+		conditions = append(conditions, "`user_id` = "+fmt.Sprintf("%d", search.UserId))
 	}
 	if search.MacAddress != "" {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`mac_address` = ?", Args: []any{search.MacAddress}})
+		conditions = append(conditions, "`mac_address` = '"+search.MacAddress+"'")
 	}
 	if search.InternalIp != "" {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`internal_ip` = ?", Args: []any{search.InternalIp}})
+		conditions = append(conditions, "`internal_ip` = '"+search.InternalIp+"'")
 	}
 	if search.IsRunning != 0 {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`is_running` = ?", Args: []any{search.IsRunning}})
+		conditions = append(conditions, "`is_running` = "+fmt.Sprintf("%d", search.IsRunning))
 	}
 	if search.IsDelete != 0 {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`is_delete` = ?", Args: []any{search.IsDelete}})
+		conditions = append(conditions, "`is_delete` = "+fmt.Sprintf("%d", search.IsDelete))
 	}
 
-	queryWhere, whereArgs := utils.BuildWhereClause(conditions)
+	queryWhere := ""
+	if len(conditions) > 0 {
+		queryWhere = " where " + strings.Join(conditions, " and ")
+	}
 
 	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, queryWhere)
 
 	var total int64
-	if err := m.QueryRowNoCacheCtx(ctx, &total, countQuery, whereArgs...); err != nil {
-		return nil, 0, fmt.Errorf("failed to get total count: %w", err)
+	if m.QueryRowNoCacheCtx(ctx, &total, countQuery) != nil {
+		return nil, 0, fmt.Errorf("failed to get total count")
 	}
 
-	pageClause, pageArgs := utils.DelSQLPage(search.Page, search.PageSize)
-	query := fmt.Sprintf("select %s from %s %s order by `device_id` desc %s", deviceRows, m.table, queryWhere, pageClause)
-
-	// 合并所有参数
-	args := append(whereArgs, pageArgs...)
+	pageSql := utils.DelSQLPage(search.Page, search.PageSize)
+	query := fmt.Sprintf("select %s from %s %s order by `device_id` desc %s", deviceRows, m.table, queryWhere, pageSql)
 
 	var list []*Device
-	if err := m.QueryRowsNoCacheCtx(ctx, &list, query, args...); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &list, query); err != nil {
 		return nil, 0, err
 	}
 

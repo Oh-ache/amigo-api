@@ -2,7 +2,6 @@ package admin
 
 import (
 	"context"
-	"fmt"
 
 	"amigo-api/app/user/api/internal/svc"
 	"amigo-api/app/user/api/internal/types"
@@ -27,11 +26,6 @@ func NewUpdatePasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 
 func (l *UpdatePasswordLogic) UpdatePassword(req *types.AdminUpdatePasswordReq) (resp *types.EmptyResp, err error) {
 	resp = &types.EmptyResp{}
-
-	// 验证新密码和确认密码一致
-	if req.Password != req.RePassword {
-		return nil, fmt.Errorf("两次密码输入不一致")
-	}
 
 	param := &pb.UpdateAdminReq{
 		AdminId:  req.AdminId,

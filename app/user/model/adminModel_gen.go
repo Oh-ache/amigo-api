@@ -277,42 +277,42 @@ func (m *defaultAdminModel) CheckDuplicate(ctx context.Context, data *Admin) (bo
 
 // List 方法根据搜索条件查询 Admin 列表
 func (m *defaultAdminModel) List(ctx context.Context, search *AdminSearch) ([]*Admin, int64, error) {
-	// 构建查询条件（参数化查询，防止 SQL 注入）
-	var conditions []utils.SQLCondition
+	// 构建查询条件
+	var conditions []string
 
 	if search.Username != "" {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`username` = ?", Args: []any{search.Username}})
+		conditions = append(conditions, "`username` = '"+search.Username+"'")
 	}
 	if search.Mobile != "" {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`mobile` = ?", Args: []any{search.Mobile}})
+		conditions = append(conditions, "`mobile` = '"+search.Mobile+"'")
 	}
 	if search.AdminId != "" {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`admin_id` = ?", Args: []any{search.AdminId}})
+		conditions = append(conditions, "`admin_id` = '"+search.AdminId+"'")
 	}
 	if search.IsDelete != 0 {
-		conditions = append(conditions, utils.SQLCondition{Clause: "`is_delete` = ?", Args: []any{search.IsDelete}})
+		conditions = append(conditions, "`is_delete` = "+fmt.Sprintf("%d", search.IsDelete))
 	}
 
-	queryWhere, whereArgs := utils.BuildWhereClause(conditions)
+	quertWhere := ""
+	if len(conditions) > 0 {
+		quertWhere = " where " + strings.Join(conditions, " and ")
+	}
 
 	// 获取总条数（不算分页的数据）
-	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, queryWhere)
+	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, quertWhere)
 
 	var total int64
-	if err := m.QueryRowNoCacheCtx(ctx, &total, countQuery, whereArgs...); err != nil {
-		return nil, 0, fmt.Errorf("failed to get total count: %w", err)
+	if m.QueryRowNoCacheCtx(ctx, &total, countQuery) != nil {
+		return nil, 0, fmt.Errorf("failed to get total count")
 	}
 
 	// 构建查询语句（按主键id降序）
-	pageClause, pageArgs := utils.DelSQLPage(search.Page, search.PageSize)
-	query := fmt.Sprintf("select %s from %s %s order by `admin_id` desc %s", adminRows, m.table, queryWhere, pageClause)
-
-	// 合并所有参数
-	args := append(whereArgs, pageArgs...)
+	pageSql := utils.DelSQLPage(search.Page, search.PageSize)
+	query := fmt.Sprintf("select %s from %s %s order by `admin_id` desc %s", adminRows, m.table, quertWhere, pageSql)
 
 	// 执行查询
 	var list []*Admin
-	if err := m.QueryRowsNoCacheCtx(ctx, &list, query, args...); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &list, query); err != nil {
 		return nil, 0, err
 	}
 
