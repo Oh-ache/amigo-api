@@ -3,7 +3,6 @@ package model
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"amigo-api/common/utils"
 
@@ -34,58 +33,57 @@ func NewBaseCodeModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option
 
 // List 方法根据搜索条件查询 BaseCode 列表（按主键id降序）
 func (m *customBaseCodeModel) List(ctx context.Context, search *BaseCodeSearch) ([]*BaseCode, int64, error) {
-	// 构建查询条件
-	var conditions []string
+	// 构建查询条件（参数化查询，防止 SQL 注入）
+	var conditions []utils.SQLCondition
 
-	// 处理前四个查询条件（等值查询）
 	if search.SortKey != "" {
-		conditions = append(conditions, "`sort_key` = '"+search.SortKey+"'")
+		conditions = append(conditions, utils.SQLCondition{Clause: "`sort_key` = ?", Args: []any{search.SortKey}})
 	}
 	if search.Key != "" {
-		conditions = append(conditions, "`key` = '"+search.Key+"'")
+		conditions = append(conditions, utils.SQLCondition{Clause: "`key` = ?", Args: []any{search.Key}})
 	}
 	if search.Name != "" {
-		conditions = append(conditions, "`name` = '"+search.Name+"'")
+		conditions = append(conditions, utils.SQLCondition{Clause: "`name` = ?", Args: []any{search.Name}})
 	}
 	if search.IsDelete != 0 {
-		conditions = append(conditions, "`is_delete` = "+fmt.Sprintf("%d", search.IsDelete))
+		conditions = append(conditions, utils.SQLCondition{Clause: "`is_delete` = ?", Args: []any{search.IsDelete}})
 	}
 	if search.Content != "" {
-		conditions = append(conditions, "`content` like '%"+search.Content+"%'")
+		conditions = append(conditions, utils.SQLCondition{Clause: "`content` like ?", Args: []any{fmt.Sprintf("%%%s%%", search.Content)}})
 	}
 	if search.Content1 != "" {
-		conditions = append(conditions, "`content1` like '%"+search.Content1+"%'")
+		conditions = append(conditions, utils.SQLCondition{Clause: "`content1` like ?", Args: []any{fmt.Sprintf("%%%s%%", search.Content1)}})
 	}
 	if search.Content2 != "" {
-		conditions = append(conditions, "`content2` like '%"+search.Content2+"%'")
+		conditions = append(conditions, utils.SQLCondition{Clause: "`content2` like ?", Args: []any{fmt.Sprintf("%%%s%%", search.Content2)}})
 	}
 	if search.Content3 != "" {
-		conditions = append(conditions, "`content3` like '%"+search.Content3+"%'")
+		conditions = append(conditions, utils.SQLCondition{Clause: "`content3` like ?", Args: []any{fmt.Sprintf("%%%s%%", search.Content3)}})
 	}
 	if search.Content4 != "" {
-		conditions = append(conditions, "`content4` like '%"+search.Content4+"%'")
+		conditions = append(conditions, utils.SQLCondition{Clause: "`content4` like ?", Args: []any{fmt.Sprintf("%%%s%%", search.Content4)}})
 	}
 
-	quertWhere := ""
-	if len(conditions) > 0 {
-		quertWhere = " where " + strings.Join(conditions, " and ")
-	}
+	queryWhere, whereArgs := utils.BuildWhereClause(conditions)
 
 	// 获取总条数（不算分页的数据）
-	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, quertWhere)
+	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, queryWhere)
 
 	var total int64
-	if m.QueryRowNoCacheCtx(ctx, &total, countQuery) != nil {
-		return nil, 0, fmt.Errorf("failed to get total count")
+	if err := m.QueryRowNoCacheCtx(ctx, &total, countQuery, whereArgs...); err != nil {
+		return nil, 0, fmt.Errorf("failed to get total count: %w", err)
 	}
 
 	// 构建查询语句（按主键id降序）
-	pageSql := utils.DelSQLPage(search.Page, search.PageSize)
-	query := fmt.Sprintf("select %s from %s %s order by `base_code_id` desc %s", baseCodeRows, m.table, quertWhere, pageSql)
+	pageClause, pageArgs := utils.DelSQLPage(search.Page, search.PageSize)
+	query := fmt.Sprintf("select %s from %s %s order by `base_code_id` desc %s", baseCodeRows, m.table, queryWhere, pageClause)
+
+	// 合并所有参数
+	args := append(whereArgs, pageArgs...)
 
 	// 执行查询
 	var list []*BaseCode
-	if err := m.QueryRowsNoCacheCtx(ctx, &list, query); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &list, query, args...); err != nil {
 		return nil, 0, err
 	}
 

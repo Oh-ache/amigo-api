@@ -252,42 +252,42 @@ func (m *defaultUserModel) CheckDuplicate(ctx context.Context, data *User) (bool
 
 // List 方法根据搜索条件查询 User 列表
 func (m *defaultUserModel) List(ctx context.Context, search *UserSearch) ([]*User, int64, error) {
-	// 构建查询条件
-	var conditions []string
+	// 构建查询条件（参数化查询，防止 SQL 注入）
+	var conditions []utils.SQLCondition
 
 	if search.Username != "" {
-		conditions = append(conditions, "`username` = '"+search.Username+"'")
+		conditions = append(conditions, utils.SQLCondition{Clause: "`username` = ?", Args: []any{search.Username}})
 	}
 	if search.Mobile != "" {
-		conditions = append(conditions, "`mobile` = '"+search.Mobile+"'")
+		conditions = append(conditions, utils.SQLCondition{Clause: "`mobile` = ?", Args: []any{search.Mobile}})
 	}
 	if search.UserId != "" {
-		conditions = append(conditions, "`user_id` = '"+search.UserId+"'")
+		conditions = append(conditions, utils.SQLCondition{Clause: "`user_id` = ?", Args: []any{search.UserId}})
 	}
 	if search.IsDelete != 0 {
-		conditions = append(conditions, "`is_delete` = "+fmt.Sprintf("%d", search.IsDelete))
+		conditions = append(conditions, utils.SQLCondition{Clause: "`is_delete` = ?", Args: []any{search.IsDelete}})
 	}
 
-	quertWhere := ""
-	if len(conditions) > 0 {
-		quertWhere = " where " + strings.Join(conditions, " and ")
-	}
+	queryWhere, whereArgs := utils.BuildWhereClause(conditions)
 
 	// 获取总条数（不算分页的数据）
-	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, quertWhere)
+	countQuery := fmt.Sprintf("select count(*) from %s %s", m.table, queryWhere)
 
 	var total int64
-	if m.QueryRowNoCacheCtx(ctx, &total, countQuery) != nil {
-		return nil, 0, fmt.Errorf("failed to get total count")
+	if err := m.QueryRowNoCacheCtx(ctx, &total, countQuery, whereArgs...); err != nil {
+		return nil, 0, fmt.Errorf("failed to get total count: %w", err)
 	}
 
 	// 构建查询语句（按主键id降序）
-	pageSql := utils.DelSQLPage(search.Page, search.PageSize)
-	query := fmt.Sprintf("select %s from %s %s order by `user_id` desc %s", userRows, m.table, quertWhere, pageSql)
+	pageClause, pageArgs := utils.DelSQLPage(search.Page, search.PageSize)
+	query := fmt.Sprintf("select %s from %s %s order by `user_id` desc %s", userRows, m.table, queryWhere, pageClause)
+
+	// 合并所有参数
+	args := append(whereArgs, pageArgs...)
 
 	// 执行查询
 	var list []*User
-	if err := m.QueryRowsNoCacheCtx(ctx, &list, query); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &list, query, args...); err != nil {
 		return nil, 0, err
 	}
 

@@ -5,11 +5,11 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"time"
 
+	"amigo-api/common/utils"
 	"amigo-api/common/utils/plug/objectsave/model"
 
 	"github.com/aliyun/alibabacloud-oss-go-sdk-v2/oss"
@@ -53,7 +53,7 @@ func (o *OssClient) UploadFile(fileName string, data []byte) (*model.UploadResul
 	// 发送上传对象的请求
 	result, err := o.Client.PutObject(context.TODO(), request)
 	if err != nil {
-		log.Fatalf("failed to put object %v", err)
+		return nil, fmt.Errorf("failed to put object: %w", err)
 	}
 	return &model.UploadResult{
 		FileUrl:    *result.ContentMD5,
@@ -63,11 +63,21 @@ func (o *OssClient) UploadFile(fileName string, data []byte) (*model.UploadResul
 }
 
 func (o *OssClient) UploadUrl(fileName string, url string) (*model.UploadResult, error) {
-	resp, err := http.Get(url)
+	// SSRF 防护：校验 URL 协议和目标 IP
+	if err := utils.ValidateURL(url); err != nil {
+		return nil, fmt.Errorf("invalid URL: %w", err)
+	}
+
+	client := &http.Client{Timeout: 30 * time.Second}
+	resp, err := client.Get(url)
 	if err != nil {
-		log.Fatalf("Failed to fetch URL: %v", err)
+		return nil, fmt.Errorf("failed to fetch URL: %w", err)
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("failed to fetch URL: HTTP %d", resp.StatusCode)
+	}
 
 	// 创建上传对象的请求
 	request := &oss.PutObjectRequest{
@@ -79,9 +89,8 @@ func (o *OssClient) UploadUrl(fileName string, url string) (*model.UploadResult,
 	// 发送上传对象的请求
 	result, err := o.Client.PutObject(context.TODO(), request)
 	if err != nil {
-		log.Fatalf("failed to put object %v", err)
+		return nil, fmt.Errorf("failed to put object: %w", err)
 	}
-	fmt.Println(result)
 	return &model.UploadResult{
 		FileUrl:    *result.ContentMD5,
 		FileSize:   0,
@@ -101,7 +110,7 @@ func (o *OssClient) GetUploadToken(fileName string) (*model.UploadToken, error) 
 		oss.PresignExpires(900*time.Minute),
 	)
 	if err != nil {
-		log.Fatalf("failed to put object presign %v", err)
+		return nil, fmt.Errorf("failed to generate upload token: %w", err)
 	}
 
 	return &model.UploadToken{
