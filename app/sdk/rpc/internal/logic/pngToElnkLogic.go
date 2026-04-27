@@ -8,6 +8,7 @@ import (
 	"image/color"
 	"image/png"
 	"io"
+	"math"
 	"net/http"
 	"strings"
 
@@ -59,8 +60,8 @@ func (l *PngToElnkLogic) PngToElnk(in *pb.PngToElnkReq) (*pb.PngToElnkResp, erro
 	// 调整图片尺寸为 240x416
 	resizedImg := resize.Resize(240, 416, img, resize.Lanczos3)
 
-	// 预处理：对比度拉伸和亮度调整
-	enhancedImg := enhanceContrastAndBrightness(resizedImg)
+	// 预处理：gamma 校正 + 对比度拉伸 + 饱和度增强
+	enhancedImg := enhanceForElnk(resizedImg)
 
 	// 使用 Floyd-Steinberg 抖动算法转换为 4 色（黑、白、红、黄）格式
 	convertedImg := floydSteinbergDithering(enhancedImg)
@@ -113,21 +114,31 @@ func (l *PngToElnkLogic) PngToElnk(in *pb.PngToElnkReq) (*pb.PngToElnkResp, erro
 // Floyd-Steinberg 抖动算法实现
 func floydSteinbergDithering(img image.Image) image.Image {
 	bounds := img.Bounds()
+	width := bounds.Max.X - bounds.Min.X
+	height := bounds.Max.Y - bounds.Min.Y
 	dst := image.NewRGBA(bounds)
 
 	// 4 种墨水屏支持的颜色
+	// 必须与 encodeToBMP 中的调色板保持一致
 	colors := []color.RGBA{
-		// {0, 0, 0, 255},       // 黑色
-		// {255, 255, 255, 255}, // 白色
-		// {255, 0, 0, 255},     // 红色
-		// {255, 255, 0, 255},   // 黄色
 		{0, 0, 0, 255},       // 黑色
 		{255, 255, 255, 255}, // 白色
-		{230, 0, 0, 255},     // 红色
-		{255, 204, 0, 255},   // 黄色
+		{255, 0, 0, 255},     // 红色
+		{255, 255, 0, 255},   // 黄色
 	}
 
-	// 转换为 RGBA 图像进行处理
+	// 使用 int16 误差缓冲区，避免浮点精度损失
+	// 多一行缓冲区用于下一行的误差扩散
+	errBuf := make([][3]int16, width*(height+1))
+	for i := range errBuf {
+		errBuf[i] = [3]int16{0, 0, 0}
+	}
+
+	idx := func(x, y int) int {
+		return y*width + x
+	}
+
+	// 转换为 RGBA 图像并加上初始误差缓冲
 	originalRGBA := image.NewRGBA(bounds)
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
@@ -137,16 +148,110 @@ func floydSteinbergDithering(img image.Image) image.Image {
 
 	// 应用 Floyd-Steinberg 抖动（蛇形扫描）
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
-		// 蛇形扫描：偶数行从左到右，奇数行从右到左
 		if y%2 == 0 {
 			// 偶数行：从左到右
 			for x := bounds.Min.X; x < bounds.Max.X; x++ {
-				processPixel(originalRGBA, dst, x, y, colors, bounds, false)
+				c := originalRGBA.RGBAAt(x, y)
+				ix := x - bounds.Min.X
+				iy := y - bounds.Min.Y
+
+				// 当前像素值加上累积误差
+				r := clampI16(int16(c.R) + errBuf[idx(ix, iy)][0])
+				g := clampI16(int16(c.G) + errBuf[idx(ix, iy)][1])
+				b := clampI16(int16(c.B) + errBuf[idx(ix, iy)][2])
+
+				// 找到最接近的颜色
+				var bestColor color.RGBA
+				var minDistance int = 0x7FFFFFFF
+				srcColor := color.RGBA{uint8(r), uint8(g), uint8(b), c.A}
+				for _, col := range colors {
+					distance := colorDistance(srcColor, col)
+					if distance < minDistance {
+						minDistance = distance
+						bestColor = col
+					}
+				}
+
+				dst.SetRGBA(x, y, bestColor)
+
+				// 计算误差
+				errR := int16(int(srcColor.R) - int(bestColor.R))
+				errG := int16(int(srcColor.G) - int(bestColor.G))
+				errB := int16(int(srcColor.B) - int(bestColor.B))
+
+				// Floyd-Steinberg 误差分布（使用整数运算，分母 16）
+				//      X   7
+				// 3   5   1
+				if ix+1 < width {
+					errBuf[idx(ix+1, iy)][0] += errR * 7 / 16
+					errBuf[idx(ix+1, iy)][1] += errG * 7 / 16
+					errBuf[idx(ix+1, iy)][2] += errB * 7 / 16
+				}
+				if iy+1 < height {
+					if ix-1 >= 0 {
+						errBuf[idx(ix-1, iy+1)][0] += errR * 3 / 16
+						errBuf[idx(ix-1, iy+1)][1] += errG * 3 / 16
+						errBuf[idx(ix-1, iy+1)][2] += errB * 3 / 16
+					}
+					errBuf[idx(ix, iy+1)][0] += errR * 5 / 16
+					errBuf[idx(ix, iy+1)][1] += errG * 5 / 16
+					errBuf[idx(ix, iy+1)][2] += errB * 5 / 16
+					if ix+1 < width {
+						errBuf[idx(ix+1, iy+1)][0] += errR * 1 / 16
+						errBuf[idx(ix+1, iy+1)][1] += errG * 1 / 16
+						errBuf[idx(ix+1, iy+1)][2] += errB * 1 / 16
+					}
+				}
 			}
 		} else {
-			// 奇数行：从右到左
+			// 奇数行：从右到左（蛇形扫描）
 			for x := bounds.Max.X - 1; x >= bounds.Min.X; x-- {
-				processPixel(originalRGBA, dst, x, y, colors, bounds, true)
+				c := originalRGBA.RGBAAt(x, y)
+				ix := x - bounds.Min.X
+				iy := y - bounds.Min.Y
+
+				r := clampI16(int16(c.R) + errBuf[idx(ix, iy)][0])
+				g := clampI16(int16(c.G) + errBuf[idx(ix, iy)][1])
+				b := clampI16(int16(c.B) + errBuf[idx(ix, iy)][2])
+
+				var bestColor color.RGBA
+				var minDistance int = 0x7FFFFFFF
+				srcColor := color.RGBA{uint8(r), uint8(g), uint8(b), c.A}
+				for _, col := range colors {
+					distance := colorDistance(srcColor, col)
+					if distance < minDistance {
+						minDistance = distance
+						bestColor = col
+					}
+				}
+
+				dst.SetRGBA(x, y, bestColor)
+
+				errR := int16(int(srcColor.R) - int(bestColor.R))
+				errG := int16(int(srcColor.G) - int(bestColor.G))
+				errB := int16(int(srcColor.B) - int(bestColor.B))
+
+				// 反向扫描的误差分布
+				if ix-1 >= 0 {
+					errBuf[idx(ix-1, iy)][0] += errR * 7 / 16
+					errBuf[idx(ix-1, iy)][1] += errG * 7 / 16
+					errBuf[idx(ix-1, iy)][2] += errB * 7 / 16
+				}
+				if iy+1 < height {
+					if ix+1 < width {
+						errBuf[idx(ix+1, iy+1)][0] += errR * 3 / 16
+						errBuf[idx(ix+1, iy+1)][1] += errG * 3 / 16
+						errBuf[idx(ix+1, iy+1)][2] += errB * 3 / 16
+					}
+					errBuf[idx(ix, iy+1)][0] += errR * 5 / 16
+					errBuf[idx(ix, iy+1)][1] += errG * 5 / 16
+					errBuf[idx(ix, iy+1)][2] += errB * 5 / 16
+					if ix-1 >= 0 {
+						errBuf[idx(ix-1, iy+1)][0] += errR * 1 / 16
+						errBuf[idx(ix-1, iy+1)][1] += errG * 1 / 16
+						errBuf[idx(ix-1, iy+1)][2] += errB * 1 / 16
+					}
+				}
 			}
 		}
 	}
@@ -154,75 +259,14 @@ func floydSteinbergDithering(img image.Image) image.Image {
 	return dst
 }
 
-// 处理单个像素（配合蛇形扫描使用）
-func processPixel(originalRGBA, dst *image.RGBA, x, y int, colors []color.RGBA, bounds image.Rectangle, reverse bool) {
-	c := originalRGBA.RGBAAt(x, y)
-
-	// 找到最接近的颜色
-	var bestColor color.RGBA
-	var minDistance int = 0xFFFFFF
-	for _, col := range colors {
-		distance := colorDistance(c, col)
-		if distance < minDistance {
-			minDistance = distance
-			bestColor = col
-		}
+// clampI16 将 int16 钳制到 0-255 范围
+func clampI16(v int16) uint8 {
+	if v < 0 {
+		return 0
+	} else if v > 255 {
+		return 255
 	}
-
-	// 设置像素
-	dst.SetRGBA(x, y, bestColor)
-
-	// 计算误差
-	errR := int(c.R) - int(bestColor.R)
-	errG := int(c.G) - int(bestColor.G)
-	errB := int(c.B) - int(bestColor.B)
-	errA := int(c.A) - int(bestColor.A)
-
-	// Floyd-Steinberg 误差分布权重
-	//     X   5
-	// 2   4   1
-	// (16 为分母)
-
-	if reverse {
-		// 反向扫描时的误差分布
-		if x-1 >= bounds.Min.X {
-			applyError(originalRGBA, x-1, y, errR, errG, errB, errA, 5/16.0)
-		}
-		if y+1 < bounds.Max.Y {
-			if x+1 < bounds.Max.X {
-				applyError(originalRGBA, x+1, y+1, errR, errG, errB, errA, 2/16.0)
-			}
-			applyError(originalRGBA, x, y+1, errR, errG, errB, errA, 4/16.0)
-			if x-1 >= bounds.Min.X {
-				applyError(originalRGBA, x-1, y+1, errR, errG, errB, errA, 1/16.0)
-			}
-		}
-	} else {
-		// 正向扫描时的误差分布
-		if x+1 < bounds.Max.X {
-			applyError(originalRGBA, x+1, y, errR, errG, errB, errA, 5/16.0)
-		}
-		if y+1 < bounds.Max.Y {
-			if x-1 >= bounds.Min.X {
-				applyError(originalRGBA, x-1, y+1, errR, errG, errB, errA, 2/16.0)
-			}
-			applyError(originalRGBA, x, y+1, errR, errG, errB, errA, 4/16.0)
-			if x+1 < bounds.Max.X {
-				applyError(originalRGBA, x+1, y+1, errR, errG, errB, errA, 1/16.0)
-			}
-		}
-	}
-}
-
-func applyError(img *image.RGBA, x, y int, errR, errG, errB, errA int, factor float64) {
-	c := img.RGBAAt(x, y)
-
-	newR := clamp(int(c.R) + int(float64(errR)*factor))
-	newG := clamp(int(c.G) + int(float64(errG)*factor))
-	newB := clamp(int(c.B) + int(float64(errB)*factor))
-	newA := clamp(int(c.A) + int(float64(errA)*factor))
-
-	img.SetRGBA(x, y, color.RGBA{uint8(newR), uint8(newG), uint8(newB), uint8(newA)})
+	return uint8(v)
 }
 
 func clamp(v int) int {
@@ -245,22 +289,26 @@ func rgbToYCbCr(c color.RGBA) (y, cb, cr float64) {
 	return y, cb, cr
 }
 
-// 感知颜色距离（使用 YCbCr 空间，优先保证亮度）
+// 感知颜色距离（针对墨水屏 4 色场景优化）
+// 墨水屏的黑/白靠亮度区分，红/黄靠色度区分
 func colorDistance(c1, c2 color.RGBA) int {
 	y1, cb1, cr1 := rgbToYCbCr(c1)
 	y2, cb2, cr2 := rgbToYCbCr(c2)
 
-	// 人眼对亮度变化最敏感，使用高权重
-	// 参考公式：ΔE = 4*ΔY² + ΔCb² + ΔCr²
 	yDiff := y1 - y2
 	cbDiff := cb1 - cb2
 	crDiff := cr1 - cr2
 
-	return int(4*yDiff*yDiff + cbDiff*cbDiff + crDiff*crDiff)
+	// 增强色度权重，避免红色被误判为黄色或黑色
+	// 亮度权重 3x，色度权重各 2x
+	return int(3*yDiff*yDiff + 2*cbDiff*cbDiff + 2*crDiff*crDiff)
 }
 
-// 图像预处理：对比度拉伸和亮度调整
-func enhanceContrastAndBrightness(img image.Image) image.Image {
+// 图像预处理：针对墨水屏优化
+// 1. Gamma 校正（提升暗部细节）
+// 2. 对比度拉伸
+// 3. 饱和度增强（帮助红/黄区分）
+func enhanceForElnk(img image.Image) image.Image {
 	bounds := img.Bounds()
 	dst := image.NewRGBA(bounds)
 
@@ -279,40 +327,39 @@ func enhanceContrastAndBrightness(img image.Image) image.Image {
 		}
 	}
 
-	// 确保有足够的对比度
+	// 确保有足够的对比度范围
 	if maxGray-minGray < 10 {
 		minGray = 0
 		maxGray = 255
 	}
 
-	// 第二步：应用对比度拉伸和亮度增强
+	// 第二步：对每个像素应用增强
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			c := color.RGBAModel.Convert(img.At(x, y)).(color.RGBA)
 
-			r := stretchValue(float64(c.R), minGray, maxGray)
-			g := stretchValue(float64(c.G), minGray, maxGray)
-			b := stretchValue(float64(c.B), minGray, maxGray)
+			r := float64(c.R)
+			g := float64(c.G)
+			b := float64(c.B)
 
-			gray := r*0.299 + g*0.587 + b*0.114
-			if gray < 64 {
-				// 暗部加深
-				r *= 0.8
-				g *= 0.8
-				b *= 0.8
-			} else if gray > 191 {
-				// 亮部加亮
-				r = 255 - (255-r)*0.7
-				g = 255 - (255-g)*0.7
-				b = 255 - (255-b)*0.7
-			} else {
-				// 中间调增强饱和度
-				grayMid := r*0.299 + g*0.587 + b*0.114
-				satFactor := 1.3
-				r = grayMid + (r-grayMid)*satFactor
-				g = grayMid + (g-grayMid)*satFactor
-				b = grayMid + (b-grayMid)*satFactor
-			}
+			// Gamma 校正：gamma < 1 提亮暗部，gamma > 1 压暗暗部
+			// 墨水屏暗部容易糊，用 0.8 略微提亮暗部
+			const gamma = 0.8
+			r = math.Pow(r/255.0, gamma) * 255.0
+			g = math.Pow(g/255.0, gamma) * 255.0
+			b = math.Pow(b/255.0, gamma) * 255.0
+
+			// 对比度拉伸
+			r = stretchValue(r, minGray, maxGray)
+			g = stretchValue(g, minGray, maxGray)
+			b = stretchValue(b, minGray, maxGray)
+
+			// 饱和度增强：帮助墨水屏区分红/黄与黑白
+			grayMid := r*0.299 + g*0.587 + b*0.114
+			const satFactor = 1.5
+			r = grayMid + (r-grayMid)*satFactor
+			g = grayMid + (g-grayMid)*satFactor
+			b = grayMid + (b-grayMid)*satFactor
 
 			dst.SetRGBA(x, y, color.RGBA{
 				uint8(clamp(int(r))),
@@ -349,15 +396,18 @@ func encodeToBMP(img image.Image) ([]byte, error) {
 		{255, 255, 0, 255},   // 3 - 黄色
 	}
 
-	// 查找颜色索引的辅助函数
+	// 查找颜色索引的辅助函数（使用感知距离匹配，避免精确匹配失败）
 	getColorIndex := func(c color.RGBA) uint8 {
+		bestIdx := uint8(0)
+		minDist := int(0x7FFFFFFF)
 		for i, p := range palette {
-			if c.R == p.R && c.G == p.G && c.B == p.B {
-				return uint8(i)
+			d := colorDistance(c, p)
+			if d < minDist {
+				minDist = d
+				bestIdx = uint8(i)
 			}
 		}
-		// 默认黑色
-		return 0
+		return bestIdx
 	}
 
 	// BMP 文件头
