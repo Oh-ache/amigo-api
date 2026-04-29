@@ -116,6 +116,15 @@ message PngToElnkResp {
   string url = 1;
 }
 
+message BaseAiReq {
+  string type = 1;
+  string prompt = 2;
+}
+
+message AiImageGenerationResp {
+  string url = 1;
+}
+
 service Sdk {
     rpc SendCode (SendCodeReq) returns (SendCodeResp);
     rpc CheckCode (CheckCodeReq) returns (CheckCodeResp);
@@ -133,4 +142,6 @@ service Sdk {
     rpc GetUploadToken (GetUploadTokenReq) returns (GetUploadTokenResp);
 
     rpc PngToElnk (PngToElnkReq) returns (PngToElnkResp);
+
+    rpc ImageGeneration (BaseAiReq) returns (AiImageGenerationResp);
 }

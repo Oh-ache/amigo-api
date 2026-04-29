@@ -1161,6 +1161,102 @@ func (x *PngToElnkResp) GetUrl() string {
 	return ""
 }
 
+type BaseAiReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	Prompt        string                 `protobuf:"bytes,2,opt,name=prompt,proto3" json:"prompt,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BaseAiReq) Reset() {
+	*x = BaseAiReq{}
+	mi := &file_sdk_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BaseAiReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BaseAiReq) ProtoMessage() {}
+
+func (x *BaseAiReq) ProtoReflect() protoreflect.Message {
+	mi := &file_sdk_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BaseAiReq.ProtoReflect.Descriptor instead.
+func (*BaseAiReq) Descriptor() ([]byte, []int) {
+	return file_sdk_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *BaseAiReq) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *BaseAiReq) GetPrompt() string {
+	if x != nil {
+		return x.Prompt
+	}
+	return ""
+}
+
+type AiImageGenerationResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AiImageGenerationResp) Reset() {
+	*x = AiImageGenerationResp{}
+	mi := &file_sdk_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AiImageGenerationResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AiImageGenerationResp) ProtoMessage() {}
+
+func (x *AiImageGenerationResp) ProtoReflect() protoreflect.Message {
+	mi := &file_sdk_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AiImageGenerationResp.ProtoReflect.Descriptor instead.
+func (*AiImageGenerationResp) Descriptor() ([]byte, []int) {
+	return file_sdk_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *AiImageGenerationResp) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 var File_sdk_proto protoreflect.FileDescriptor
 
 const file_sdk_proto_rawDesc = "" +
@@ -1234,7 +1330,12 @@ const file_sdk_proto_rawDesc = "" +
 	"\fPngToElnkReq\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\"!\n" +
 	"\rPngToElnkResp\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03url2\x99\x04\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\"7\n" +
+	"\tBaseAiReq\x12\x12\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\x12\x16\n" +
+	"\x06prompt\x18\x02 \x01(\tR\x06prompt\")\n" +
+	"\x15AiImageGenerationResp\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url2\xd8\x04\n" +
 	"\x03Sdk\x12/\n" +
 	"\bSendCode\x12\x10.sdk.SendCodeReq\x1a\x11.sdk.SendCodeResp\x122\n" +
 	"\tCheckCode\x12\x11.sdk.CheckCodeReq\x1a\x12.sdk.CheckCodeResp\x128\n" +
@@ -1248,7 +1349,8 @@ const file_sdk_proto_rawDesc = "" +
 	"UploadFile\x12\x12.sdk.UploadFileReq\x1a\x13.sdk.UploadFileResp\x122\n" +
 	"\tUploadUrl\x12\x11.sdk.UploadUrlReq\x1a\x12.sdk.UploadUrlResp\x12A\n" +
 	"\x0eGetUploadToken\x12\x16.sdk.GetUploadTokenReq\x1a\x17.sdk.GetUploadTokenResp\x122\n" +
-	"\tPngToElnk\x12\x11.sdk.PngToElnkReq\x1a\x12.sdk.PngToElnkRespB\x06Z\x04./pbb\x06proto3"
+	"\tPngToElnk\x12\x11.sdk.PngToElnkReq\x1a\x12.sdk.PngToElnkResp\x12=\n" +
+	"\x0fImageGeneration\x12\x0e.sdk.BaseAiReq\x1a\x1a.sdk.AiImageGenerationRespB\x06Z\x04./pbb\x06proto3"
 
 var (
 	file_sdk_proto_rawDescOnce sync.Once
@@ -1262,29 +1364,31 @@ func file_sdk_proto_rawDescGZIP() []byte {
 	return file_sdk_proto_rawDescData
 }
 
-var file_sdk_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_sdk_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
 var file_sdk_proto_goTypes = []any{
-	(*SendCodeReq)(nil),        // 0: sdk.SendCodeReq
-	(*SendCodeResp)(nil),       // 1: sdk.SendCodeResp
-	(*CheckCodeReq)(nil),       // 2: sdk.CheckCodeReq
-	(*CheckCodeResp)(nil),      // 3: sdk.CheckCodeResp
-	(*IpToAddressReq)(nil),     // 4: sdk.IpToAddressReq
-	(*IpToAddressResp)(nil),    // 5: sdk.IpToAddressResp
-	(*GetCourierReq)(nil),      // 6: sdk.GetCourierReq
-	(*GetCourierResp)(nil),     // 7: sdk.GetCourierResp
-	(*ChatResp)(nil),           // 8: sdk.ChatResp
-	(*ChatReq)(nil),            // 9: sdk.ChatReq
-	(*GetWeatherReq)(nil),      // 10: sdk.GetWeatherReq
-	(*GetWeatherItem)(nil),     // 11: sdk.GetWeatherItem
-	(*GetWeatherResp)(nil),     // 12: sdk.GetWeatherResp
-	(*UploadFileReq)(nil),      // 13: sdk.UploadFileReq
-	(*UploadFileResp)(nil),     // 14: sdk.UploadFileResp
-	(*UploadUrlReq)(nil),       // 15: sdk.UploadUrlReq
-	(*UploadUrlResp)(nil),      // 16: sdk.UploadUrlResp
-	(*GetUploadTokenReq)(nil),  // 17: sdk.GetUploadTokenReq
-	(*GetUploadTokenResp)(nil), // 18: sdk.GetUploadTokenResp
-	(*PngToElnkReq)(nil),       // 19: sdk.PngToElnkReq
-	(*PngToElnkResp)(nil),      // 20: sdk.PngToElnkResp
+	(*SendCodeReq)(nil),           // 0: sdk.SendCodeReq
+	(*SendCodeResp)(nil),          // 1: sdk.SendCodeResp
+	(*CheckCodeReq)(nil),          // 2: sdk.CheckCodeReq
+	(*CheckCodeResp)(nil),         // 3: sdk.CheckCodeResp
+	(*IpToAddressReq)(nil),        // 4: sdk.IpToAddressReq
+	(*IpToAddressResp)(nil),       // 5: sdk.IpToAddressResp
+	(*GetCourierReq)(nil),         // 6: sdk.GetCourierReq
+	(*GetCourierResp)(nil),        // 7: sdk.GetCourierResp
+	(*ChatResp)(nil),              // 8: sdk.ChatResp
+	(*ChatReq)(nil),               // 9: sdk.ChatReq
+	(*GetWeatherReq)(nil),         // 10: sdk.GetWeatherReq
+	(*GetWeatherItem)(nil),        // 11: sdk.GetWeatherItem
+	(*GetWeatherResp)(nil),        // 12: sdk.GetWeatherResp
+	(*UploadFileReq)(nil),         // 13: sdk.UploadFileReq
+	(*UploadFileResp)(nil),        // 14: sdk.UploadFileResp
+	(*UploadUrlReq)(nil),          // 15: sdk.UploadUrlReq
+	(*UploadUrlResp)(nil),         // 16: sdk.UploadUrlResp
+	(*GetUploadTokenReq)(nil),     // 17: sdk.GetUploadTokenReq
+	(*GetUploadTokenResp)(nil),    // 18: sdk.GetUploadTokenResp
+	(*PngToElnkReq)(nil),          // 19: sdk.PngToElnkReq
+	(*PngToElnkResp)(nil),         // 20: sdk.PngToElnkResp
+	(*BaseAiReq)(nil),             // 21: sdk.BaseAiReq
+	(*AiImageGenerationResp)(nil), // 22: sdk.AiImageGenerationResp
 }
 var file_sdk_proto_depIdxs = []int32{
 	11, // 0: sdk.GetWeatherResp.items:type_name -> sdk.GetWeatherItem
@@ -1298,18 +1402,20 @@ var file_sdk_proto_depIdxs = []int32{
 	15, // 8: sdk.Sdk.UploadUrl:input_type -> sdk.UploadUrlReq
 	17, // 9: sdk.Sdk.GetUploadToken:input_type -> sdk.GetUploadTokenReq
 	19, // 10: sdk.Sdk.PngToElnk:input_type -> sdk.PngToElnkReq
-	1,  // 11: sdk.Sdk.SendCode:output_type -> sdk.SendCodeResp
-	3,  // 12: sdk.Sdk.CheckCode:output_type -> sdk.CheckCodeResp
-	5,  // 13: sdk.Sdk.IpToAddress:output_type -> sdk.IpToAddressResp
-	7,  // 14: sdk.Sdk.GetCourier:output_type -> sdk.GetCourierResp
-	8,  // 15: sdk.Sdk.Chat:output_type -> sdk.ChatResp
-	12, // 16: sdk.Sdk.GetWeather:output_type -> sdk.GetWeatherResp
-	14, // 17: sdk.Sdk.UploadFile:output_type -> sdk.UploadFileResp
-	16, // 18: sdk.Sdk.UploadUrl:output_type -> sdk.UploadUrlResp
-	18, // 19: sdk.Sdk.GetUploadToken:output_type -> sdk.GetUploadTokenResp
-	20, // 20: sdk.Sdk.PngToElnk:output_type -> sdk.PngToElnkResp
-	11, // [11:21] is the sub-list for method output_type
-	1,  // [1:11] is the sub-list for method input_type
+	21, // 11: sdk.Sdk.ImageGeneration:input_type -> sdk.BaseAiReq
+	1,  // 12: sdk.Sdk.SendCode:output_type -> sdk.SendCodeResp
+	3,  // 13: sdk.Sdk.CheckCode:output_type -> sdk.CheckCodeResp
+	5,  // 14: sdk.Sdk.IpToAddress:output_type -> sdk.IpToAddressResp
+	7,  // 15: sdk.Sdk.GetCourier:output_type -> sdk.GetCourierResp
+	8,  // 16: sdk.Sdk.Chat:output_type -> sdk.ChatResp
+	12, // 17: sdk.Sdk.GetWeather:output_type -> sdk.GetWeatherResp
+	14, // 18: sdk.Sdk.UploadFile:output_type -> sdk.UploadFileResp
+	16, // 19: sdk.Sdk.UploadUrl:output_type -> sdk.UploadUrlResp
+	18, // 20: sdk.Sdk.GetUploadToken:output_type -> sdk.GetUploadTokenResp
+	20, // 21: sdk.Sdk.PngToElnk:output_type -> sdk.PngToElnkResp
+	22, // 22: sdk.Sdk.ImageGeneration:output_type -> sdk.AiImageGenerationResp
+	12, // [12:23] is the sub-list for method output_type
+	1,  // [1:12] is the sub-list for method input_type
 	1,  // [1:1] is the sub-list for extension type_name
 	1,  // [1:1] is the sub-list for extension extendee
 	0,  // [0:1] is the sub-list for field type_name
@@ -1326,7 +1432,7 @@ func file_sdk_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_sdk_proto_rawDesc), len(file_sdk_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   21,
+			NumMessages:   23,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

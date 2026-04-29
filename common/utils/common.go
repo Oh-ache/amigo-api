@@ -246,3 +246,12 @@ func ReadFileToString(path string) (string, error) {
 	}
 	return string(data), nil
 }
+
+// MiniMaxRequest 通用 MiniMax API 请求封装
+func MiniMaxRequest(result any, uri string, token string, body any) error {
+	headers := map[string]string{
+		"Authorization": "Bearer " + token,
+		"Content-Type":  "application/json",
+	}
+	return FastWithDo(result, "POST", uri, nil, body, headers)
+}

@@ -11,8 +11,8 @@ require (
 	github.com/aliyun/alibabacloud-oss-go-sdk-v2 v1.4.0
 	github.com/casbin/casbin/v2 v2.77.2
 	github.com/casbin/xorm-adapter/v3 v3.5.0
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.9.3
-	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/uuid v1.6.0
 	github.com/jinzhu/copier v0.4.0
 	github.com/json-iterator/go v1.1.12

@@ -14,27 +14,29 @@ import (
 )
 
 type (
-	ChatReq            = pb.ChatReq
-	ChatResp           = pb.ChatResp
-	CheckCodeReq       = pb.CheckCodeReq
-	CheckCodeResp      = pb.CheckCodeResp
-	GetCourierReq      = pb.GetCourierReq
-	GetCourierResp     = pb.GetCourierResp
-	GetUploadTokenReq  = pb.GetUploadTokenReq
-	GetUploadTokenResp = pb.GetUploadTokenResp
-	GetWeatherItem     = pb.GetWeatherItem
-	GetWeatherReq      = pb.GetWeatherReq
-	GetWeatherResp     = pb.GetWeatherResp
-	IpToAddressReq     = pb.IpToAddressReq
-	IpToAddressResp    = pb.IpToAddressResp
-	PngToElnkReq       = pb.PngToElnkReq
-	PngToElnkResp      = pb.PngToElnkResp
-	SendCodeReq        = pb.SendCodeReq
-	SendCodeResp       = pb.SendCodeResp
-	UploadFileReq      = pb.UploadFileReq
-	UploadFileResp     = pb.UploadFileResp
-	UploadUrlReq       = pb.UploadUrlReq
-	UploadUrlResp      = pb.UploadUrlResp
+	AiImageGenerationResp = pb.AiImageGenerationResp
+	BaseAiReq             = pb.BaseAiReq
+	ChatReq               = pb.ChatReq
+	ChatResp              = pb.ChatResp
+	CheckCodeReq          = pb.CheckCodeReq
+	CheckCodeResp         = pb.CheckCodeResp
+	GetCourierReq         = pb.GetCourierReq
+	GetCourierResp        = pb.GetCourierResp
+	GetUploadTokenReq     = pb.GetUploadTokenReq
+	GetUploadTokenResp    = pb.GetUploadTokenResp
+	GetWeatherItem        = pb.GetWeatherItem
+	GetWeatherReq         = pb.GetWeatherReq
+	GetWeatherResp        = pb.GetWeatherResp
+	IpToAddressReq        = pb.IpToAddressReq
+	IpToAddressResp       = pb.IpToAddressResp
+	PngToElnkReq          = pb.PngToElnkReq
+	PngToElnkResp         = pb.PngToElnkResp
+	SendCodeReq           = pb.SendCodeReq
+	SendCodeResp          = pb.SendCodeResp
+	UploadFileReq         = pb.UploadFileReq
+	UploadFileResp        = pb.UploadFileResp
+	UploadUrlReq          = pb.UploadUrlReq
+	UploadUrlResp         = pb.UploadUrlResp
 
 	Sdk interface {
 		SendCode(ctx context.Context, in *SendCodeReq, opts ...grpc.CallOption) (*SendCodeResp, error)
@@ -47,6 +49,7 @@ type (
 		UploadUrl(ctx context.Context, in *UploadUrlReq, opts ...grpc.CallOption) (*UploadUrlResp, error)
 		GetUploadToken(ctx context.Context, in *GetUploadTokenReq, opts ...grpc.CallOption) (*GetUploadTokenResp, error)
 		PngToElnk(ctx context.Context, in *PngToElnkReq, opts ...grpc.CallOption) (*PngToElnkResp, error)
+		ImageGeneration(ctx context.Context, in *BaseAiReq, opts ...grpc.CallOption) (*AiImageGenerationResp, error)
 	}
 
 	defaultSdk struct {
@@ -108,4 +111,9 @@ func (m *defaultSdk) GetUploadToken(ctx context.Context, in *GetUploadTokenReq, 
 func (m *defaultSdk) PngToElnk(ctx context.Context, in *PngToElnkReq, opts ...grpc.CallOption) (*PngToElnkResp, error) {
 	client := pb.NewSdkClient(m.cli.Conn())
 	return client.PngToElnk(ctx, in, opts...)
+}
+
+func (m *defaultSdk) ImageGeneration(ctx context.Context, in *BaseAiReq, opts ...grpc.CallOption) (*AiImageGenerationResp, error) {
+	client := pb.NewSdkClient(m.cli.Conn())
+	return client.ImageGeneration(ctx, in, opts...)
 }

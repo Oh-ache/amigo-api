@@ -19,16 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Sdk_SendCode_FullMethodName       = "/sdk.Sdk/SendCode"
-	Sdk_CheckCode_FullMethodName      = "/sdk.Sdk/CheckCode"
-	Sdk_IpToAddress_FullMethodName    = "/sdk.Sdk/IpToAddress"
-	Sdk_GetCourier_FullMethodName     = "/sdk.Sdk/GetCourier"
-	Sdk_Chat_FullMethodName           = "/sdk.Sdk/Chat"
-	Sdk_GetWeather_FullMethodName     = "/sdk.Sdk/GetWeather"
-	Sdk_UploadFile_FullMethodName     = "/sdk.Sdk/UploadFile"
-	Sdk_UploadUrl_FullMethodName      = "/sdk.Sdk/UploadUrl"
-	Sdk_GetUploadToken_FullMethodName = "/sdk.Sdk/GetUploadToken"
-	Sdk_PngToElnk_FullMethodName      = "/sdk.Sdk/PngToElnk"
+	Sdk_SendCode_FullMethodName        = "/sdk.Sdk/SendCode"
+	Sdk_CheckCode_FullMethodName       = "/sdk.Sdk/CheckCode"
+	Sdk_IpToAddress_FullMethodName     = "/sdk.Sdk/IpToAddress"
+	Sdk_GetCourier_FullMethodName      = "/sdk.Sdk/GetCourier"
+	Sdk_Chat_FullMethodName            = "/sdk.Sdk/Chat"
+	Sdk_GetWeather_FullMethodName      = "/sdk.Sdk/GetWeather"
+	Sdk_UploadFile_FullMethodName      = "/sdk.Sdk/UploadFile"
+	Sdk_UploadUrl_FullMethodName       = "/sdk.Sdk/UploadUrl"
+	Sdk_GetUploadToken_FullMethodName  = "/sdk.Sdk/GetUploadToken"
+	Sdk_PngToElnk_FullMethodName       = "/sdk.Sdk/PngToElnk"
+	Sdk_ImageGeneration_FullMethodName = "/sdk.Sdk/ImageGeneration"
 )
 
 // SdkClient is the client API for Sdk service.
@@ -45,6 +46,7 @@ type SdkClient interface {
 	UploadUrl(ctx context.Context, in *UploadUrlReq, opts ...grpc.CallOption) (*UploadUrlResp, error)
 	GetUploadToken(ctx context.Context, in *GetUploadTokenReq, opts ...grpc.CallOption) (*GetUploadTokenResp, error)
 	PngToElnk(ctx context.Context, in *PngToElnkReq, opts ...grpc.CallOption) (*PngToElnkResp, error)
+	ImageGeneration(ctx context.Context, in *BaseAiReq, opts ...grpc.CallOption) (*AiImageGenerationResp, error)
 }
 
 type sdkClient struct {
@@ -155,6 +157,16 @@ func (c *sdkClient) PngToElnk(ctx context.Context, in *PngToElnkReq, opts ...grp
 	return out, nil
 }
 
+func (c *sdkClient) ImageGeneration(ctx context.Context, in *BaseAiReq, opts ...grpc.CallOption) (*AiImageGenerationResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AiImageGenerationResp)
+	err := c.cc.Invoke(ctx, Sdk_ImageGeneration_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SdkServer is the server API for Sdk service.
 // All implementations must embed UnimplementedSdkServer
 // for forward compatibility.
@@ -169,6 +181,7 @@ type SdkServer interface {
 	UploadUrl(context.Context, *UploadUrlReq) (*UploadUrlResp, error)
 	GetUploadToken(context.Context, *GetUploadTokenReq) (*GetUploadTokenResp, error)
 	PngToElnk(context.Context, *PngToElnkReq) (*PngToElnkResp, error)
+	ImageGeneration(context.Context, *BaseAiReq) (*AiImageGenerationResp, error)
 	mustEmbedUnimplementedSdkServer()
 }
 
@@ -208,6 +221,9 @@ func (UnimplementedSdkServer) GetUploadToken(context.Context, *GetUploadTokenReq
 }
 func (UnimplementedSdkServer) PngToElnk(context.Context, *PngToElnkReq) (*PngToElnkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PngToElnk not implemented")
+}
+func (UnimplementedSdkServer) ImageGeneration(context.Context, *BaseAiReq) (*AiImageGenerationResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ImageGeneration not implemented")
 }
 func (UnimplementedSdkServer) mustEmbedUnimplementedSdkServer() {}
 func (UnimplementedSdkServer) testEmbeddedByValue()             {}
@@ -410,6 +426,24 @@ func _Sdk_PngToElnk_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Sdk_ImageGeneration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BaseAiReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SdkServer).ImageGeneration(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sdk_ImageGeneration_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SdkServer).ImageGeneration(ctx, req.(*BaseAiReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Sdk_ServiceDesc is the grpc.ServiceDesc for Sdk service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -456,6 +490,10 @@ var Sdk_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PngToElnk",
 			Handler:    _Sdk_PngToElnk_Handler,
+		},
+		{
+			MethodName: "ImageGeneration",
+			Handler:    _Sdk_ImageGeneration_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package ai;
+
+option go_package = "./pb";
+
+message ImageGenerationRep {
+  string model = 1;
+  string prompt = 2;
+  string aspect_ratio = 3;
+  string response_format = 4;
+  int64 seed = 5;
+  int64 n = 6;
+  bool prompt_optimizer = 7;
+}
+
+message ImageGenerationResp {
+  string url = 1;
+}
+
+service ai {
+    rpc ImageGeneration (BaseAiReq) returns (AiImageGenerationResp);
+}

@@ -72,3 +72,8 @@ func (s *SdkServer) PngToElnk(ctx context.Context, in *pb.PngToElnkReq) (*pb.Png
 	l := logic.NewPngToElnkLogic(ctx, s.svcCtx)
 	return l.PngToElnk(in)
 }
+
+func (s *SdkServer) ImageGeneration(ctx context.Context, in *pb.BaseAiReq) (*pb.AiImageGenerationResp, error) {
+	l := logic.NewImageGenerationLogic(ctx, s.svcCtx)
+	return l.ImageGeneration(in)
+}
