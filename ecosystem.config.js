@@ -8,7 +8,7 @@ module.exports = {
       instances: 1,
       exec_mode: "fork",
       watch: false,
-      log_file: "./logs/baseCodeRpc.log",
+      log_file: "~/.logs/baseCodeRpc.log",
       time: true
     },
     {
@@ -19,7 +19,7 @@ module.exports = {
       instances: 1,
       exec_mode: "fork",
       watch: false,
-      log_file: "./logs/baseCodeApi.log",
+      log_file: "~/.logs/baseCodeApi.log",
       time: true
     },
     {
@@ -30,7 +30,7 @@ module.exports = {
       instances: 1,
       exec_mode: "fork",
       watch: false,
-      log_file: "./logs/sdkRpc.log",
+      log_file: "~/.logs/sdkRpc.log",
       time: true
     },
     {
@@ -41,7 +41,7 @@ module.exports = {
       instances: 1,
       exec_mode: "fork",
       watch: false,
-      log_file: "./logs/sdkApi.log",
+      log_file: "~/.logs/sdkApi.log",
       time: true
     },
     {
@@ -52,7 +52,7 @@ module.exports = {
       instances: 1,
       exec_mode: "fork",
       watch: false,
-      log_file: "./logs/userRpc.log",
+      log_file: "~/.logs/userRpc.log",
       time: true
     },
     {
@@ -63,7 +63,7 @@ module.exports = {
       instances: 1,
       exec_mode: "fork",
       watch: false,
-      log_file: "./logs/userApi.log",
+      log_file: "~/.logs/userApi.log",
       time: true
     },
     {
@@ -74,7 +74,7 @@ module.exports = {
       instances: 1,
       exec_mode: "fork",
       watch: false,
-      log_file: "./logs/deviceRpc.log",
+      log_file: "~/.logs/deviceRpc.log",
       time: true
     },
     {
@@ -85,7 +85,7 @@ module.exports = {
       instances: 1,
       exec_mode: "fork",
       watch: false,
-      log_file: "./logs/deviceApi.log",
+      log_file: "~/.logs/deviceApi.log",
       time: true
     },
     {
@@ -96,7 +96,7 @@ module.exports = {
       instances: 1,
       exec_mode: "fork",
       watch: false,
-      log_file: "./logs/queue.log",
+      log_file: "~/.logs/queue.log",
       time: true
     },
     {
@@ -107,7 +107,7 @@ module.exports = {
       instances: 1,
       exec_mode: "fork",
       watch: false,
-      log_file: "./logs/api.log",
+      log_file: "~/.logs/api.log",
       time: true
     },
   ],

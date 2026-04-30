@@ -1,0 +1,29 @@
+Name: mqueue-api
+Host: 0.0.0.0
+Port: 7001
+
+# Redis配置
+Redis:
+  Host: 81.69.160.35
+  Port: 6379
+  Pass: secret_redis
+  DB: 1
+
+# MQueue配置
+MQueue:
+  RedisHost: 81.69.160.35
+  RedisPort: 6379
+  RedisPass: secret_redis
+  RedisDB: 1
+  ServerName: amigo-mqueue
+  Queues:
+    default: 6
+    critical: 10
+    low: 1
+  Concurrency: 10
+  SyncTimeout: 10s
+  RetryDelay: 1m
+  MaxRetry: 3
+  Timeout: 30m
+  DeadQueue: dead
+  MonitorPort: 7002

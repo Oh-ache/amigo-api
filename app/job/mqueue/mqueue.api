@@ -1,0 +1,42 @@
+syntax = "v1"
+
+type EnqueueReq {
+	Handler string `json:"handler,options=sample|email|notification|task"`
+	Data    map[string]interface{} `json:"data"`
+	Queue   string `json:"queue,optional"`
+	Delay   string `json:"delay,optional"`
+}
+
+type TaskInfoResp {
+	TaskID string `json:"task_id"`
+}
+
+type TaskResultReq {
+	TaskID string `path:"task_id"`
+}
+
+type TaskResultResp {
+	TaskID     string `json:"task_id"`
+	Status     string `json:"status"`
+	Error      string `json:"error,omitempty"`
+	Duration   int64  `json:"duration"`
+	FinishedAt int64  `json:"finished_at"`
+}
+
+type CommonResp {
+	Code int         `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
+}
+
+service mqueue-api {
+	@handler EnqueueHandler
+	post /api/mqueue/enqueue (EnqueueReq) returns (CommonResp)
+
+	@handler EnqueueDelayedHandler
+	post /api/mqueue/enqueue-delayed (EnqueueReq) returns (CommonResp)
+
+	@handler TaskResultHandler
+	get /api/mqueue/result/:task_id (TaskResultReq) returns (CommonResp)
+}
+
