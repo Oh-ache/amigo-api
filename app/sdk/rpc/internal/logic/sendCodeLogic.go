@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"amigo-api/app/sdk/rpc/internal/svc"
+	"amigo-api/common/mqueue"
 	"amigo-api/common/pb"
-	"amigo-api/common/queue"
 	"amigo-api/common/utils"
 	"amigo-api/common/utils/plug/message"
 
@@ -51,10 +51,9 @@ func (l *SendCodeLogic) SendCode(in *pb.SendCodeReq) (*pb.SendCodeResp, error) {
 	content := fmt.Sprintf("{\"code\": \"%s\"}", code)
 	ctx.Content = content
 
-	task := &queue.Task{
-		Queue:    "default",
-		Handler:  "send_sms",
-		Priority: queue.PriorityNormal,
+	task := &mqueue.Task{
+		Handler: "send_sms",
+		Queue:   "default",
 		Data: map[string]interface{}{
 			"data":      ctx,
 			"send_type": in.SendType,
@@ -62,8 +61,7 @@ func (l *SendCodeLogic) SendCode(in *pb.SendCodeReq) (*pb.SendCodeResp, error) {
 		},
 	}
 
-	// 使用全局队列客户端
-	_, err := queue.GetProducer().Enqueue(l.ctx, task)
+	_, err := mqueue.GetProducer().Enqueue(l.ctx, task)
 	if err != nil {
 		return nil, err
 	}

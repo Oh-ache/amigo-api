@@ -1,6 +1,5 @@
 Name: sdk.rpc
 ListenOn: 0.0.0.0:8091
-Mode: dev
 Timeout: 20000
 
 Redis:

@@ -1,3 +1,0 @@
-2026-04-30T10:59:20: Starting server at 0.0.0.0:8888...
-2026-04-30T11:00:20: {"@timestamp":"2026-04-30T11:00:20.937+08:00","caller":"stat/usage.go:82","content":"CPU: 0m, MEMORY: Alloc=0.6Mi, TotalAlloc=0.6Mi, Sys=12.0Mi, NumGC=0","level":"stat"}
-2026-04-30T11:00:20: {"@timestamp":"2026-04-30T11:00:20.942+08:00","caller":"load/sheddingstat.go:61","content":"(api) shedding_stat [1m], cpu: 0, total: 0, pass: 0, drop: 0","level":"stat"}

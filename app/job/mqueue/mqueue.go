@@ -13,10 +13,10 @@ import (
 
 	"amigo-api/app/job/mqueue/internal/config"
 	"amigo-api/app/job/mqueue/internal/handler"
+	mqhandler "amigo-api/app/job/mqueue/internal/handler/mqueue"
 	"amigo-api/app/job/mqueue/internal/svc"
 	"amigo-api/common/mqueue"
 
-	"github.com/hibiken/asynq"
 	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -57,8 +57,19 @@ func main() {
 		logx.Errorf("Failed to initialize global mqueue: %v", err)
 	}
 
-	// Start asynq server in background
-	go startAsynqServer(redisOpt, &c)
+	// Create Redis client for handler
+	redisClient := redis.NewClient(redisOpt)
+	mqhandler.InitRedis(redisClient)
+
+	// Create consumer and register handlers
+	consumer := mqueue.NewRedisConsumer(redisOpt, mqConfig)
+	registerHandlers(consumer)
+
+	// Start consumer
+	ctx := context.Background()
+	if err := consumer.Start(ctx); err != nil {
+		logx.Errorf("Failed to start consumer: %v", err)
+	}
 
 	// Start asynq monitoring server in background
 	go startMonitoringServer(redisOpt, &c)
@@ -67,69 +78,21 @@ func main() {
 	server := rest.MustNewServer(c.RestConf)
 	defer func() {
 		server.Stop()
-		// Shutdown asynq server
+		consumer.Stop()
 		mqueue.Shutdown()
+		redisClient.Close()
 	}()
 
-	ctx := svc.NewServiceContext(c)
-	handler.RegisterHandlers(server, ctx)
+	handlerCtx := svc.NewServiceContext(c)
+	handler.RegisterHandlers(server, handlerCtx)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	fmt.Printf("Asynq Monitor available at http://%s:%d/monitor\n", c.Host, c.MQueue.MonitorPort)
 	server.Start()
 }
 
-// startAsynqServer starts the asynq worker server
-func startAsynqServer(redisOpt *redis.Options, c *config.Config) {
-	// Create asynq server
-	srv := asynq.NewServer(
-		asynq.RedisClientOpt{
-			Addr:     redisOpt.Addr,
-			Password: redisOpt.Password,
-			DB:       redisOpt.DB,
-		},
-		asynq.Config{
-			Queues: map[string]int{
-				"critical": 10,
-				"default":  6,
-				"low":      1,
-			},
-			Concurrency: c.MQueue.Concurrency,
-		},
-	)
-
-	// Create mux and register handlers
-	mux := asynq.NewServeMux()
-
-	// Register handlers based on handler name
-	mux.HandleFunc("sample", func(ctx context.Context, t *asynq.Task) error {
-		logx.Infof("Processing sample task: %s", t.Payload)
-		// Process sample task
-		return nil
-	})
-
-	mux.HandleFunc("email", func(ctx context.Context, t *asynq.Task) error {
-		logx.Infof("Processing email task: %s", t.Payload)
-		// Process email task
-		return nil
-	})
-
-	mux.HandleFunc("notification", func(ctx context.Context, t *asynq.Task) error {
-		logx.Infof("Processing notification task: %s", t.Payload)
-		// Process notification task
-		return nil
-	})
-
-	mux.HandleFunc("task", func(ctx context.Context, t *asynq.Task) error {
-		logx.Infof("Processing task: %s", t.Payload)
-		// Process generic task
-		return nil
-	})
-
-	logx.Info("Asynq server starting...")
-	if err := srv.Run(mux); err != nil {
-		logx.Errorf("Asynq server error: %v", err)
-	}
+func registerHandlers(consumer *mqueue.RedisConsumer) {
+	consumer.RegisterHandler("send_sms", mqhandler.NewSendSmsHandler())
 }
 
 // startMonitoringServer starts the asynq monitoring web UI

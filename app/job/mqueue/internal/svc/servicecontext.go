@@ -69,6 +69,9 @@ func registerHandlers(consumer *asynqmqueue.RedisConsumer) {
 	// Register sample handler
 	consumer.RegisterHandler("sample", mqueue.NewSampleHandler())
 
+	// Register send_sms handler
+	consumer.RegisterHandler("send_sms", mqueue.NewSendSmsHandler())
+
 	// Register email handler
 	consumer.RegisterHandler("email", mqueue.NewEmailHandler())
 
