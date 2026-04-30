@@ -1,0 +1,12 @@
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.823+08:00","caller":"queue/consumer.go:94","content":"Worker 0 started","level":"info"}
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.823+08:00","caller":"queue/consumer.go:78","content":"Queue consumer started with 10 workers","level":"info"}
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.823+08:00","caller":"queue/consumer.go:94","content":"Worker 2 started","level":"info"}
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.823+08:00","caller":"queue/consumer.go:94","content":"Worker 5 started","level":"info"}
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.823+08:00","caller":"queue/consumer.go:94","content":"Worker 8 started","level":"info"}
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.823+08:00","caller":"queue/consumer.go:94","content":"Worker 9 started","level":"info"}
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.823+08:00","caller":"queue/consumer.go:94","content":"Worker 4 started","level":"info"}
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.823+08:00","caller":"queue/consumer.go:94","content":"Worker 6 started","level":"info"}
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.823+08:00","caller":"queue/consumer.go:94","content":"Worker 7 started","level":"info"}
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.823+08:00","caller":"queue/consumer.go:94","content":"Worker 1 started","level":"info"}
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.823+08:00","caller":"queue/consumer.go:94","content":"Worker 3 started","level":"info"}
+2026-04-30T11:00:24: {"@timestamp":"2026-04-30T11:00:24.823+08:00","caller":"stat/usage.go:82","content":"CPU: 0m, MEMORY: Alloc=1.9Mi, TotalAlloc=2.3Mi, Sys=14.2Mi, NumGC=1","level":"stat"}

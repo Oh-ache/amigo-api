@@ -1,0 +1,171 @@
+2026-04-30T10:59:21: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:21: {"@timestamp":"2026-04-30T10:59:21.678+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:21: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:21: 
+2026-04-30T10:59:21: goroutine 1 [running]:
+2026-04-30T10:59:21: github.com/zeromicro/go-zero/zrpc.(*RpcServer).Start(0x103bf3958?)
+2026-04-30T10:59:21: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:21: main.main()
+2026-04-30T10:59:21: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:21: exit status 2
+2026-04-30T10:59:22: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:22: {"@timestamp":"2026-04-30T10:59:22.419+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:22: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:22: 
+2026-04-30T10:59:22: goroutine 1 [running]:
+2026-04-30T10:59:22: github.com/zeromicro/go-zero/zrpc.(*RpcServer).Start(0x103e8b958?)
+2026-04-30T10:59:22: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:22: main.main()
+2026-04-30T10:59:22: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:22: exit status 2
+2026-04-30T10:59:22: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:22: {"@timestamp":"2026-04-30T10:59:22.890+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:22: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:22: 
+2026-04-30T10:59:22: goroutine 1 [running]:
+2026-04-30T10:59:22: 0x103dd7958?)
+2026-04-30T10:59:22: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:22: main.main()
+2026-04-30T10:59:22: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:22: exit status 2
+2026-04-30T10:59:23: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:23: {"@timestamp":"2026-04-30T10:59:23.237+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:23: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:23: 
+2026-04-30T10:59:23: goroutine 1 [running]:
+2026-04-30T10:59:23: github.com/zeromicro/go-zero/zrpc.(*RpcServer).Start(0x103333958?)
+2026-04-30T10:59:23: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:23: main.main()
+2026-04-30T10:59:23: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:23: exit status 2
+2026-04-30T10:59:23: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:23: {"@timestamp":"2026-04-30T10:59:23.675+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:23: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:23: 
+2026-04-30T10:59:23: goroutine 1 [running]:
+2026-04-30T10:59:23: github.com/zeromicro/go-zero/zrpc.(*RpcServer).Start(0x10390b958?)
+2026-04-30T10:59:23: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:23: main.main()
+2026-04-30T10:59:23: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:23: exit status 2
+2026-04-30T10:59:24: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.161+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:24: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:24: 
+2026-04-30T10:59:24: goroutine 1 [running]:
+2026-04-30T10:59:24: github.com/zeromicro/go-zero/zrpc.(*RpcServer).Start(0x105913958?)
+2026-04-30T10:59:24: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:24: main.main()
+2026-04-30T10:59:24: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:24: exit status 2
+2026-04-30T10:59:24: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:24: {"@timestamp":"2026-04-30T10:59:24.548+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:24: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:24: 
+2026-04-30T10:59:24: goroutine 1 [running]:
+2026-04-30T10:59:24: github.com/zeromicro/go-zero/zrpc.(*RpcServer).Start(0x1077db958?)
+2026-04-30T10:59:24: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:24: main.main()
+2026-04-30T10:59:24: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:24: exit status 2
+2026-04-30T10:59:25: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:25: {"@timestamp":"2026-04-30T10:59:25.002+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:25: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:25: 
+2026-04-30T10:59:25: goroutine 1 [running]:
+2026-04-30T10:59:25: 0x10560b958?)
+2026-04-30T10:59:25: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:25: main.main()
+2026-04-30T10:59:25: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:25: exit status 2
+2026-04-30T10:59:25: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:25: {"@timestamp":"2026-04-30T10:59:25.409+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:25: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:25: 
+2026-04-30T10:59:25: goroutine 1 [running]:
+2026-04-30T10:59:25: (0x10603b958?)
+2026-04-30T10:59:25: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:25: main.main()
+2026-04-30T10:59:25: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:25: exit status 2
+2026-04-30T10:59:25: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:25: {"@timestamp":"2026-04-30T10:59:25.888+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:25: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:25: 
+2026-04-30T10:59:25: ]:
+2026-04-30T10:59:25: github.com/zeromicro/go-zero/zrpc.(*RpcServer).Start(0x1050f7958?)
+2026-04-30T10:59:25: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:25: main.main()
+2026-04-30T10:59:25: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:25: exit status 2
+2026-04-30T10:59:26: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:26: {"@timestamp":"2026-04-30T10:59:26.271+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:26: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:26: 
+2026-04-30T10:59:26: goroutine 1 [running]:
+2026-04-30T10:59:26: github.com/zeromicro/go-zero/zrpc.(*RpcServer).Start(0x1056fb958?)
+2026-04-30T10:59:26: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:26: main.main()
+2026-04-30T10:59:26: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:26: exit status 2
+2026-04-30T10:59:26: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:26: {"@timestamp":"2026-04-30T10:59:26.752+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:26: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:26: 
+2026-04-30T10:59:26: goroutine 1 [running]:
+2026-04-30T10:59:26: github.com/zeromicro/go-zero/zrpc.(*RpcServer).Start(0x1077bf958?)
+2026-04-30T10:59:26:  +0x78
+2026-04-30T10:59:26: main.main()
+2026-04-30T10:59:26: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:26: exit status 2
+2026-04-30T10:59:27: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:27: {"@timestamp":"2026-04-30T10:59:27.055+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:27: panic: 
+2026-04-30T10:59:27: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:27: 
+2026-04-30T10:59:27: goroutine 1 [running]:
+2026-04-30T10:59:27: github.com/zeromicro/go-zero/zrpc.(*RpcServer).Start(0x107cef958?)
+2026-04-30T10:59:27: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:27: main.main()
+2026-04-30T10:59:27: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:27: exit status 2
+2026-04-30T10:59:27: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:27: {"@timestamp":"2026-04-30T10:59:27.385+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:27: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:27: 
+2026-04-30T10:59:27: goroutine 1 [running]:
+2026-04-30T10:59:27: (0x103843958?)
+2026-04-30T10:59:27: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:27: main.main()
+2026-04-30T10:59:27: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:27: exit status 2
+2026-04-30T10:59:27: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:27: {"@timestamp":"2026-04-30T10:59:27.712+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:27: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:27: 
+2026-04-30T10:59:27: ]:
+2026-04-30T10:59:27: github.com/zeromicro/go-zero/zrpc.(*RpcServer).Start(0x103ec7958?)
+2026-04-30T10:59:27: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:27: main.main()
+2026-04-30T10:59:27: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:27: exit status 2
+2026-04-30T10:59:28: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:28: {"@timestamp":"2026-04-30T10:59:28.013+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:28: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:28: 
+2026-04-30T10:59:28: goroutine 1 [running]:
+2026-04-30T10:59:28: (0x103af7958?)
+2026-04-30T10:59:28: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:28: main.main()
+2026-04-30T10:59:28: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:28: exit status 2
+2026-04-30T10:59:28: Starting rpc server at 0.0.0.0:8090...
+2026-04-30T10:59:28: {"@timestamp":"2026-04-30T10:59:28.342+08:00","caller":"zrpc/server.go:90","content":"listen tcp 0.0.0.0:8090: bind: address already in use","level":"error"}
+2026-04-30T10:59:28: panic: listen tcp 0.0.0.0:8090: bind: address already in use
+2026-04-30T10:59:28: 
+2026-04-30T10:59:28: goroutine 1 [running]:
+2026-04-30T10:59:28: (0x107c33958?)
+2026-04-30T10:59:28: 	/Users/ache/go/pkg/mod/github.com/zeromicro/go-zero@v1.10.0/zrpc/server.go:91 +0x78
+2026-04-30T10:59:28: main.main()
+2026-04-30T10:59:28: 	/Users/ache/go/src/amigo-api/app/baseCode/rpc/baseCode.go:38 +0x1dc
+2026-04-30T10:59:28: exit status 2

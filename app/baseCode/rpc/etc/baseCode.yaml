@@ -1,6 +1,5 @@
 Name: basecode.rpc
 ListenOn: 0.0.0.0:8090
-Mode: dev
 
 DB:
   DataSource: ache:1qaz@WSX@tcp(rm-bp179va4h06ud8azdho.mysql.rds.aliyuncs.com:57856)/amigo?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
