@@ -4,16 +4,19 @@ import (
 	"time"
 
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type Config struct {
 	rest.RestConf
 
-	// Redis configuration
 	Redis HostPort
 
-	// MQueue configuration
 	MQueue MQueueConfig
+
+	BaseCodeRpcConf zrpc.RpcClientConf
+	AiRpcConf       zrpc.RpcClientConf
+	SdkRpcConf      zrpc.RpcClientConf
 }
 
 type HostPort struct {

@@ -89,14 +89,47 @@ module.exports = {
       time: true
     },
     {
-      name: "queue",
+      name: "aiRpc",
       script: "go",
-      args: "run queue.go",
-      cwd: "./app/job/queue/",
+      args: "run ai.go",
+      cwd: "./app/ai/rpc/",
       instances: 1,
       exec_mode: "fork",
       watch: false,
-      log_file: "~/.logs/queue.log",
+      log_file: "~/.logs/aiRpc.log",
+      time: true
+    },
+    {
+      name: "aiApi",
+      script: "go",
+      args: "run ai.go",
+      cwd: "./app/ai/api/",
+      instances: 1,
+      exec_mode: "fork",
+      watch: false,
+      log_file: "~/.logs/aiApi.log",
+      time: true
+    },
+    // {
+      // name: "queue",
+      // script: "go",
+      // args: "run queue.go",
+      // cwd: "./app/job/queue/",
+      // instances: 1,
+      // exec_mode: "fork",
+      // watch: false,
+      // log_file: "~/.logs/queue.log",
+      // time: true
+    // },
+    {
+      name: "mqueue",
+      script: "go",
+      args: "run mqueue.go",
+      cwd: "./app/job/mqueue/",
+      instances: 1,
+      exec_mode: "fork",
+      watch: false,
+      log_file: "~/.logs/mqueue.log",
       time: true
     },
     {

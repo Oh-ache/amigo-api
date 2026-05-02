@@ -23,8 +23,10 @@ func NewMqueueLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MqueueLogi
 	}
 }
 
-func (l *MqueueLogic) Mqueue(req *types.Request) (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *MqueueLogic) Mqueue(req *types.EnqueueReq) (resp *types.TaskInfoResp, err error) {
+	taskID, err := l.svcCtx.EnqueueTask(l.ctx, req.Handler, req.Data)
+	if err != nil {
+		return nil, err
+	}
+	return &types.TaskInfoResp{TaskID: taskID}, nil
 }

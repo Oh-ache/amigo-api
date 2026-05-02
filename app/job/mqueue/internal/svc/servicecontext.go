@@ -7,11 +7,16 @@ import (
 	"time"
 
 	"amigo-api/app/job/mqueue/internal/config"
-	"amigo-api/app/job/mqueue/internal/handler/mqueue"
+	mqhandler "amigo-api/app/job/mqueue/internal/handler/mqueue"
+	"amigo-api/app/ai/rpc/airpc"
+	"amigo-api/app/baseCode/rpc/basecode"
+	"amigo-api/app/sdk/rpc/sdk"
 	asynqmqueue "amigo-api/common/mqueue"
+	"amigo-api/common/pb"
 
 	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
@@ -21,14 +26,12 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	// Create Redis options for mqueue
 	redisOpt := &redis.Options{
 		Addr:     fmt.Sprintf("%s:%d", c.MQueue.RedisHost, c.MQueue.RedisPort),
 		Password: c.MQueue.RedisPass,
 		DB:       c.MQueue.RedisDB,
 	}
 
-	// Create mqueue config
 	mqConfig := &asynqmqueue.QueueConfig{
 		RedisOpt:      redisOpt,
 		Queues:        c.MQueue.Queues,
@@ -42,14 +45,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ServerName:    c.MQueue.ServerName,
 	}
 
-	// Create consumer and producer
 	consumer := asynqmqueue.NewRedisConsumer(redisOpt, mqConfig)
 	producer := asynqmqueue.NewRedisProducer(redisOpt, mqConfig)
 
-	// Register handlers
 	registerHandlers(consumer)
 
-	// Start the consumer
 	ctx := context.Background()
 	if err := consumer.Start(ctx); err != nil {
 		logx.Errorf("Failed to start mqueue consumer: %v", err)
@@ -64,27 +64,94 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 }
 
-// registerHandlers registers all task handlers
-func registerHandlers(consumer *asynqmqueue.RedisConsumer) {
-	// Register sample handler
-	consumer.RegisterHandler("sample", mqueue.NewSampleHandler())
+func NewServiceContextWithHandler(c config.Config, aiHandler *mqhandler.AiTaskHandler) *ServiceContext {
+	redisOpt := &redis.Options{
+		Addr:     fmt.Sprintf("%s:%d", c.MQueue.RedisHost, c.MQueue.RedisPort),
+		Password: c.MQueue.RedisPass,
+		DB:       c.MQueue.RedisDB,
+	}
 
-	// Register send_sms handler
-	consumer.RegisterHandler("send_sms", mqueue.NewSendSmsHandler())
+	mqConfig := &asynqmqueue.QueueConfig{
+		RedisOpt:      redisOpt,
+		Queues:        c.MQueue.Queues,
+		Concurrency:   c.MQueue.Concurrency,
+		StrictMode:    false,
+		SyncTimeout:   c.MQueue.SyncTimeout,
+		RetryDelay:    c.MQueue.RetryDelay,
+		MaxRetry:      c.MQueue.MaxRetry,
+		Timeout:       c.MQueue.Timeout,
+		DeadQueueName: c.MQueue.DeadQueue,
+		ServerName:    c.MQueue.ServerName,
+	}
 
-	// Register email handler
-	consumer.RegisterHandler("email", mqueue.NewEmailHandler())
+	consumer := asynqmqueue.NewRedisConsumer(redisOpt, mqConfig)
+	producer := asynqmqueue.NewRedisProducer(redisOpt, mqConfig)
 
-	// Register notification handler
-	consumer.RegisterHandler("notification", mqueue.NewNotificationHandler())
+	registerHandlersWithAi(consumer, aiHandler)
 
-	// Register task handler
-	consumer.RegisterHandler("task", mqueue.NewTaskHandler())
+	ctx := context.Background()
+	if err := consumer.Start(ctx); err != nil {
+		logx.Errorf("Failed to start mqueue consumer: %v", err)
+	} else {
+		logx.Info("MQueue consumer started successfully")
+	}
 
-	logx.Info("MQueue handlers registered: sample, email, notification, task")
+	return &ServiceContext{
+		Config:   c,
+		Consumer: consumer,
+		Producer: producer,
+	}
 }
 
-// EnqueueTask is a helper method to enqueue tasks
+func registerHandlers(consumer *asynqmqueue.RedisConsumer) {
+	consumer.RegisterHandler("send_sms", mqhandler.NewSendSmsHandler())
+	logx.Info("MQueue handlers registered: send_sms")
+}
+
+func registerHandlersWithAi(consumer *asynqmqueue.RedisConsumer, aiHandler *mqhandler.AiTaskHandler) {
+	consumer.RegisterHandler("send_sms", mqhandler.NewSendSmsHandler())
+	consumer.RegisterHandler("ai_task", aiHandler)
+	logx.Info("MQueue handlers registered: send_sms, ai_task")
+}
+
+type baseCodeRpcClient struct {
+	cli basecode.BaseCode
+}
+
+func (c *baseCodeRpcClient) GetBaseCode(ctx context.Context, req *pb.GetBaseCodeReq) (*pb.BaseCodeResp, error) {
+	return c.cli.GetBaseCode(ctx, req)
+}
+
+type aiRpcClient struct {
+	aiCli  airpc.AiRpc
+	sdkCli sdk.Sdk
+}
+
+func (c *aiRpcClient) UpdateTask(ctx context.Context, req *pb.UpdateTaskReq) (*pb.UpdateTaskResp, error) {
+	return c.aiCli.UpdateTask(ctx, req)
+}
+
+func (c *aiRpcClient) UploadUrl(ctx context.Context, req *pb.UploadUrlReq) (*pb.UploadUrlResp, error) {
+	return c.sdkCli.UploadUrl(ctx, req)
+}
+
+func NewBaseCodeRpcClient(cli zrpc.Client) mqhandler.BaseCodeRpcClient {
+	return &baseCodeRpcClient{
+		cli: basecode.NewBaseCode(cli),
+	}
+}
+
+func NewAiRpcClient(cli zrpc.Client, sdkCli sdk.Sdk) mqhandler.AiRpcClient {
+	return &aiRpcClient{
+		aiCli:  airpc.NewAiRpc(cli),
+		sdkCli: sdkCli,
+	}
+}
+
+func NewSdkRpcClient(cli zrpc.Client) sdk.Sdk {
+	return sdk.NewSdk(cli)
+}
+
 func (s *ServiceContext) EnqueueTask(ctx context.Context, handler string, data map[string]interface{}) (string, error) {
 	task := &asynqmqueue.Task{
 		Handler: handler,
@@ -94,7 +161,6 @@ func (s *ServiceContext) EnqueueTask(ctx context.Context, handler string, data m
 	return s.Producer.Enqueue(ctx, task)
 }
 
-// EnqueueDelayedTask is a helper method to enqueue delayed tasks
 func (s *ServiceContext) EnqueueDelayedTask(ctx context.Context, handler string, data map[string]interface{}, delay string) (string, error) {
 	task := &asynqmqueue.Task{
 		Handler: handler,
@@ -102,7 +168,6 @@ func (s *ServiceContext) EnqueueDelayedTask(ctx context.Context, handler string,
 		Queue:   getQueueFromHandler(handler),
 	}
 
-	// Parse duration string like "1m", "30s", "1h"
 	d, err := time.ParseDuration(delay)
 	if err != nil {
 		return "", err
@@ -111,10 +176,9 @@ func (s *ServiceContext) EnqueueDelayedTask(ctx context.Context, handler string,
 	return s.Producer.EnqueueDelayed(ctx, task, d)
 }
 
-// getQueueFromHandler returns the appropriate queue based on handler name
 func getQueueFromHandler(handler string) string {
 	switch strings.ToLower(handler) {
-	case "email", "payment":
+	case "email", "payment", "ai_task":
 		return "critical"
 	case "notification", "task":
 		return "default"
@@ -124,4 +188,3 @@ func getQueueFromHandler(handler string) string {
 		return "default"
 	}
 }
-

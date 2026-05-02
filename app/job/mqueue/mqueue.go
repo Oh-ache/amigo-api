@@ -21,6 +21,7 @@ import (
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 var configFile = flag.String("f", "etc/mqueue.yaml", "the config file")
@@ -31,14 +32,12 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	// Create Redis client for asynq
 	redisOpt := &redis.Options{
 		Addr:     fmt.Sprintf("%s:%d", c.MQueue.RedisHost, c.MQueue.RedisPort),
 		Password: c.MQueue.RedisPass,
 		DB:       c.MQueue.RedisDB,
 	}
 
-	// Create mqueue config
 	mqConfig := &mqueue.QueueConfig{
 		RedisOpt:      redisOpt,
 		Queues:        c.MQueue.Queues,
@@ -52,70 +51,54 @@ func main() {
 		ServerName:    c.MQueue.ServerName,
 	}
 
-	// Initialize global mqueue
 	if err := mqueue.InitGlobalMQueue(redisOpt, mqConfig); err != nil {
 		logx.Errorf("Failed to initialize global mqueue: %v", err)
 	}
 
-	// Create Redis client for handler
 	redisClient := redis.NewClient(redisOpt)
 	mqhandler.InitRedis(redisClient)
 
-	// Create consumer and register handlers
-	consumer := mqueue.NewRedisConsumer(redisOpt, mqConfig)
-	registerHandlers(consumer)
+	baseCodeRpc := svc.NewBaseCodeRpcClient(zrpc.MustNewClient(c.BaseCodeRpcConf))
+	aiRpcClient := svc.NewAiRpcClient(zrpc.MustNewClient(c.AiRpcConf), svc.NewSdkRpcClient(zrpc.MustNewClient(c.SdkRpcConf)))
 
-	// Start consumer
-	ctx := context.Background()
-	if err := consumer.Start(ctx); err != nil {
-		logx.Errorf("Failed to start consumer: %v", err)
-	}
+	aiTaskHandler := mqhandler.NewAiTaskHandler()
+	aiTaskHandler.SetBaseCodeRpc(baseCodeRpc)
+	aiTaskHandler.SetAiRpcClient(aiRpcClient)
 
-	// Start asynq monitoring server in background
+	ctx := svc.NewServiceContextWithHandler(c, aiTaskHandler)
+
 	go startMonitoringServer(redisOpt, &c)
 
-	// Setup REST server
 	server := rest.MustNewServer(c.RestConf)
 	defer func() {
 		server.Stop()
-		consumer.Stop()
+		ctx.Consumer.Stop()
 		mqueue.Shutdown()
 		redisClient.Close()
 	}()
 
-	handlerCtx := svc.NewServiceContext(c)
-	handler.RegisterHandlers(server, handlerCtx)
+	handler.RegisterHandlers(server, ctx)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	fmt.Printf("Asynq Monitor available at http://%s:%d/monitor\n", c.Host, c.MQueue.MonitorPort)
 	server.Start()
 }
 
-func registerHandlers(consumer *mqueue.RedisConsumer) {
-	consumer.RegisterHandler("send_sms", mqhandler.NewSendSmsHandler())
-}
-
-// startMonitoringServer starts the asynq monitoring web UI
 func startMonitoringServer(redisOpt *redis.Options, c *config.Config) {
-	// Create Redis client for monitor
 	rdb := redis.NewClient(redisOpt)
 
-	// Create HTTP server for monitoring
 	monitorMux := http.NewServeMux()
 
-	// Dashboard HTML page
 	monitorMux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
 		w.Write(dashboardHTML)
 	})
 
-	// Health check endpoint
 	monitorMux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`{"status":"ok"}`))
 	})
 
-	// Stats endpoint - JSON API using Redis directly
 	monitorMux.HandleFunc("/stats", func(w http.ResponseWriter, r *http.Request) {
 		stats, err := getQueueStats(rdb)
 		if err != nil {
@@ -126,7 +109,6 @@ func startMonitoringServer(redisOpt *redis.Options, c *config.Config) {
 		w.Write(stats)
 	})
 
-	// Create server
 	monitorAddr := fmt.Sprintf("%s:%d", c.Host, c.MQueue.MonitorPort)
 	monitorServer := &http.Server{
 		Addr:    monitorAddr,
@@ -135,39 +117,33 @@ func startMonitoringServer(redisOpt *redis.Options, c *config.Config) {
 
 	logx.Infof("Asynq monitor starting on %s", monitorAddr)
 
-	// Start server in goroutine
 	go func() {
 		if err := monitorServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			logx.Errorf("Monitor server error: %v", err)
 		}
 	}()
 
-	// Wait for interrupt signal
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
-	// Shutdown monitor server
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	if err := monitorServer.Shutdown(ctx); err != nil {
 		logx.Errorf("Monitor server shutdown error: %v", err)
 	}
 
-	// Close connections
 	rdb.Close()
 
 	logx.Info("Asynq monitor stopped")
 }
 
-// getQueueStats returns queue statistics as JSON using Redis directly
 func getQueueStats(rdb *redis.Client) ([]byte, error) {
 	queues := []string{"critical", "default", "low"}
 	stats := make(map[string]interface{})
 
 	ctx := context.Background()
 	for _, q := range queues {
-		// Get queue length using asynq key patterns
 		pendingKey := fmt.Sprintf("asynq:pending:%s", q)
 
 		pendingLen, err := rdb.LLen(ctx, pendingKey).Result()
@@ -184,7 +160,6 @@ func getQueueStats(rdb *redis.Client) ([]byte, error) {
 	return json.Marshal(map[string]interface{}{"queues": stats})
 }
 
-// Dashboard HTML
 var dashboardHTML = []byte(`<!DOCTYPE html>
 <html>
 <head>
@@ -273,7 +248,6 @@ var dashboardHTML = []byte(`<!DOCTYPE html>
             }
         }
 
-        // Auto refresh
         loadStats();
         setInterval(loadStats, 5000);
     </script>

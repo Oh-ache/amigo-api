@@ -1,0 +1,21 @@
+Name: ai.rpc
+ListenOn: 0.0.0.0:8094
+
+DB:
+  DataSource: ache:1qaz@WSX@tcp(rm-bp179va4h06ud8azdho.mysql.rds.aliyuncs.com:57856)/amigo?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+Cache:
+  - Host: 81.69.160.35:6379
+    Pass: secret_redis
+
+AiRedis:
+  Host: 81.69.160.35:6379
+  Type: node
+  Pass: secret_redis
+  Key: ai-rpc-dev
+
+BaseCodeRpcConf:
+  Target: 127.0.0.1:8090
+
+SdkRpcConf:
+  Target: 127.0.0.1:8091

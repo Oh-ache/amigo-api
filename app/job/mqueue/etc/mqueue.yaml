@@ -27,3 +27,12 @@ MQueue:
   Timeout: 30m
   DeadQueue: dead
   MonitorPort: 7002
+
+BaseCodeRpcConf:
+  Target: 127.0.0.1:8090
+
+AiRpcConf:
+  Target: 127.0.0.1:8094
+
+SdkRpcConf:
+  Target: 127.0.0.1:8091

@@ -1,0 +1,10 @@
+Name: ai
+Host: 0.0.0.0
+Port: 9094
+
+AiRpcConf:
+  Target: 127.0.0.1:8094
+
+Auth:
+  AccessSecret: "amigoProject"
+  AccessExpire: 7200
