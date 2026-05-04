@@ -27,8 +27,8 @@ func main() {
 	conf.MustLoad(*configFile, &c)
 
 	err := mqueue.InitGlobalMQueue(&redis.Options{
-		Addr:     c.AiRedis.Host,
-		Password: c.AiRedis.Pass,
+		Addr:     c.Redis.Host,
+		Password: c.Redis.Pass,
 		DB:       0,
 	}, &mqueue.QueueConfig{
 		Queues:      map[string]int{"default": 6, "critical": 3, "low": 1},

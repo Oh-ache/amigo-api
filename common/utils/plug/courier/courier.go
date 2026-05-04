@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
-	"pkg"
 
 	"amigo-api/common/utils"
 
@@ -54,7 +53,7 @@ func getSign(data, apiKey string) string {
 
 	md5Str := utils.Md5(str)
 
-	base64Str := base64.StdEncoding.EncodeToString(pkg.String2Bytes(md5Str))
+	base64Str := base64.StdEncoding.EncodeToString(utils.String2Bytes(md5Str))
 
 	return url.QueryEscape(base64Str)
 }
@@ -75,7 +74,7 @@ func Get(config *KuaiDiNiaoConfig, params *SearchReq) (*SearchResult, error) {
 		"EBusinessID", config.EBusinessID,
 		"RequestType", "8001",
 		"DataType", "2",
-		"DataSign", getSign(pkg.Bytes2String(byteStr), config.ApiKey))
+		"DataSign", getSign(utils.Bytes2String(byteStr), config.ApiKey))
 
 	result := &SearchResult{}
 

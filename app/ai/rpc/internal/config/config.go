@@ -1,8 +1,8 @@
 package config
 
 import (
+	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/zrpc"
-	"github.com/zeromicro/go-zero/core/stores/redis"
 )
 
 type Config struct {
@@ -10,8 +10,8 @@ type Config struct {
 	DB struct {
 		DataSource string
 	}
-	Cache []redis.RedisConf
-	AiRedis struct {
+	Cache           cache.CacheConf
+	Redis          struct {
 		Host string
 		Type string
 		Pass string

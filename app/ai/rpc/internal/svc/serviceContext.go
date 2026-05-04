@@ -22,7 +22,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 	return &ServiceContext{
 		Config:       c,
-		AiTaskModel:  model.NewAiTaskModel(sqlConn),
+		AiTaskModel:  model.NewAiTaskModel(sqlConn, c.Cache),
 		BaseCodeRpc:  basecode.NewBaseCode(zrpc.MustNewClient(c.BaseCodeRpcConf)),
 		SdkRpcClient: sdk.NewSdk(zrpc.MustNewClient(c.SdkRpcConf)),
 	}

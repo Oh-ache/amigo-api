@@ -49,10 +49,12 @@ func (l *SubmitTaskLogic) SubmitTask(in *pb.SubmitTaskReq) (*pb.SubmitTaskResp, 
 		UpdatedAt:   now,
 	}
 
-	id, err := l.svcCtx.AiTaskModel.Insert(l.ctx, task)
+	result, err := l.svcCtx.AiTaskModel.Insert(l.ctx, task)
 	if err != nil {
 		return nil, err
 	}
+
+	id, _ := result.LastInsertId()
 
 	mqTask := &mqueue.Task{
 		Handler: "ai_task",
