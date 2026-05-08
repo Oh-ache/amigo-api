@@ -11,4 +11,5 @@ sh script/dockerRpc user $tag
 sh script/dockerApi user $tag
 sh script/dockerRpc device $tag
 sh script/dockerApi device $tag
-sh script/dockerQueue queue $tag
+# sh script/dockerQueue queue $tag
+sh script/dockerMqueue mqueue $tag

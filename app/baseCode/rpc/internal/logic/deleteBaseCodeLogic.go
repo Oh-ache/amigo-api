@@ -25,6 +25,7 @@ func NewDeleteBaseCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 }
 
 func (l *DeleteBaseCodeLogic) DeleteBaseCode(in *pb.DeleteBaseCodeReq) (*pb.DeleteBaseCodeResp, error) {
+	resp := &pb.DeleteBaseCodeResp{Success: false}
 	// 先尝试根据主键id查询数据是否存在
 	if in.BaseCodeId == 0 && in.SortKey != "" && in.Key != "" {
 		// 主键id不存在，但有sort_key和key，根据sort_key和key查询并获取主键id
@@ -32,23 +33,24 @@ func (l *DeleteBaseCodeLogic) DeleteBaseCode(in *pb.DeleteBaseCodeReq) (*pb.Dele
 			in.BaseCodeId = code.BaseCodeId
 		} else if err != model.ErrNotFound {
 			l.Errorf("Failed to find BaseCode by sort_key and key: %v", err)
-			return &pb.DeleteBaseCodeResp{Success: false}, err
+			return resp, err
 		}
 	}
 
 	// 检查主键id是否存在
 	if in.BaseCodeId == 0 {
-		return &pb.DeleteBaseCodeResp{Success: false}, model.ErrNotFound
+		return resp, model.ErrNotFound
 	}
 
 	// 根据主键id删除数据
 	if err := l.svcCtx.BaseCodeModel.Delete(l.ctx, in.BaseCodeId); err != nil {
 		if err == model.ErrNotFound {
-			return &pb.DeleteBaseCodeResp{Success: false}, model.ErrNotFound
+			return resp, model.ErrNotFound
 		}
 		l.Errorf("Failed to delete BaseCode by id %d: %v", in.BaseCodeId, err)
-		return &pb.DeleteBaseCodeResp{Success: false}, err
+		return resp, err
 	}
 
-	return &pb.DeleteBaseCodeResp{Success: true}, nil
+	resp.Success = true
+	return resp, nil
 }

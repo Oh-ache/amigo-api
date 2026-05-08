@@ -1,0 +1,14 @@
+#!/bin/sh
+
+REGISTRY="registry.cn-hangzhou.aliyuncs.com"
+NAMESPACE="theacheapp"
+APP="mqueue-job"
+DOCKERFILE="${1}JobDockerFile"
+if [ -n "$2" ]; then
+  tag="$2"
+else
+  tag=$(date "+%Y%m%d%H%M%S")
+fi
+
+docker build --platform linux/amd64 -f deploy/DockerFile/$DOCKERFILE -t $REGISTRY/$NAMESPACE/$APP:$tag .
+docker push $REGISTRY/$NAMESPACE/$APP:$tag

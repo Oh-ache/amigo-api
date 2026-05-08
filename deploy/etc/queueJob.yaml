@@ -1,0 +1,30 @@
+Name: queue-api
+Host: 0.0.0.0
+Port: 7000
+
+# Redis配置
+Redis:
+  Host: 81.69.160.35:6379
+  Pass: secret_redis
+  DB: 0
+  PoolSize: 100
+  MinIdleConns: 10
+
+# 队列配置
+Queue:
+  # 任务队列前缀
+  Prefix: "queue:"
+  # 默认队列
+  DefaultQueue: "default"
+  # 重试队列
+  RetryQueue: "retry"
+  # 延迟队列
+  DelayQueue: "delay"
+  # 死信队列
+  DeadLetterQueue: "dead_letter"
+  # 最大重试次数
+  MaxRetry: 3
+  # 消费者并发数
+  Concurrency: 10
+  # 拉取间隔(秒)
+  PollInterval: 1

@@ -1,0 +1,30 @@
+FROM golang:alpine AS builder
+
+LABEL stage=gobuilder
+
+ENV CGO_ENABLED=0
+
+
+RUN apk update --no-cache && apk add --no-cache tzdata
+
+WORKDIR /build
+
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+
+RUN go build -ldflags="-s -w" -o /app/mqueue app/job/mqueue/mqueue.go
+RUN cp deploy/DockerFile/etc/mqueueJob.yaml app/job/mqueue/etc/mqueue.yaml
+
+
+FROM busybox:musl
+
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+COPY --from=builder /app/mqueue /app/mqueue
+COPY --from=builder /build/app/job/mqueue/etc /app/etc
+
+CMD ["./mqueue", "-f", "etc/mqueue.yaml"]

@@ -26,6 +26,7 @@ func NewDeleteBaseCodeItemLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *DeleteBaseCodeItemLogic) DeleteBaseCodeItem(in *pb.DeleteBaseCodeItemReq) (*pb.DeleteBaseCodeItemResp, error) {
+	resp := &pb.DeleteBaseCodeItemResp{Success: false}
 	// 先尝试根据主键id查询数据是否存在
 	if in.BaseCodeItemId == 0 && in.SortKey != "" && in.Key != "" {
 		// 主键id不存在，但有sort_key和key，根据sort_key和key查询并获取主键id
@@ -33,23 +34,24 @@ func (l *DeleteBaseCodeItemLogic) DeleteBaseCodeItem(in *pb.DeleteBaseCodeItemRe
 			in.BaseCodeItemId = item.BaseCodeItemId
 		} else if err != model.ErrNotFound {
 			l.Errorf("Failed to find BaseCodeItem by sort_key and key: %v", err)
-			return &pb.DeleteBaseCodeItemResp{Success: false}, err
+			return resp, err
 		}
 	}
 
 	// 检查主键id是否存在
 	if in.BaseCodeItemId == 0 {
-		return &pb.DeleteBaseCodeItemResp{Success: false}, model.ErrNotFound
+		return resp, model.ErrNotFound
 	}
 
 	// 根据主键id删除数据
 	if err := l.svcCtx.BaseCodeItemModel.Delete(l.ctx, in.BaseCodeItemId); err != nil {
 		if err == model.ErrNotFound {
-			return &pb.DeleteBaseCodeItemResp{Success: false}, model.ErrNotFound
+			return resp, model.ErrNotFound
 		}
 		l.Errorf("Failed to delete BaseCodeItem by id %d: %v", in.BaseCodeItemId, err)
-		return &pb.DeleteBaseCodeItemResp{Success: false}, err
+		return resp, err
 	}
 
-	return &pb.DeleteBaseCodeItemResp{Success: true}, nil
+	resp.Success = true
+	return resp, nil
 }
