@@ -20,6 +20,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	proxyDevice := newReverseProxy(serverCtx.Config.Upstreams.Device)
 	proxySdk := newReverseProxy(serverCtx.Config.Upstreams.Sdk)
 	proxyBaseCode := newReverseProxy(serverCtx.Config.Upstreams.BaseCode)
+	proxyAi := newReverseProxy(serverCtx.Config.Upstreams.Ai)
 
 	// Custom handler that checks path and forwards to correct proxy
 	proxyHandler := func(w http.ResponseWriter, r *http.Request) {
@@ -33,6 +34,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			proxySdk(w, r)
 		case strings.HasPrefix(path, "/api/base_code/"), strings.HasPrefix(path, "/api/base_code_item/"), strings.HasPrefix(path, "/api/base_code_sort/"):
 			proxyBaseCode(w, r)
+		case strings.HasPrefix(path, "/api/ai/"):
+			proxyAi(w, r)
 		default:
 			// If no match, maybe 404 or let the original not found handler handle it
 			http.NotFound(w, r)

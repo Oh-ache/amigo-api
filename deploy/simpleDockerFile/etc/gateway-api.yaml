@@ -11,3 +11,4 @@ Upstreams:
   Sdk: http://sdk-api:9091
   User: http://user-api:9092
   Device: http://device-api:9093
+  AI: http://ai-api:9094

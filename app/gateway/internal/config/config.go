@@ -18,4 +18,5 @@ type Upstreams struct {
 	Device   string `json:",optional"`
 	Sdk      string `json:",optional"`
 	BaseCode string `json:",optional"`
+	Ai       string `json:",optional"`
 }

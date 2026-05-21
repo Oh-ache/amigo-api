@@ -1,0 +1,10 @@
+FROM busybox:musl
+
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+RUN mkdir etc
+COPY deploy/simpleDockerFile/etc/aiRpc.yaml /app/etc/ai.yaml
+COPY deploy/simpleDockerFile/cmd/rpc/ai /app/ai
+
+CMD ["./ai", "-f", "etc/ai.yaml"]
