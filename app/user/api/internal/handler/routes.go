@@ -39,8 +39,43 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodGet,
+				Path:    "/domain/list",
+				Handler: admin.DomainListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
 				Path:    "/get",
 				Handler: admin.GetHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/policy/add",
+				Handler: admin.PolicyAddHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/policy/delete",
+				Handler: admin.PolicyDeleteHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/policy/list",
+				Handler: admin.PolicyListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/role/add",
+				Handler: admin.RoleAddHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/role/delete",
+				Handler: admin.RoleDeleteHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/role/list",
+				Handler: admin.RoleListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,

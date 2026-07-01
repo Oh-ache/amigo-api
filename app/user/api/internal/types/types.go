@@ -57,6 +57,10 @@ type CommonResp struct {
 	Data interface{} `json:"data"`
 }
 
+type DomainListResp struct {
+	List []string `json:"list"`
+}
+
 type EmptyResp struct {
 }
 
@@ -74,6 +78,27 @@ type GetUserResp struct {
 	Username   string `json:"username"`
 	Avatar     string `json:"avatar"`
 	CreateTime int64  `json:"create_time"`
+}
+
+type PolicyItem struct {
+	Domain string `json:"domain,default=,optional"`
+	Role   string `json:"role,default=,optional"`
+	Policy string `json:"policy,default=,optional"`
+	Action string `json:"action,default=,optional"`
+}
+
+type PolicyListResp struct {
+	List []PolicyItem `json:"list"`
+}
+
+type RoleItem struct {
+	Domain  string `json:"domain,default=,optional"`
+	Role    string `json:"role,default=,optional"`
+	AdminId string `json:"admin_id,default=,optional"`
+}
+
+type RoleListResp struct {
+	List []RoleItem `json:"list"`
 }
 
 type UserAddReq struct {
