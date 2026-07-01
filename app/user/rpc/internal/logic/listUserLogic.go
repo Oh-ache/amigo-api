@@ -31,6 +31,12 @@ func (l *ListUserLogic) ListUser(in *pb.ListUserReq) (*pb.ListUserResp, error) {
 	if err := copier.Copy(search, in); err != nil {
 		return nil, err
 	}
+	if search.PageSize <= 0 {
+		search.PageSize = 10
+	}
+	if search.PageSize > 1000 {
+		search.PageSize = 1000
+	}
 
 	// 查询数据
 	list, total, err := l.svcCtx.UserModel.List(l.ctx, search)

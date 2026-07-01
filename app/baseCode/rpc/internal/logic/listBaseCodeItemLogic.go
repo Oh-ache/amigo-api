@@ -29,7 +29,15 @@ func NewListBaseCodeItemLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *ListBaseCodeItemLogic) ListBaseCodeItem(in *pb.ListBaseCodeItemReq) (*pb.ListBaseCodeItemResp, error) {
 	// 构造查询条件
 	search := &model.BaseCodeItemSearch{}
-	_ = copier.Copy(search, in)
+	if err := copier.Copy(search, in); err != nil {
+		return nil, err
+	}
+	if search.PageSize <= 0 {
+		search.PageSize = 10
+	}
+	if search.PageSize > 1000 {
+		search.PageSize = 1000
+	}
 
 	// 调用模型方法查询数据
 	list, total, err := l.svcCtx.BaseCodeItemModel.List(l.ctx, search)

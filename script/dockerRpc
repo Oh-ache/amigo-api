@@ -12,6 +12,5 @@ else
 fi
 
 rm -rf deploy/simpleDockerFile/cmd/rpc/$1
-CGO_ENABLED=0 go build -ldflags="-s -w" -o deploy/simpleDockerFile/cmd/rpc/$1 app/$1/rpc/$1.go
-docker build --platform linux/amd64 -f deploy/simpleDockerFile/$DOCKERFILE -t $REGISTRY/$NAMESPACE/$APP:$tag .
-docker push $REGISTRY/$NAMESPACE/$APP:$tag
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o deploy/simpleDockerFile/cmd/rpc/$1 app/$1/rpc/$1.go
+docker buildx build --platform linux/amd64 -f deploy/simpleDockerFile/$DOCKERFILE -t $REGISTRY/$NAMESPACE/$APP:$tag --push .

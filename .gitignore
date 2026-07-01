@@ -1,2 +1,12 @@
-# Binaries
-cmd/
+# Docker 构建产物（二进制文件）
+deploy/simpleDockerFile/cmd/
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# 日志
+*.log

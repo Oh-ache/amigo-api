@@ -40,6 +40,9 @@ func (l *ListTasksLogic) ListTasks(in *pb.ListTasksReq) (*pb.ListTasksResp, erro
 	if search.PageSize <= 0 {
 		search.PageSize = 10
 	}
+	if search.PageSize > 1000 {
+		search.PageSize = 1000
+	}
 
 	tasks, total, err := l.svcCtx.AiTaskModel.List(l.ctx, search)
 	if err != nil {

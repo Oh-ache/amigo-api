@@ -3,7 +3,6 @@ package logic
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"amigo-api/app/sdk/rpc/internal/svc"
@@ -48,11 +47,12 @@ type MiniMaxImageResp struct {
 }
 
 // miniMaxRequest 独立的请求方法，设置更长的超时时间
+var miniMaxClient = &fasthttp.Client{
+	ReadTimeout:  2 * time.Minute,
+	WriteTimeout: 2 * time.Minute,
+}
+
 func miniMaxRequest(result any, uri string, token string, body any) error {
-	client := &fasthttp.Client{
-		ReadTimeout:  time.Minute * 2,
-		WriteTimeout: time.Minute * 2,
-	}
 	req, resp := fasthttp.AcquireRequest(), fasthttp.AcquireResponse()
 	defer func() {
 		fasthttp.ReleaseRequest(req)
@@ -68,23 +68,18 @@ func miniMaxRequest(result any, uri string, token string, body any) error {
 		req.SetBody(marshal)
 	}
 
-	if err := client.Do(req, resp); err != nil {
+	if err := miniMaxClient.Do(req, resp); err != nil {
 		return err
 	}
 
-	fmt.Println(string(resp.Body()))
 	return json.Unmarshal(resp.Body(), result)
 }
 
 func (l *ImageGenerationLogic) ImageGeneration(in *pb.BaseAiReq) (*pb.AiImageGenerationResp, error) {
-	// 从数据库获取 minimax token
 	token := GetBaseCode(l.ctx, l.svcCtx.BaseCodeRpc, "sdk", "minimax.tokenplankey")
-	fmt.Println(token)
 
-	// MiniMax API 地址
 	uri := "https://api.minimax.chat/v1/image_generation"
 
-	// 构建请求体
 	reqBody := MiniMaxImageReq{
 		Model:          "image-01",
 		Prompt:         in.Prompt,
@@ -98,7 +93,6 @@ func (l *ImageGenerationLogic) ImageGeneration(in *pb.BaseAiReq) (*pb.AiImageGen
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(resp)
 
 	if resp.BaseResp.StatusCode != 0 {
 		logx.Errorf("MiniMax API error: %s", resp.BaseResp.StatusMessage)

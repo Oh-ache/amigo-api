@@ -1,10 +1,11 @@
 package svc
 
 import (
+	"fmt"
+
 	"amigo-api/app/baseCode/rpc/basecode"
 	"amigo-api/app/user/model"
 	"amigo-api/app/user/rpc/internal/config"
-	"amigo-api/common/utils"
 	"amigo-api/common/utils/plug/userauth"
 
 	"github.com/zeromicro/go-zero/core/stores/redis"
@@ -25,8 +26,10 @@ type ServiceContext struct {
 func NewServiceContext(c config.Config) *ServiceContext {
 	sqlConn := sqlx.NewMysql(c.DB.DataSource)
 
-	conf, _ := utils.ReadFileToString("etc/casbin.conf")
-	adminAuthClient, _ := userauth.NewClient(c.DB.DataSource, conf)
+	adminAuthClient, err := userauth.NewClient(c.DB.DataSource)
+	if err != nil {
+		panic(fmt.Sprintf("创建 casbin client 失败: %v", err))
+	}
 
 	return &ServiceContext{
 		Config: c,

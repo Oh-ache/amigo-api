@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"sync"
 	"time"
 
 	"amigo-api/common/mqueue"
@@ -15,10 +16,17 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
+type tokenCache struct {
+	token     string
+	expiresAt time.Time
+}
+
 type AiTaskHandler struct {
 	baseCodeRpc BaseCodeRpcClient
-	aiRpcClient AiRpcClient
-	httpClient  *http.Client
+	aiRpcClient  AiRpcClient
+	httpClient   *http.Client
+	tokenCache   *tokenCache
+	cacheMutex   sync.Mutex
 }
 
 func NewAiTaskHandler() *AiTaskHandler {
@@ -251,6 +259,13 @@ func (h *AiTaskHandler) getMiniMaxToken(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("baseCodeRpc not initialized")
 	}
 
+	h.cacheMutex.Lock()
+	defer h.cacheMutex.Unlock()
+
+	if h.tokenCache != nil && time.Now().Before(h.tokenCache.expiresAt) {
+		return h.tokenCache.token, nil
+	}
+
 	req := &pb.GetBaseCodeReq{
 		SortKey: "sdk",
 		Key:     "minimax.tokenplankey",
@@ -258,6 +273,11 @@ func (h *AiTaskHandler) getMiniMaxToken(ctx context.Context) (string, error) {
 	resp, err := h.baseCodeRpc.GetBaseCode(ctx, req)
 	if err != nil {
 		return "", err
+	}
+
+	h.tokenCache = &tokenCache{
+		token:     resp.Content,
+		expiresAt: time.Now().Add(30 * time.Minute),
 	}
 	return resp.Content, nil
 }

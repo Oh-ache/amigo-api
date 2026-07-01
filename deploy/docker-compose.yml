@@ -1,13 +1,14 @@
 services: # 网关服务
   gateway:
     image: registry.cn-hangzhou.aliyuncs.com/theacheapp/gateway:220260508162741
-    ontainer_name: gateway
+    container_name: gateway
     ports:
       - "8888:8888"
     environment:
       - PORT=8888
     networks:
-      - app-network depends_on:
+      - app-network
+    depends_on:
       - basecode-api
       - sdk-api
       - user-api
@@ -67,7 +68,6 @@ services: # 网关服务
   # User 服务
   user-rpc:
     image: registry.cn-hangzhou.aliyuncs.com/theacheapp/user-rpc:20260508162741
-    c
     container_name: user-rpc
     expose:
       - "8092"

@@ -8,8 +8,6 @@ import (
 	"amigo-api/app/sdk/rpc/internal/svc"
 	"amigo-api/common/pb"
 	osContext "amigo-api/common/utils/plug/objectsave/context"
-	"amigo-api/common/utils/plug/objectsave/factory"
-	"amigo-api/common/utils/plug/objectsave/model"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,23 +27,14 @@ func NewUploadUrlLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UploadU
 }
 
 func (l *UploadUrlLogic) UploadUrl(in *pb.UploadUrlReq) (*pb.UploadUrlResp, error) {
-	factory := factory.NewStorageFactory()
-
-	storageConfig := &model.StorageConfig{
-		Type: "oss",
-		OssConfig: &model.OssConfig{
-			Endpoint:        GetBaseCode(l.ctx, l.svcCtx.BaseCodeRpc, "sdk", "ali.oss.endpoint"),
-			AccessKeyId:     GetBaseCode(l.ctx, l.svcCtx.BaseCodeRpc, "sdk", "ali.accessKey"),
-			AccessKeySecret: GetBaseCode(l.ctx, l.svcCtx.BaseCodeRpc, "sdk", "ali.accessKeySecret"),
-			Bucket:          GetBaseCode(l.ctx, l.svcCtx.BaseCodeRpc, "sdk", "ali.oss.bucket"),
-			Region:          GetBaseCode(l.ctx, l.svcCtx.BaseCodeRpc, "sdk", "ali.oss.region"),
-		},
+	ossClient, err := l.svcCtx.GetOssClient()
+	if err != nil {
+		return nil, err
 	}
 
-	ossClient, _ := factory.CreateClient(storageConfig)
 	storageCtx := osContext.NewStorageContext(ossClient)
 
-	_, err := storageCtx.UploadUrl(in.FileName, in.Url)
+	_, err = storageCtx.UploadUrl(in.FileName, in.Url)
 	if err != nil {
 		return nil, err
 	}
@@ -57,12 +46,13 @@ func (l *UploadUrlLogic) UploadUrl(in *pb.UploadUrlReq) (*pb.UploadUrlResp, erro
 	}, nil
 }
 
-// TODO 后面添加到公共方法
-func GetBaseCode(ctx context.Context, baseCode basecode.BaseCode, sortKey, key string) string {
-	getBaseCodeReq := &pb.GetBaseCodeReq{}
-	getBaseCodeReq.SortKey = sortKey
-	getBaseCodeReq.Key = key
-
-	item, _ := baseCode.GetBaseCode(ctx, getBaseCodeReq)
-	return item.Content
+func getBaseCode(ctx context.Context, baseCode basecode.BaseCode, sortKey, key string) string {
+	item, _ := baseCode.GetBaseCode(ctx, &pb.GetBaseCodeReq{
+		SortKey: sortKey,
+		Key:     key,
+	})
+	if item != nil {
+		return item.Content
+	}
+	return ""
 }

@@ -27,7 +27,15 @@ func NewListDeviceLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListDe
 
 func (l *ListDeviceLogic) ListDevice(in *pb.ListDeviceReq) (*pb.ListDeviceResp, error) {
 	search := &model.DeviceSearch{}
-	copier.Copy(search, in)
+	if err := copier.Copy(search, in); err != nil {
+		return nil, err
+	}
+	if search.PageSize <= 0 {
+		search.PageSize = 10
+	}
+	if search.PageSize > 1000 {
+		search.PageSize = 1000
+	}
 
 	list, total, err := l.svcCtx.DeviceModel.List(l.ctx, search)
 	if err != nil {
