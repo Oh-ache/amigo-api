@@ -58,12 +58,22 @@ type (
 		Password string `json:"password"`
 	}
 	AdminLoginResp {
-		AdminId    uint64 `json:"admin_id"`
-		Mobile     string `json:"mobile"`
-		Username   string `json:"username"`
-		Avatar     string `json:"avatar"`
-		CreateTime int64  `json:"create_time"`
-		Token      string `json:"token"`
+		AdminId      uint64 `json:"admin_id"`
+		Mobile       string `json:"mobile"`
+		Username     string `json:"username"`
+		Avatar       string `json:"avatar"`
+		CreateTime   int64  `json:"create_time"`
+		AccessToken  string `json:"access_token"`
+		RefreshToken string `json:"refresh_token"`
+		ExpiresIn    int64  `json:"expires_in"`
+	}
+	RefreshTokenReq {
+		RefreshToken string `json:"refresh_token"`
+	}
+	RefreshTokenResp {
+		AccessToken  string `json:"access_token"`
+		RefreshToken string `json:"refresh_token"`
+		ExpiresIn    int64  `json:"expires_in"`
 	}
 	GetAdminResp {
 		AdminId    uint64 `json:"admin_id"`
@@ -165,6 +175,10 @@ service user {
 service user {
 	@handler Login
 	post /login (AdminLoginReq) returns (AdminLoginResp)
+
+	// Refresh 不带 jwt 鉴权（依赖 token 自身有效性）
+	@handler Refresh
+	post /refresh (RefreshTokenReq) returns (RefreshTokenResp)
 }
 
 @server (

@@ -1,3 +1,6 @@
+// Code scaffolded by goctl. Safe to edit.
+// goctl 1.10.1
+
 package device
 
 import (
@@ -19,14 +22,10 @@ func UpdateHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 		l := device.NewUpdateLogic(r.Context(), svcCtx)
 		resp, err := l.Update(&req)
-		result := &types.CommonResp{}
 		if err != nil {
-			result.Code = 1
-			result.Msg = err.Error()
-			result.Data = &types.EmptyResp{}
+			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			result.Data = resp
+			httpx.OkJsonCtx(r.Context(), w, resp)
 		}
-		httpx.OkJsonCtx(r.Context(), w, result)
 	}
 }

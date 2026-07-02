@@ -1,10 +1,10 @@
 syntax = "v1"
 
 type EnqueueReq {
-	Handler string `json:"handler,options=sample|email|notification|task"`
+	Handler string                 `json:"handler,options=sample|email|notification|task"`
 	Data    map[string]interface{} `json:"data"`
-	Queue   string `json:"queue,optional"`
-	Delay   string `json:"delay,optional"`
+	Queue   string                 `json:"queue,optional"`
+	Delay   string                 `json:"delay,optional"`
 }
 
 type TaskInfoResp {
@@ -29,6 +29,49 @@ type CommonResp {
 	Data interface{} `json:"data"`
 }
 
+// ==================== 看板 ====================
+type QueueStatItem {
+	Queue     string `json:"queue"`
+	Pending   int64  `json:"pending"`
+	Active    int64  `json:"active"`
+	Scheduled int64  `json:"scheduled"`
+	Retry     int64  `json:"retry"`
+	Archived  int64  `json:"archived"`
+	Processed int64  `json:"processed"`
+	Failed    int64  `json:"failed"`
+}
+
+type QueueStatResp {
+	Total      QueueStatItem   `json:"total"`
+	Queues     []QueueStatItem `json:"queues"`
+	ServerName string          `json:"server_name"`
+	UpdatedAt  int64           `json:"updated_at"`
+}
+
+type ListTaskReq {
+	Queue    string `form:"queue,default=,optional"`
+	Status   string `form:"status,default=,optional"`
+	Page     int64  `form:"page,default=1,optional"`
+	PageSize int64  `form:"page_size,default=20,optional"`
+}
+
+type TaskItem {
+	TaskID        string `json:"task_id"`
+	Queue         string `json:"queue"`
+	Type          string `json:"type"`
+	Status        string `json:"status"`
+	Payload       string `json:"payload"`
+	NextProcessAt int64  `json:"next_process_at"`
+	RetryCount    int64  `json:"retry_count"`
+	LastError     string `json:"last_error,optional"`
+	LastFailedAt  int64  `json:"last_failed_at,optional"`
+}
+
+type ListTaskResp {
+	List  []TaskItem `json:"list"`
+	Total int64      `json:"total"`
+}
+
 service mqueue-api {
 	@handler EnqueueHandler
 	post /api/mqueue/enqueue (EnqueueReq) returns (CommonResp)
@@ -38,5 +81,11 @@ service mqueue-api {
 
 	@handler TaskResultHandler
 	get /api/mqueue/result/:task_id (TaskResultReq) returns (CommonResp)
+
+	@handler BoardHandler
+	get /api/mqueue/board returns (CommonResp)
+
+	@handler ListTaskHandler
+	get /api/mqueue/tasks (ListTaskReq) returns (CommonResp)
 }
 

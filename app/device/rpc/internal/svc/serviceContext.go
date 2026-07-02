@@ -9,9 +9,11 @@ import (
 )
 
 type ServiceContext struct {
-	Config       config.Config
-	RedisClient  *redis.Redis
-	DeviceModel  model.DeviceModel
+	Config             config.Config
+	RedisClient        *redis.Redis
+	DeviceModel        model.DeviceModel
+	AppModel           model.AppModel
+	DeviceEventModel   model.DeviceEventModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -23,6 +25,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 			r.Type = c.Redis.Type
 			r.Pass = c.Redis.Pass
 		}),
-		DeviceModel: model.NewDeviceModel(sqlConn, c.Cache),
+		DeviceModel:      model.NewDeviceModel(sqlConn, c.Cache),
+		AppModel:         model.NewAppModel(sqlConn, c.Cache),
+		DeviceEventModel: model.NewDeviceEventModel(sqlConn, c.Cache),
 	}
 }

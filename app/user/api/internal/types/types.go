@@ -21,12 +21,14 @@ type AdminLoginReq struct {
 }
 
 type AdminLoginResp struct {
-	AdminId    uint64 `json:"admin_id"`
-	Mobile     string `json:"mobile"`
-	Username   string `json:"username"`
-	Avatar     string `json:"avatar"`
-	CreateTime int64  `json:"create_time"`
-	Token      string `json:"token"`
+	AdminId      uint64 `json:"admin_id"`
+	Mobile       string `json:"mobile"`
+	Username     string `json:"username"`
+	Avatar       string `json:"avatar"`
+	CreateTime   int64  `json:"create_time"`
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
+	ExpiresIn    int64  `json:"expires_in"`
 }
 
 type AdminLoginSmsReq struct {
@@ -115,6 +117,16 @@ type PolicyItem struct {
 
 type PolicyListResp struct {
 	List []PolicyItem `json:"list"`
+}
+
+type RefreshTokenReq struct {
+	RefreshToken string `json:"refresh_token"`
+}
+
+type RefreshTokenResp struct {
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
+	ExpiresIn    int64  `json:"expires_in"`
 }
 
 type RoleItem struct {

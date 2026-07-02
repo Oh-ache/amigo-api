@@ -1,3 +1,6 @@
+// Code scaffolded by goctl. Safe to edit.
+// goctl 1.10.1
+
 package device
 
 import (
@@ -27,19 +30,12 @@ func NewUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateLogi
 
 func (l *UpdateLogic) Update(req *types.UpdateDeviceReq) (resp *types.EmptyResp, err error) {
 	resp = &types.EmptyResp{}
-	getReq := &pb.GetDeviceReq{
-		DeviceId: req.DeviceId,
-	}
-	existingItem, err := l.svcCtx.DeviceRpcClient.GetDevice(l.ctx, getReq)
-	if err != nil {
+	param := &pb.DeviceResp{}
+	if err := copier.Copy(param, req); err != nil {
 		return nil, err
 	}
-
-	copier.Copy(existingItem, req)
-
-	if _, err := l.svcCtx.DeviceRpcClient.UpdateDevice(l.ctx, existingItem); err != nil {
+	if _, err := l.svcCtx.DeviceRpcClient.UpdateDevice(l.ctx, param); err != nil {
 		return nil, err
 	}
-
 	return resp, nil
 }

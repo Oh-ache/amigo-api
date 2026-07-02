@@ -1,3 +1,6 @@
+// Code scaffolded by goctl. Safe to edit.
+// goctl 1.10.1
+
 package device
 
 import (
@@ -6,7 +9,6 @@ import (
 	"amigo-api/app/device/api/internal/svc"
 	"amigo-api/app/device/api/internal/types"
 	"amigo-api/common/pb"
-	"amigo-api/common/utils"
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -29,20 +31,15 @@ func NewListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListLogic {
 func (l *ListLogic) List(req *types.ListDeviceReq) (resp *types.ListDeviceResp, err error) {
 	resp = &types.ListDeviceResp{}
 	param := &pb.ListDeviceReq{}
-
-	copier.Copy(param, req)
-
-	payload := &utils.JwtPayload{}
-	_ = utils.DecodeJwtToken(l.ctx.Value("payload"), payload)
-
-	if payload.Domain == "amigo-api" {
-		param.UserId = payload.UserId
+	if err := copier.Copy(param, req); err != nil {
+		return nil, err
 	}
 	rpcResp, err := l.svcCtx.DeviceRpcClient.ListDevice(l.ctx, param)
 	if err != nil {
 		return nil, err
 	}
-
-	copier.Copy(resp, rpcResp)
+	if err := copier.Copy(resp, rpcResp); err != nil {
+		return nil, err
+	}
 	return resp, nil
 }

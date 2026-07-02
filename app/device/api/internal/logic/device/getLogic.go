@@ -1,3 +1,6 @@
+// Code scaffolded by goctl. Safe to edit.
+// goctl 1.10.1
+
 package device
 
 import (
@@ -26,15 +29,17 @@ func NewGetLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetLogic {
 }
 
 func (l *GetLogic) Get(req *types.GetDeviceReq) (resp *types.GetDeviceResp, err error) {
-	resp = &types.GetDeviceResp{}
 	param := &pb.GetDeviceReq{}
-
-	copier.Copy(param, req)
+	if err := copier.Copy(param, req); err != nil {
+		return nil, err
+	}
 	rpcResp, err := l.svcCtx.DeviceRpcClient.GetDevice(l.ctx, param)
 	if err != nil {
 		return nil, err
 	}
-
-	copier.Copy(resp, rpcResp)
+	resp = &types.GetDeviceResp{}
+	if err := copier.Copy(resp, rpcResp); err != nil {
+		return nil, err
+	}
 	return resp, nil
 }

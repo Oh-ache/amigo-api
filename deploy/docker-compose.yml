@@ -1,6 +1,6 @@
 services: # 网关服务
   gateway:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/gateway:220260508162741
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/gateway:20260702153709
     container_name: gateway
     ports:
       - "8888:8888"
@@ -13,11 +13,13 @@ services: # 网关服务
       - sdk-api
       - user-api
       - device-api
+      - mqueue-job
+        #      - ai-api
     restart: unless-stopped
 
   # BaseCode 服务
   basecode-rpc:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/basecode-rpc:20260508162741
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/basecode-rpc:20260702153709
     container_name: basecode-rpc
     expose:
       - "8090"
@@ -28,7 +30,7 @@ services: # 网关服务
     restart: unless-stopped
 
   basecode-api:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/basecode-api:20260508162741
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/basecode-api:20260702153709
     container_name: basecode-api
     expose:
       - "9090"
@@ -42,7 +44,7 @@ services: # 网关服务
 
   # SDK 服务
   sdk-rpc:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-rpc:20260508162741
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-rpc:20260702153709
     container_name: sdk-rpc
     expose:
       - "8091"
@@ -53,7 +55,7 @@ services: # 网关服务
     restart: unless-stopped
 
   sdk-api:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-api:20260508162741
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-api:20260702153709
     container_name: sdk-api
     expose:
       - "9091"
@@ -67,7 +69,7 @@ services: # 网关服务
 
   # User 服务
   user-rpc:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/user-rpc:20260508162741
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/user-rpc:20260702153709
     container_name: user-rpc
     expose:
       - "8092"
@@ -78,7 +80,7 @@ services: # 网关服务
     restart: unless-stopped
 
   user-api:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/user-api:20260508162741
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/user-api:20260702153709
     container_name: user-api
     expose:
       - "9092"
@@ -94,7 +96,7 @@ services: # 网关服务
 
   # Device 服务
   device-rpc:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/device-rpc:20260508162741
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/device-rpc:20260702153709
     container_name: device-rpc
     expose:
       - "8093"
@@ -105,7 +107,7 @@ services: # 网关服务
     restart: unless-stopped
 
   device-api:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/device-api:20260508162741
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/device-api:20260702153709
     container_name: device-api
     expose:
       - "9093"
@@ -117,34 +119,38 @@ services: # 网关服务
       - device-rpc
     restart: unless-stopped
 
-  # ai 服务
-  ai-rpc:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/ai-rpc:20260508162741
-    container_name: ai-rpc
-    expose:
-      - "8094"
-    environment:
-      - PORT=8094
-    networks:
-      - app-network
-    restart: unless-stopped
-
-  ai-api:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/ai-api:20260508162741
-    container_name: ai-api
-    expose:
-      - "9094"
-    environment:
-      - PORT=9094
-    networks:
-      - app-network
-    depends_on:
-      - ai-rpc
-    restart: unless-stopped
+      # # ai 服务
+      # ai-rpc:
+      # image: registry.cn-hangzhou.aliyuncs.com/theacheapp/ai-rpc:20260702153709
+      # container_name: ai-rpc
+      # expose:
+      # - "8094"
+      # environment:
+      # - PORT=8094
+      # networks:
+      # - app-network
+      # restart: unless-stopped
+      #
+      # ai-api:
+      # image: registry.cn-hangzhou.aliyuncs.com/theacheapp/ai-api:20260702153709
+      # container_name: ai-api
+      # expose:
+      # - "9094"
+      # environment:
+      # - PORT=9094
+      # networks:
+      # - app-network
+      # depends_on:
+      # - ai-rpc
+      # restart: unless-stopped
 
   mqueue-job:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/mqueue-job:20260508162741
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/mqueue-job:20260702153709
     container_name: mqueue-job
+    expose:
+      - "7001"
+    environment:
+      - PORT=7001
     networks:
       - app-network
     restart: unless-stopped

@@ -197,11 +197,29 @@ func createTables(db *sql.DB) {
   is_delete tinyint NOT NULL DEFAULT '2' COMMENT '1删除2未删除',
   create_time bigint unsigned NOT NULL DEFAULT '0',
   update_time bigint unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (sensor_id),
+   PRIMARY KEY (sensor_id),
   UNIQUE KEY idx_device_sensor (device_id, sensor_key),
   KEY idx_device_id (device_id),
   KEY idx_sensor_type (sensor_type)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='传感器配置表'`)
+
+	// 5. device_event 设备事件/心跳表
+	exec(db, `CREATE TABLE IF NOT EXISTS device_event (
+  device_event_id bigint unsigned NOT NULL AUTO_INCREMENT,
+  device_id bigint unsigned NOT NULL COMMENT '设备id',
+  event_type varchar(50) NOT NULL DEFAULT '' COMMENT '事件类型(heartbeat/info/warning/error/success)',
+  event_level varchar(20) NOT NULL DEFAULT '' COMMENT '事件等级(info/warning/error/success)',
+  title varchar(200) NOT NULL DEFAULT '' COMMENT '事件标题',
+  description text COMMENT '事件描述',
+  source varchar(100) NOT NULL DEFAULT '' COMMENT '事件来源(device/ota/app/automation)',
+  extra_data text COMMENT 'JSON扩展数据',
+  is_delete tinyint NOT NULL DEFAULT '2' COMMENT '1删除2未删除',
+  create_time bigint unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (device_event_id),
+  KEY idx_device_id (device_id),
+  KEY idx_event_type (event_type),
+  KEY idx_create_time (create_time)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='设备事件/心跳表'`)
 
 	fmt.Println("✓ 建表完成")
 }
@@ -210,6 +228,7 @@ func createTables(db *sql.DB) {
 
 func dropTables(db *sql.DB) {
 	fmt.Println("\n--- 删表 ---")
+	execIgnoreErr(db, "DROP TABLE IF EXISTS device_event")
 	execIgnoreErr(db, "DROP TABLE IF EXISTS sensor")
 	execIgnoreErr(db, "DROP TABLE IF EXISTS device_app")
 	execIgnoreErr(db, "DROP TABLE IF EXISTS app")
@@ -378,6 +397,7 @@ func seedCasbinData(db *sql.DB) {
 		"INSERT INTO casbin_rule (ptype, v0, v1, v2, v3) VALUES ('p', 'super_admin', 'amigo-admin', '/api/device/*', 'POST')",
 		"INSERT INTO casbin_rule (ptype, v0, v1, v2, v3) VALUES ('p', 'super_admin', 'amigo-admin', '/api/base_code_*/*', 'GET')",
 		"INSERT INTO casbin_rule (ptype, v0, v1, v2, v3) VALUES ('p', 'super_admin', 'amigo-admin', '/api/base_code_*/*', 'POST')",
+		"INSERT INTO casbin_rule (ptype, v0, v1, v2, v3) VALUES ('p', 'super_admin', 'amigo-admin', '/api/mqueue/*', 'GET')",
 	}
 
 	for _, s := range casbinSQLs {

@@ -19,4 +19,5 @@ type Upstreams struct {
 	Sdk      string `json:",optional"`
 	BaseCode string `json:",optional"`
 	Ai       string `json:",optional"`
+	Mqueue   string `json:",optional"`
 }

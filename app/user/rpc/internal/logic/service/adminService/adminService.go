@@ -43,19 +43,37 @@ func Insert(ctx context.Context, svcCtx *svc.ServiceContext, admin *model.Admin,
 	return resp, nil
 }
 
-func EncodeJwtToken(ctx context.Context, svcCtx *svc.ServiceContext, userId uint64) (token string, err error) {
-	jwtPayload := &utils.JwtPayload{
-		UserId: userId,
-		Domain: "amigo-admin",
-	}
-	if token, err = utils.EncodeJwtToken(
-		svcCtx.Config.JwtAuth.AccessSecret,
-		time.Now().Unix(),
-		svcCtx.Config.JwtAuth.AccessExpire,
-		jwtPayload,
-	); err != nil {
-		return "", fmt.Errorf("获取token失败")
-	}
+// EncodeAccessToken 生成短期 access token（默认 2 小时）
+func EncodeAccessToken(ctx context.Context, svcCtx *svc.ServiceContext, userId uint64) (token string, expiresAt int64, err error) {
+	return encodeToken(svcCtx, userId, utils.TokenTypeAccess, svcCtx.Config.JwtAuth.AccessExpire)
+}
 
+// EncodeRefreshToken 生成长期 refresh token（1 天）
+func EncodeRefreshToken(ctx context.Context, svcCtx *svc.ServiceContext, userId uint64) (token string, expiresAt int64, err error) {
+	return encodeToken(svcCtx, userId, utils.TokenTypeRefresh, utils.RefreshExpire)
+}
+
+func encodeToken(svcCtx *svc.ServiceContext, userId uint64, tokenType string, expire int64) (string, int64, error) {
+	payload := &utils.JwtPayload{
+		UserId:    userId,
+		Domain:    "amigo-admin",
+		TokenType: tokenType,
+	}
+	now := time.Now().Unix()
+	token, err := utils.EncodeJwtToken(
+		svcCtx.Config.JwtAuth.AccessSecret,
+		now,
+		expire,
+		payload,
+	)
+	if err != nil {
+		return "", 0, fmt.Errorf("获取token失败")
+	}
+	return token, now + expire, nil
+}
+
+// EncodeJwtToken 兼容旧调用（默认 access token）
+func EncodeJwtToken(ctx context.Context, svcCtx *svc.ServiceContext, userId uint64) (token string, err error) {
+	token, _, err = EncodeAccessToken(ctx, svcCtx, userId)
 	return
 }

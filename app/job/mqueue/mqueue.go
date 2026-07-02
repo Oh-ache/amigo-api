@@ -73,6 +73,9 @@ func main() {
 	defer func() {
 		server.Stop()
 		ctx.Consumer.Stop()
+		if ctx.Inspector != nil {
+			ctx.Inspector.Close()
+		}
 		mqueue.Shutdown()
 		redisClient.Close()
 	}()

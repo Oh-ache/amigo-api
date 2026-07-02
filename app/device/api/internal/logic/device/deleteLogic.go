@@ -1,3 +1,6 @@
+// Code scaffolded by goctl. Safe to edit.
+// goctl 1.10.1
+
 package device
 
 import (
@@ -28,11 +31,11 @@ func NewDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteLogi
 func (l *DeleteLogic) Delete(req *types.DeleteDeviceReq) (resp *types.EmptyResp, err error) {
 	resp = &types.EmptyResp{}
 	param := &pb.DeleteDeviceReq{}
-
-	copier.Copy(param, req)
+	if err := copier.Copy(param, req); err != nil {
+		return nil, err
+	}
 	if _, err := l.svcCtx.DeviceRpcClient.DeleteDevice(l.ctx, param); err != nil {
 		return nil, err
 	}
-
 	return resp, nil
 }

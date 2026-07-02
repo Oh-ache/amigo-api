@@ -146,7 +146,19 @@ message AdminLoginSuccessResp {
   string mobile = 2;
   string username = 3;
   string avatar = 4;
-  string token = 5;
+  string access_token = 5;
+  string refresh_token = 6;
+  int64 expires_in = 7;
+}
+
+message RefreshTokenReq {
+  string refresh_token = 1;
+}
+
+message RefreshTokenResp {
+  string access_token = 1;
+  string refresh_token = 2;
+  int64 expires_in = 3;
 }
 
 // -------------------rule--------------------
@@ -214,6 +226,7 @@ service User {
     rpc ListAdmin (ListAdminReq) returns (ListAdminResp);
     rpc DeleteAdmin (DeleteAdminReq) returns (SuccessResp);
     rpc LoginAdmin (LoginAdminReq) returns (AdminLoginSuccessResp);
+    rpc RefreshAdminToken (RefreshTokenReq) returns (RefreshTokenResp);
 
     rpc GetAllDomain (GetAllDomainReq) returns (GetAllDomainResp);
     rpc GetRole(BaseRoleItem) returns (SuccessResp);

@@ -176,10 +176,20 @@ func FastWithUrlencodeDo(result any, method, uri string, params map[string]strin
 }
 
 type JwtPayload struct {
-	Domain  string
-	UserId  uint64
-	AdminId uint64
+	Domain    string
+	UserId    uint64
+	AdminId   uint64
+	TokenType string `json:",omitempty"` // "access" / "refresh"
 }
+
+// TokenType 常量
+const (
+	TokenTypeAccess  = "access"
+	TokenTypeRefresh = "refresh"
+)
+
+// RefreshExpire 刷新 token 有效期：1 天
+const RefreshExpire int64 = 86400
 
 // @secretKey: JWT 加解密密钥
 // @iat: 时间戳
@@ -207,6 +217,28 @@ func DecodeJwtToken(payload any, data any) error {
 		return nil
 	}
 	return json.Unmarshal([]byte(payloadStr), data)
+}
+
+// DecodeJwtTokenFromString 从完整 token 字符串解析 payload
+// 包含验签 + 过期检查
+func DecodeJwtTokenFromString(secretKey, tokenStr string, data any) error {
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte(secretKey), nil
+	})
+	if err != nil {
+		return err
+	}
+	if !token.Valid {
+		return fmt.Errorf("invalid token")
+	}
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return fmt.Errorf("invalid claims")
+	}
+	return DecodeJwtToken(claims["payload"], data)
 }
 
 // 星期转中文

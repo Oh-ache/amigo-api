@@ -12,6 +12,8 @@ message AddDeviceReq {
     string bmp_image = 5;
     int64 is_running = 6;
     string extra_data = 7;
+    string firmware = 8;
+    string device_group = 9;
 }
 
 message DeviceResp {
@@ -26,6 +28,8 @@ message DeviceResp {
     int64 is_delete = 9;
     uint64 create_time = 10;
     uint64 update_time = 11;
+    string firmware = 12;
+    string device_group = 13;
 }
 
 message GetDeviceReq {
@@ -51,11 +55,121 @@ message ListDeviceReq {
     string internal_ip = 6;
     int64 is_running = 7;
     int64 is_delete = 8;
+    string firmware = 9;
+    string device_group = 10;
 }
 
 message ListDeviceResp {
     repeated DeviceResp list = 1;
     int64 total = 2;
+}
+
+// ==================== App ====================
+message AddAppReq {
+    string name = 1;
+    string app_key = 2;
+    string category = 3;
+    string version = 4;
+    string vendor = 5;
+    string icon_bg = 6;
+    string icon_color = 7;
+    string icon_label = 8;
+    string description = 9;
+    string sensor_type = 10;
+    string extra_data = 11;
+}
+
+message AppResp {
+    uint64 app_id = 1;
+    string name = 2;
+    string app_key = 3;
+    string category = 4;
+    string version = 5;
+    string vendor = 6;
+    string icon_bg = 7;
+    string icon_color = 8;
+    string icon_label = 9;
+    string description = 10;
+    string sensor_type = 11;
+    string extra_data = 12;
+    int64 is_delete = 13;
+    uint64 create_time = 14;
+    uint64 update_time = 15;
+}
+
+message GetAppReq {
+    uint64 app_id = 1;
+    string app_key = 2;
+}
+
+message DeleteAppReq {
+    uint64 app_id = 1;
+    string app_key = 2;
+}
+
+message DeleteAppResp {
+    bool success = 1;
+}
+
+message ListAppReq {
+    int64 page = 1;
+    int64 page_size = 2;
+    string name = 3;
+    string app_key = 4;
+    string category = 5;
+    string sensor_type = 6;
+    int64 is_delete = 7;
+}
+
+message ListAppResp {
+    repeated AppResp list = 1;
+    int64 total = 2;
+}
+
+// ==================== Event ====================
+message DeviceEventResp {
+    uint64 device_event_id = 1;
+    uint64 device_id = 2;
+    string event_type = 3;
+    string event_level = 4;
+    string title = 5;
+    string description = 6;
+    string source = 7;
+    string extra_data = 8;
+    int64 is_delete = 9;
+    uint64 create_time = 10;
+}
+message GetDeviceEventReq {
+    uint64 device_event_id = 1;
+}
+message DeleteDeviceEventReq {
+    uint64 device_event_id = 1;
+    uint64 device_id = 2;
+}
+message DeleteDeviceEventResp {
+    bool success = 1;
+}
+message ListDeviceEventReq {
+    int64 page = 1;
+    int64 page_size = 2;
+    uint64 device_id = 3;
+    string event_type = 4;
+    string event_level = 5;
+    string source = 6;
+    int64 is_delete = 7;
+}
+message ListDeviceEventResp {
+    repeated DeviceEventResp list = 1;
+    int64 total = 2;
+}
+message AddDeviceEventReq {
+    uint64 device_id = 1;
+    string event_type = 2;
+    string event_level = 3;
+    string title = 4;
+    string description = 5;
+    string source = 6;
+    string extra_data = 7;
 }
 
 service Device {
@@ -64,4 +178,13 @@ service Device {
     rpc GetDevice (GetDeviceReq) returns (DeviceResp);
     rpc DeleteDevice (DeleteDeviceReq) returns (DeleteDeviceResp);
     rpc ListDevice (ListDeviceReq) returns (ListDeviceResp);
+    rpc AddApp (AddAppReq) returns (AppResp);
+    rpc UpdateApp (AppResp) returns (AppResp);
+    rpc GetApp (GetAppReq) returns (AppResp);
+    rpc DeleteApp (DeleteAppReq) returns (DeleteAppResp);
+    rpc ListApp (ListAppReq) returns (ListAppResp);
+    rpc AddDeviceEvent (AddDeviceEventReq) returns (DeviceEventResp);
+    rpc DeleteDeviceEvent (DeleteDeviceEventReq) returns (DeleteDeviceEventResp);
+    rpc GetDeviceEvent (GetDeviceEventReq) returns (DeviceEventResp);
+    rpc ListDeviceEvent (ListDeviceEventReq) returns (ListDeviceEventResp);
 }

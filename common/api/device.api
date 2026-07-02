@@ -4,59 +4,176 @@ import "common.api"
 
 type (
 	AddDeviceReq {
-		Name       string `json:"name"`
-		UserId     uint64 `json:"user_id"`
-		MacAddress string `json:"mac_address"`
-		InternalIp string `json:"internal_ip"`
-		BmpImage   string `json:"bmp_image,optional,default="`
-		IsRunning  int64  `json:"is_running,optional,default=2"`
-		ExtraData  string `json:"extra_data,optional,default="`
+		Name        string `json:"name"`
+		UserId      uint64 `json:"user_id"`
+		MacAddress  string `json:"mac_address"`
+		InternalIp  string `json:"internal_ip"`
+		BmpImage    string `json:"bmp_image,optional,default="`
+		IsRunning   int64  `json:"is_running,optional,default=2"`
+		ExtraData   string `json:"extra_data,optional,default="`
+		Firmware    string `json:"firmware,optional,default="`
+		DeviceGroup string `json:"device_group,optional,default="`
 	}
 	DeleteDeviceReq {
 		DeviceId   uint64 `json:"device_id,default=0,optional"`
 		MacAddress string `json:"mac_address,default=,optional"`
 	}
 	UpdateDeviceReq {
-		DeviceId   uint64 `json:"device_id"`
-		Name       string `json:"name"`
-		UserId     uint64 `json:"user_id"`
-		MacAddress string `json:"mac_address"`
-		InternalIp string `json:"internal_ip"`
-		BmpImage   string `json:"bmp_image,optional,default="`
-		IsRunning  int64  `json:"is_running,optional,default=2"`
-		ExtraData  string `json:"extra_data,optional,default="`
-		IsDelete   int64  `json:"is_delete"`
+		DeviceId    uint64 `json:"device_id"`
+		Name        string `json:"name"`
+		UserId      uint64 `json:"user_id"`
+		MacAddress  string `json:"mac_address"`
+		InternalIp  string `json:"internal_ip"`
+		BmpImage    string `json:"bmp_image,optional,default="`
+		IsRunning   int64  `json:"is_running,optional,default=2"`
+		ExtraData   string `json:"extra_data,optional,default="`
+		Firmware    string `json:"firmware,optional,default="`
+		DeviceGroup string `json:"device_group,optional,default="`
+		IsDelete    int64  `json:"is_delete"`
 	}
 	GetDeviceReq {
 		DeviceId   uint64 `form:"device_id,default=0,optional"`
 		MacAddress string `form:"mac_address,default=,optional"`
 	}
 	GetDeviceResp {
-		DeviceId   uint64 `json:"device_id"`
-		Name       string `json:"name"`
-		UserId     uint64 `json:"user_id"`
-		MacAddress string `json:"mac_address"`
-		InternalIp string `json:"internal_ip"`
-		BmpImage   string `json:"bmp_image"`
-		IsRunning  int64  `json:"is_running"`
-		ExtraData  string `json:"extra_data"`
-		IsDelete   int64  `json:"is_delete"`
-		CreateTime uint64 `json:"create_time"`
-		UpdateTime uint64 `json:"update_time"`
+		DeviceId    uint64 `json:"device_id"`
+		Name        string `json:"name"`
+		UserId      uint64 `json:"user_id"`
+		MacAddress  string `json:"mac_address"`
+		InternalIp  string `json:"internal_ip"`
+		BmpImage    string `json:"bmp_image"`
+		IsRunning   int64  `json:"is_running"`
+		ExtraData   string `json:"extra_data"`
+		IsDelete    int64  `json:"is_delete"`
+		CreateTime  uint64 `json:"create_time"`
+		UpdateTime  uint64 `json:"update_time"`
+		Firmware    string `json:"firmware"`
+		DeviceGroup string `json:"device_group"`
 	}
 	ListDeviceReq {
-		Name       string `form:"name,default=,optional"`
-		UserId     uint64 `form:"user_id,default=0,optional"`
-		MacAddress string `form:"mac_address,default=,optional"`
-		InternalIp string `form:"internal_ip,default=,optional"`
-		IsRunning  int64  `form:"is_running,default=0,optional"`
-		IsDelete   int64  `form:"is_delete,default=2,optional"`
-		Page       int64  `form:"page,default=1,optional"`
-		PageSize   int64  `form:"page_size,default=10,optional"`
+		Name        string `form:"name,default=,optional"`
+		UserId      uint64 `form:"user_id,default=0,optional"`
+		MacAddress  string `form:"mac_address,default=,optional"`
+		InternalIp  string `form:"internal_ip,default=,optional"`
+		IsRunning   int64  `form:"is_running,default=0,optional"`
+		IsDelete    int64  `form:"is_delete,default=2,optional"`
+		Firmware    string `form:"firmware,default=,optional"`
+		DeviceGroup string `form:"device_group,default=,optional"`
+		Page        int64  `form:"page,default=1,optional"`
+		PageSize    int64  `form:"page_size,default=10,optional"`
 	}
 	ListDeviceResp {
 		List  []GetDeviceResp `json:"list"`
 		Total int64           `json:"total"`
+	}
+	// ==================== Event ====================
+	AddDeviceEventReq {
+		DeviceId    uint64 `json:"device_id"`
+		EventType   string `json:"event_type,optional,default="`
+		EventLevel  string `json:"event_level,optional,default=info"`
+		Title       string `json:"title"`
+		Description string `json:"description,optional,default="`
+		Source      string `json:"source,optional,default=device"`
+		ExtraData   string `json:"extra_data,optional,default="`
+	}
+	GetDeviceEventResp {
+		DeviceEventId uint64 `json:"device_event_id"`
+		DeviceId      uint64 `json:"device_id"`
+		EventType     string `json:"event_type"`
+		EventLevel    string `json:"event_level"`
+		Title         string `json:"title"`
+		Description   string `json:"description"`
+		Source        string `json:"source"`
+		ExtraData     string `json:"extra_data"`
+		IsDelete      int64  `json:"is_delete"`
+		CreateTime    uint64 `json:"create_time"`
+	}
+	GetDeviceEventReq {
+		DeviceEventId uint64 `form:"device_event_id,default=0,optional"`
+	}
+	ListDeviceEventReq {
+		DeviceId   uint64 `form:"device_id,default=0,optional"`
+		EventType  string `form:"event_type,default=,optional"`
+		EventLevel string `form:"event_level,default=,optional"`
+		Source     string `form:"source,default=,optional"`
+		IsDelete   int64  `form:"is_delete,default=2,optional"`
+		Page       int64  `form:"page,default=1,optional"`
+		PageSize   int64  `form:"page_size,default=10,optional"`
+	}
+	ListDeviceEventResp {
+		List  []GetDeviceEventResp `json:"list"`
+		Total int64                `json:"total"`
+	}
+	DeleteDeviceEventReq {
+		DeviceEventId uint64 `json:"device_event_id,default=0,optional"`
+		DeviceId      uint64 `json:"device_id,default=0,optional"`
+	}
+	// ==================== App ====================
+	AddAppReq {
+		Name        string `json:"name"`
+		AppKey      string `json:"app_key"`
+		Category    string `json:"category,optional,default="`
+		Version     string `json:"version,optional,default="`
+		Vendor      string `json:"vendor,optional,default="`
+		IconBg      string `json:"icon_bg,optional,default="`
+		IconColor   string `json:"icon_color,optional,default="`
+		IconLabel   string `json:"icon_label,optional,default="`
+		Description string `json:"description,optional,default="`
+		SensorType  string `json:"sensor_type,optional,default="`
+		ExtraData   string `json:"extra_data,optional,default="`
+	}
+	GetAppReq {
+		AppId  uint64 `form:"app_id,default=0,optional"`
+		AppKey string `form:"app_key,default=,optional"`
+	}
+	GetAppResp {
+		AppId       uint64 `json:"app_id"`
+		Name        string `json:"name"`
+		AppKey      string `json:"app_key"`
+		Category    string `json:"category"`
+		Version     string `json:"version"`
+		Vendor      string `json:"vendor"`
+		IconBg      string `json:"icon_bg"`
+		IconColor   string `json:"icon_color"`
+		IconLabel   string `json:"icon_label"`
+		Description string `json:"description"`
+		SensorType  string `json:"sensor_type"`
+		ExtraData   string `json:"extra_data"`
+		IsDelete    int64  `json:"is_delete"`
+		CreateTime  uint64 `json:"create_time"`
+		UpdateTime  uint64 `json:"update_time"`
+	}
+	ListAppReq {
+		Name       string `form:"name,default=,optional"`
+		AppKey     string `form:"app_key,default=,optional"`
+		Category   string `form:"category,default=,optional"`
+		SensorType string `form:"sensor_type,default=,optional"`
+		IsDelete   int64  `form:"is_delete,default=2,optional"`
+		Page       int64  `form:"page,default=1,optional"`
+		PageSize   int64  `form:"page_size,default=10,optional"`
+	}
+	ListAppResp {
+		List  []GetAppResp `json:"list"`
+		Total int64        `json:"total"`
+	}
+	UpdateAppReq {
+		AppId       uint64 `json:"app_id"`
+		Name        string `json:"name"`
+		AppKey      string `json:"app_key"`
+		Category    string `json:"category,optional,default="`
+		Version     string `json:"version,optional,default="`
+		Vendor      string `json:"vendor,optional,default="`
+		IconBg      string `json:"icon_bg,optional,default="`
+		IconColor   string `json:"icon_color,optional,default="`
+		IconLabel   string `json:"icon_label,optional,default="`
+		Description string `json:"description,optional,default="`
+		SensorType  string `json:"sensor_type,optional,default="`
+		ExtraData   string `json:"extra_data,optional,default="`
+		IsDelete    int64  `json:"is_delete,default=2"`
+	}
+	DeleteAppReq {
+		AppId  uint64 `json:"app_id,default=0,optional"`
+		AppKey string `json:"app_key,default=,optional"`
 	}
 )
 
@@ -80,5 +197,46 @@ service device {
 
 	@handler Update
 	post /update (UpdateDeviceReq) returns (EmptyResp)
+}
+
+@server (
+	group:  device
+	prefix: /api/device_event
+	jwt:    Auth
+)
+service device {
+	@handler EventGet
+	get /get (GetDeviceEventReq) returns (GetDeviceEventResp)
+
+	@handler EventList
+	get /list (ListDeviceEventReq) returns (ListDeviceEventResp)
+
+	@handler EventAdd
+	post /add (AddDeviceEventReq) returns (EmptyResp)
+
+	@handler EventDelete
+	post /delete (DeleteDeviceEventReq) returns (EmptyResp)
+}
+
+@server (
+	group:  device
+	prefix: /api/app
+	jwt:    Auth
+)
+service device {
+	@handler AppGet
+	get /get (GetAppReq) returns (GetAppResp)
+
+	@handler AppList
+	get /list (ListAppReq) returns (ListAppResp)
+
+	@handler AppAdd
+	post /add (AddAppReq) returns (EmptyResp)
+
+	@handler AppDelete
+	post /delete (DeleteAppReq) returns (EmptyResp)
+
+	@handler AppUpdate
+	post /update (UpdateAppReq) returns (EmptyResp)
 }
 

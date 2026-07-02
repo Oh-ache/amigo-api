@@ -1,3 +1,6 @@
+// Code scaffolded by goctl. Safe to edit.
+// goctl 1.10.1
+
 package device
 
 import (
@@ -28,11 +31,11 @@ func NewAddLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddLogic {
 func (l *AddLogic) Add(req *types.AddDeviceReq) (resp *types.EmptyResp, err error) {
 	resp = &types.EmptyResp{}
 	param := &pb.AddDeviceReq{}
-
-	copier.Copy(param, req)
+	if err := copier.Copy(param, req); err != nil {
+		return nil, err
+	}
 	if _, err := l.svcCtx.DeviceRpcClient.AddDevice(l.ctx, param); err != nil {
 		return nil, err
 	}
-
 	return resp, nil
 }

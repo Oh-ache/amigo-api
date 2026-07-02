@@ -24,14 +24,16 @@ type (
 	}
 
 	DeviceSearch struct {
-		Name       string
-		UserId     uint64
-		MacAddress string
-		InternalIp string
-		IsRunning  int64
-		IsDelete   int64
-		Page       int64
-		PageSize   int64
+		Name        string
+		UserId      uint64
+		MacAddress  string
+		InternalIp  string
+		IsRunning   int64
+		IsDelete    int64
+		Firmware    string
+		DeviceGroup string
+		Page        int64
+		PageSize    int64
 	}
 
 	customDeviceModel struct {
@@ -96,6 +98,12 @@ func (m *customDeviceModel) List(ctx context.Context, search *DeviceSearch) ([]*
 	}
 	if search.IsDelete != 0 {
 		conditions = append(conditions, "`is_delete` = "+fmt.Sprintf("%d", search.IsDelete))
+	}
+	if search.Firmware != "" {
+		conditions = append(conditions, "`firmware` = '"+search.Firmware+"'")
+	}
+	if search.DeviceGroup != "" {
+		conditions = append(conditions, "`device_group` = '"+search.DeviceGroup+"'")
 	}
 
 	queryWhere := ""

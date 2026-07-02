@@ -14,6 +14,7 @@ import (
 	asynqmqueue "amigo-api/common/mqueue"
 	"amigo-api/common/pb"
 
+	"github.com/hibiken/asynq"
 	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -23,6 +24,7 @@ type ServiceContext struct {
 	Config   config.Config
 	Consumer *asynqmqueue.RedisConsumer
 	Producer *asynqmqueue.RedisProducer
+	Inspector *asynq.Inspector
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -47,6 +49,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 	consumer := asynqmqueue.NewRedisConsumer(redisOpt, mqConfig)
 	producer := asynqmqueue.NewRedisProducer(redisOpt, mqConfig)
+	inspector := asynq.NewInspector(asynq.RedisClientOpt{Addr: redisOpt.Addr, Password: redisOpt.Password, DB: redisOpt.DB})
 
 	registerHandlers(consumer)
 
@@ -58,9 +61,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	return &ServiceContext{
-		Config:   c,
-		Consumer: consumer,
-		Producer: producer,
+		Config:    c,
+		Consumer:  consumer,
+		Producer:  producer,
+		Inspector: inspector,
 	}
 }
 
@@ -86,6 +90,7 @@ func NewServiceContextWithHandler(c config.Config, aiHandler *mqhandler.AiTaskHa
 
 	consumer := asynqmqueue.NewRedisConsumer(redisOpt, mqConfig)
 	producer := asynqmqueue.NewRedisProducer(redisOpt, mqConfig)
+	inspector := asynq.NewInspector(asynq.RedisClientOpt{Addr: redisOpt.Addr, Password: redisOpt.Password, DB: redisOpt.DB})
 
 	registerHandlersWithAi(consumer, aiHandler)
 
@@ -97,9 +102,10 @@ func NewServiceContextWithHandler(c config.Config, aiHandler *mqhandler.AiTaskHa
 	}
 
 	return &ServiceContext{
-		Config:   c,
-		Consumer: consumer,
-		Producer: producer,
+		Config:    c,
+		Consumer:  consumer,
+		Producer:  producer,
+		Inspector: inspector,
 	}
 }
 

@@ -44,7 +44,11 @@ func (l *LoginAdminLogic) LoginAdmin(in *pb.LoginAdminReq) (*pb.AdminLoginSucces
 
 	resp := &pb.AdminLoginSuccessResp{}
 	_ = copier.Copy(resp, admin)
-	resp.Token, err = adminService.EncodeJwtToken(l.ctx, l.svcCtx, admin.AdminId)
+	resp.AccessToken, resp.ExpiresIn, err = adminService.EncodeAccessToken(l.ctx, l.svcCtx, admin.AdminId)
+	if err != nil {
+		return nil, err
+	}
+	resp.RefreshToken, _, err = adminService.EncodeRefreshToken(l.ctx, l.svcCtx, admin.AdminId)
 	if err != nil {
 		return nil, err
 	}
