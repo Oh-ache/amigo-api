@@ -1,7 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.10.1
-
-package device
+package event
 
 import (
 	"context"
@@ -14,21 +11,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type EventDeleteLogic struct {
+type DeleteLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewEventDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *EventDeleteLogic {
-	return &EventDeleteLogic{
+func NewDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteLogic {
+	return &DeleteLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *EventDeleteLogic) EventDelete(req *types.DeleteDeviceEventReq) (resp *types.EmptyResp, err error) {
+func (l *DeleteLogic) Delete(req *types.DeleteDeviceEventReq) (resp *types.EmptyResp, err error) {
 	resp = &types.EmptyResp{}
 	param := &pb.DeleteDeviceEventReq{}
 	if err := copier.Copy(param, req); err != nil {

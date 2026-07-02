@@ -1,7 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.10.1
-
-package device
+package event
 
 import (
 	"context"
@@ -14,27 +11,27 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type AppListLogic struct {
+type ListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewAppListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AppListLogic {
-	return &AppListLogic{
+func NewListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListLogic {
+	return &ListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *AppListLogic) AppList(req *types.ListAppReq) (resp *types.ListAppResp, err error) {
-	resp = &types.ListAppResp{}
-	param := &pb.ListAppReq{}
+func (l *ListLogic) List(req *types.ListDeviceEventReq) (resp *types.ListDeviceEventResp, err error) {
+	resp = &types.ListDeviceEventResp{}
+	param := &pb.ListDeviceEventReq{}
 	if err := copier.Copy(param, req); err != nil {
 		return nil, err
 	}
-	rpcResp, err := l.svcCtx.DeviceRpcClient.ListApp(l.ctx, param)
+	rpcResp, err := l.svcCtx.DeviceRpcClient.ListDeviceEvent(l.ctx, param)
 	if err != nil {
 		return nil, err
 	}

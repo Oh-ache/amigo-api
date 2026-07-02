@@ -1,7 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.10.1
-
-package device
+package app
 
 import (
 	"context"
@@ -14,27 +11,27 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type AppDeleteLogic struct {
+type UpdateLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewAppDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AppDeleteLogic {
-	return &AppDeleteLogic{
+func NewUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateLogic {
+	return &UpdateLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *AppDeleteLogic) AppDelete(req *types.DeleteAppReq) (resp *types.EmptyResp, err error) {
+func (l *UpdateLogic) Update(req *types.UpdateAppReq) (resp *types.EmptyResp, err error) {
 	resp = &types.EmptyResp{}
-	param := &pb.DeleteAppReq{}
+	param := &pb.AppResp{}
 	if err := copier.Copy(param, req); err != nil {
 		return nil, err
 	}
-	if _, err := l.svcCtx.DeviceRpcClient.DeleteApp(l.ctx, param); err != nil {
+	if _, err := l.svcCtx.DeviceRpcClient.UpdateApp(l.ctx, param); err != nil {
 		return nil, err
 	}
 	return resp, nil

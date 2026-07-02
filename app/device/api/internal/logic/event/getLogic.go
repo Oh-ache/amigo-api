@@ -1,7 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.10.1
-
-package device
+package event
 
 import (
 	"context"
@@ -14,30 +11,30 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type EventListLogic struct {
+type GetLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewEventListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *EventListLogic {
-	return &EventListLogic{
+func NewGetLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetLogic {
+	return &GetLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *EventListLogic) EventList(req *types.ListDeviceEventReq) (resp *types.ListDeviceEventResp, err error) {
-	resp = &types.ListDeviceEventResp{}
-	param := &pb.ListDeviceEventReq{}
+func (l *GetLogic) Get(req *types.GetDeviceEventReq) (resp *types.GetDeviceEventResp, err error) {
+	param := &pb.GetDeviceEventReq{}
 	if err := copier.Copy(param, req); err != nil {
 		return nil, err
 	}
-	rpcResp, err := l.svcCtx.DeviceRpcClient.ListDeviceEvent(l.ctx, param)
+	rpcResp, err := l.svcCtx.DeviceRpcClient.GetDeviceEvent(l.ctx, param)
 	if err != nil {
 		return nil, err
 	}
+	resp = &types.GetDeviceEventResp{}
 	if err := copier.Copy(resp, rpcResp); err != nil {
 		return nil, err
 	}

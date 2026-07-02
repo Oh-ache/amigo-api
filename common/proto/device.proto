@@ -172,6 +172,15 @@ message AddDeviceEventReq {
     string extra_data = 7;
 }
 
+message GetDeviceStatsReq {}
+
+message DeviceStatsResp {
+    int64 total = 1;
+    int64 online = 2;
+    int64 offline = 3;
+    int64 warning = 4;
+}
+
 service Device {
     rpc AddDevice (AddDeviceReq) returns (DeviceResp);
     rpc UpdateDevice (DeviceResp) returns (DeviceResp);
@@ -187,4 +196,5 @@ service Device {
     rpc DeleteDeviceEvent (DeleteDeviceEventReq) returns (DeleteDeviceEventResp);
     rpc GetDeviceEvent (GetDeviceEventReq) returns (DeviceEventResp);
     rpc ListDeviceEvent (ListDeviceEventReq) returns (ListDeviceEventResp);
+    rpc GetDeviceStats (GetDeviceStatsReq) returns (DeviceStatsResp);
 }

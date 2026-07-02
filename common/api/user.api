@@ -135,18 +135,18 @@ type (
 	}
 	//----------------------------------------------角色权限
 	RoleItem {
-		Domain  string `json:"domain,default=,optional"`
-		Role    string `json:"role,default=,optional"`
-		AdminId string `json:"admin_id,default=,optional"`
+		Domain  string `json:"domain,default=,optional" form:"domain,default=,optional"`
+		Role    string `json:"role,default=,optional" form:"role,default=,optional"`
+		AdminId string `json:"admin_id,default=,optional" form:"admin_id,default=,optional"`
 	}
 	RoleListResp {
 		List []RoleItem `json:"list"`
 	}
 	PolicyItem {
-		Domain string `json:"domain,default=,optional"`
-		Role   string `json:"role,default=,optional"`
-		Policy string `json:"policy,default=,optional"`
-		Action string `json:"action,default=,optional"`
+		Domain string `json:"domain,default=,optional" form:"domain,default=,optional"`
+		Role   string `json:"role,default=,optional" form:"role,default=,optional"`
+		Policy string `json:"policy,default=,optional" form:"policy,default=,optional"`
+		Action string `json:"action,default=,optional" form:"action,default=,optional"`
 	}
 	PolicyListResp {
 		List []PolicyItem `json:"list"`

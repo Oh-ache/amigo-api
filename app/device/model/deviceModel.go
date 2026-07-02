@@ -21,6 +21,14 @@ type (
 		deviceModel
 		CheckDuplicate(ctx context.Context, data *Device) (bool, error)
 		List(ctx context.Context, search *DeviceSearch) ([]*Device, int64, error)
+		Stats(ctx context.Context) (*DeviceStats, error)
+	}
+
+	DeviceStats struct {
+		Total   int64
+		Online  int64
+		Offline int64
+		Warning int64
 	}
 
 	DeviceSearch struct {
@@ -127,4 +135,19 @@ func (m *customDeviceModel) List(ctx context.Context, search *DeviceSearch) ([]*
 	}
 
 	return list, total, nil
+}
+
+func (m *customDeviceModel) Stats(ctx context.Context) (*DeviceStats, error) {
+	query := fmt.Sprintf("select count(*) as total, "+
+		"sum(case when is_running = 1 then 1 else 0 end) as online, "+
+		"sum(case when is_running = 2 then 1 else 0 end) as offline, "+
+		"sum(case when is_running = 0 then 1 else 0 end) as warning "+
+		"from %s where is_delete = 2", m.table)
+
+	var stats DeviceStats
+	if err := m.QueryRowNoCacheCtx(ctx, &stats, query); err != nil {
+		return nil, err
+	}
+
+	return &stats, nil
 }

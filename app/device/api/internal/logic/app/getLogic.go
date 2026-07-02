@@ -1,7 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.10.1
-
-package device
+package app
 
 import (
 	"context"
@@ -14,21 +11,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type AppGetLogic struct {
+type GetLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewAppGetLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AppGetLogic {
-	return &AppGetLogic{
+func NewGetLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetLogic {
+	return &GetLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *AppGetLogic) AppGet(req *types.GetAppReq) (resp *types.GetAppResp, err error) {
+func (l *GetLogic) Get(req *types.GetAppReq) (resp *types.GetAppResp, err error) {
 	param := &pb.GetAppReq{}
 	if err := copier.Copy(param, req); err != nil {
 		return nil, err

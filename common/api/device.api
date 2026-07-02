@@ -66,6 +66,12 @@ type (
 		List  []GetDeviceResp `json:"list"`
 		Total int64           `json:"total"`
 	}
+	DeviceStatsResp {
+		Total   int64 `json:"total"`
+		Online  int64 `json:"online"`
+		Offline int64 `json:"offline"`
+		Warning int64 `json:"warning"`
+	}
 	// ==================== Event ====================
 	AddDeviceEventReq {
 		DeviceId    uint64 `json:"device_id"`
@@ -197,46 +203,49 @@ service device {
 
 	@handler Update
 	post /update (UpdateDeviceReq) returns (EmptyResp)
+
+	@handler Stats
+	get /stats returns (DeviceStatsResp)
 }
 
 @server (
-	group:  device
+	group:  event
 	prefix: /api/device_event
 	jwt:    Auth
 )
 service device {
-	@handler EventGet
+	@handler Get
 	get /get (GetDeviceEventReq) returns (GetDeviceEventResp)
 
-	@handler EventList
+	@handler List
 	get /list (ListDeviceEventReq) returns (ListDeviceEventResp)
 
-	@handler EventAdd
+	@handler Add
 	post /add (AddDeviceEventReq) returns (EmptyResp)
 
-	@handler EventDelete
+	@handler Delete
 	post /delete (DeleteDeviceEventReq) returns (EmptyResp)
 }
 
 @server (
-	group:  device
+	group:  app
 	prefix: /api/app
 	jwt:    Auth
 )
 service device {
-	@handler AppGet
+	@handler Get
 	get /get (GetAppReq) returns (GetAppResp)
 
-	@handler AppList
+	@handler List
 	get /list (ListAppReq) returns (ListAppResp)
 
-	@handler AppAdd
+	@handler Add
 	post /add (AddAppReq) returns (EmptyResp)
 
-	@handler AppDelete
+	@handler Delete
 	post /delete (DeleteAppReq) returns (EmptyResp)
 
-	@handler AppUpdate
+	@handler Update
 	post /update (UpdateAppReq) returns (EmptyResp)
 }
 

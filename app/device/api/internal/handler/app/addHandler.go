@@ -1,27 +1,24 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.10.1
-
-package device
+package app
 
 import (
 	"net/http"
 
-	"amigo-api/app/device/api/internal/logic/device"
+	"amigo-api/app/device/api/internal/logic/app"
 	"amigo-api/app/device/api/internal/svc"
 	"amigo-api/app/device/api/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func EventGetHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func AddHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.GetDeviceEventReq
+		var req types.AddAppReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := device.NewEventGetLogic(r.Context(), svcCtx)
-		resp, err := l.EventGet(&req)
+		l := app.NewAddLogic(r.Context(), svcCtx)
+		resp, err := l.Add(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
