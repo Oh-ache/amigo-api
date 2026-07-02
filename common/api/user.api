@@ -100,6 +100,29 @@ type (
 		Mobile string `json:"mobile"`
 		Code   string `json:"code"`
 	}
+	//----------------------------------------------列表查询
+	ListUserReq {
+		Page     int64  `form:"page,default=1,optional"`
+		PageSize int64  `form:"page_size,default=10,optional"`
+		UserId   string `form:"user_id,default=,optional"`
+		Username string `form:"username,default=,optional"`
+		Mobile   string `form:"mobile,default=,optional"`
+	}
+	ListUserResp {
+		List  []GetUserResp `json:"list"`
+		Total int64         `json:"total"`
+	}
+	ListAdminReq {
+		Page     int64  `form:"page,default=1,optional"`
+		PageSize int64  `form:"page_size,default=10,optional"`
+		AdminId  string `form:"admin_id,default=,optional"`
+		Username string `form:"username,default=,optional"`
+		Mobile   string `form:"mobile,default=,optional"`
+	}
+	ListAdminResp {
+		List  []GetAdminResp `json:"list"`
+		Total int64          `json:"total"`
+	}
 	//----------------------------------------------角色权限
 	RoleItem {
 		Domain  string `json:"domain,default=,optional"`
@@ -153,6 +176,9 @@ service user {
 	@handler Get
 	get /get returns (GetUserResp)
 
+	@handler UserList
+	get /list (ListUserReq) returns (ListUserResp)
+
 	@handler UserDelete
 	post /delete (UserDeleteReq) returns (EmptyResp)
 
@@ -177,6 +203,9 @@ service user {
 service user {
 	@handler Get
 	get /get returns (GetAdminResp)
+
+	@handler List
+	get /list (ListAdminReq) returns (ListAdminResp)
 
 	@handler Delete
 	post /delete (AdminDeleteReq) returns (EmptyResp)

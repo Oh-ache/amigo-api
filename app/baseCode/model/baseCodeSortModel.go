@@ -42,7 +42,7 @@ func (m *customBaseCodeSortModel) List(ctx context.Context, search *BaseCodeSort
 		conditions = append(conditions, "`sort_key` = '"+search.SortKey+"'")
 	}
 	if search.SortName != "" {
-		conditions = append(conditions, "`sort_name` = '"+search.SortName+"'")
+		conditions = append(conditions, "`sort_name` LIKE '%"+search.SortName+"%'")
 	}
 	if search.IsDelete != 0 {
 		conditions = append(conditions, "`is_delete` = "+fmt.Sprintf("%d", search.IsDelete))
