@@ -23,7 +23,8 @@ func EnqueueDelayedHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := logic.NewEnqueueDelayedLogic(r.Context(), svcCtx)
 		resp, err := l.EnqueueDelayed(&req)
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			result := &types.CommonResp{Code: 1, Msg: err.Error()}
+			httpx.OkJsonCtx(r.Context(), w, result)
 		} else {
 			httpx.OkJsonCtx(r.Context(), w, resp)
 		}

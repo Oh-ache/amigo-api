@@ -22,10 +22,14 @@ func UserListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 		l := user.NewUserListLogic(r.Context(), svcCtx)
 		resp, err := l.UserList(&req)
+		result := &types.CommonResp{}
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			result.Code = 1
+			result.Msg = err.Error()
+			result.Data = &types.EmptyResp{}
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			result.Data = resp
 		}
+		httpx.OkJsonCtx(r.Context(), w, result)
 	}
 }

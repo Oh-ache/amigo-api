@@ -8,6 +8,7 @@ import (
 
 	"amigo-api/app/job/mqueue/internal/logic"
 	"amigo-api/app/job/mqueue/internal/svc"
+	"amigo-api/app/job/mqueue/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
@@ -16,7 +17,8 @@ func BoardHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := logic.NewBoardLogic(r.Context(), svcCtx)
 		resp, err := l.Board()
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			result := &types.CommonResp{Code: 1, Msg: err.Error()}
+			httpx.OkJsonCtx(r.Context(), w, result)
 		} else {
 			httpx.OkJsonCtx(r.Context(), w, resp)
 		}

@@ -19,10 +19,14 @@ func UpdateHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 		l := app.NewUpdateLogic(r.Context(), svcCtx)
 		resp, err := l.Update(&req)
+		result := &types.CommonResp{}
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			result.Code = 1
+			result.Msg = err.Error()
+			result.Data = &types.EmptyResp{}
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			result.Data = resp
 		}
+		httpx.OkJsonCtx(r.Context(), w, result)
 	}
 }

@@ -22,10 +22,13 @@ func ListTaskHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 		l := logic.NewListTaskLogic(r.Context(), svcCtx)
 		resp, err := l.ListTask(&req)
+		result := &types.CommonResp{}
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			result.Code = 1
+			result.Msg = err.Error()
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			result.Data = resp
 		}
+		httpx.OkJsonCtx(r.Context(), w, result)
 	}
 }

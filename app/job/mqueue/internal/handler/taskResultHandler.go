@@ -23,7 +23,8 @@ func TaskResultHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := logic.NewTaskResultLogic(r.Context(), svcCtx)
 		resp, err := l.TaskResult(&req)
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			result := &types.CommonResp{Code: 1, Msg: err.Error()}
+			httpx.OkJsonCtx(r.Context(), w, result)
 		} else {
 			httpx.OkJsonCtx(r.Context(), w, resp)
 		}
