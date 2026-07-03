@@ -181,6 +181,87 @@ type (
 		AppId  uint64 `json:"app_id,default=0,optional"`
 		AppKey string `json:"app_key,default=,optional"`
 	}
+	// ==================== Firmware ====================
+	AddFirmwareReq {
+		Name       string `json:"name"`
+		Version    string `json:"version"`
+		DeviceType string `json:"device_type"`
+		FileUrl    string `json:"file_url"`
+		FileSize   int64  `json:"file_size,default=0,optional"`
+		Md5        string `json:"md5,optional,default="`
+		Changelog  string `json:"changelog,optional,default="`
+		IsForce    int64  `json:"is_force,optional,default=2"`
+	}
+	DeleteFirmwareReq {
+		FirmwareId uint64 `json:"firmware_id"`
+	}
+	UpdateFirmwareReq {
+		FirmwareId uint64 `json:"firmware_id"`
+		Name       string `json:"name"`
+		Changelog  string `json:"changelog,optional,default="`
+		IsForce    int64  `json:"is_force,optional,default=2"`
+	}
+	GetFirmwareReq {
+		FirmwareId uint64 `form:"firmware_id"`
+	}
+	GetFirmwareResp {
+		FirmwareId uint64 `json:"firmware_id"`
+		Name       string `json:"name"`
+		Version    string `json:"version"`
+		DeviceType string `json:"device_type"`
+		FileUrl    string `json:"file_url"`
+		FileSize   int64  `json:"file_size"`
+		Md5        string `json:"md5"`
+		Changelog  string `json:"changelog"`
+		IsForce    int64  `json:"is_force"`
+		IsDelete   int64  `json:"is_delete"`
+		CreateTime uint64 `json:"create_time"`
+		UpdateTime uint64 `json:"update_time"`
+	}
+	ListFirmwareReq {
+		DeviceType string `form:"device_type,default=,optional"`
+		Version    string `form:"version,default=,optional"`
+		Name       string `form:"name,default=,optional"`
+		IsForce    int64  `form:"is_force,default=0,optional"`
+		IsDelete   int64  `form:"is_delete,default=2,optional"`
+		Page       int64  `form:"page,default=1,optional"`
+		PageSize   int64  `form:"page_size,default=10,optional"`
+	}
+	ListFirmwareResp {
+		List  []GetFirmwareResp `json:"list"`
+		Total int64             `json:"total"`
+	}
+	// ==================== FirmwareTask ====================
+	PushFirmwareTaskReq {
+		FirmwareId uint64   `json:"firmware_id"`
+		DeviceIds  []uint64 `json:"device_ids"`
+	}
+	GetFirmwareTaskReq {
+		FirmwareTaskId uint64 `form:"firmware_task_id"`
+	}
+	GetFirmwareTaskResp {
+		FirmwareTaskId uint64 `json:"firmware_task_id"`
+		FirmwareId     uint64 `json:"firmware_id"`
+		DeviceId       uint64 `json:"device_id"`
+		Status         int64  `json:"status"`
+		Progress       int64  `json:"progress"`
+		ErrorMsg       string `json:"error_msg"`
+		StartedAt      uint64 `json:"started_at"`
+		CompletedAt    uint64 `json:"completed_at"`
+		CreateTime     uint64 `json:"create_time"`
+		UpdateTime     uint64 `json:"update_time"`
+	}
+	ListFirmwareTaskReq {
+		FirmwareId uint64 `form:"firmware_id,default=0,optional"`
+		DeviceId   uint64 `form:"device_id,default=0,optional"`
+		Status     int64  `form:"status,default=0,optional"`
+		Page       int64  `form:"page,default=1,optional"`
+		PageSize   int64  `form:"page_size,default=10,optional"`
+	}
+	ListFirmwareTaskResp {
+		List  []GetFirmwareTaskResp `json:"list"`
+		Total int64                 `json:"total"`
+	}
 )
 
 @server (
@@ -247,5 +328,43 @@ service device {
 
 	@handler Update
 	post /update (UpdateAppReq) returns (EmptyResp)
+}
+
+@server (
+	group:  firmware
+	prefix: /api/firmware
+	jwt:    Auth
+)
+service device {
+	@handler Get
+	get /get (GetFirmwareReq) returns (GetFirmwareResp)
+
+	@handler List
+	get /list (ListFirmwareReq) returns (ListFirmwareResp)
+
+	@handler Add
+	post /add (AddFirmwareReq) returns (EmptyResp)
+
+	@handler Delete
+	post /delete (DeleteFirmwareReq) returns (EmptyResp)
+
+	@handler Update
+	post /update (UpdateFirmwareReq) returns (EmptyResp)
+}
+
+@server (
+	group:  firmwareTask
+	prefix: /api/firmware_task
+	jwt:    Auth
+)
+service device {
+	@handler Get
+	get /get (GetFirmwareTaskReq) returns (GetFirmwareTaskResp)
+
+	@handler List
+	get /list (ListFirmwareTaskReq) returns (ListFirmwareTaskResp)
+
+	@handler Push
+	post /push (PushFirmwareTaskReq) returns (EmptyResp)
 }
 

@@ -181,6 +181,96 @@ message DeviceStatsResp {
     int64 warning = 4;
 }
 
+// ==================== Firmware ====================
+message AddFirmwareReq {
+    string name = 1;
+    string version = 2;
+    string device_type = 3;
+    string file_url = 4;
+    int64 file_size = 5;
+    string md5 = 6;
+    string changelog = 7;
+    int64 is_force = 8;
+}
+
+message FirmwareResp {
+    uint64 firmware_id = 1;
+    string name = 2;
+    string version = 3;
+    string device_type = 4;
+    string file_url = 5;
+    int64 file_size = 6;
+    string md5 = 7;
+    string changelog = 8;
+    int64 is_force = 9;
+    int64 is_delete = 10;
+    uint64 create_time = 11;
+    uint64 update_time = 12;
+}
+
+message GetFirmwareReq {
+    uint64 firmware_id = 1;
+}
+
+message DeleteFirmwareReq {
+    uint64 firmware_id = 1;
+}
+
+message DeleteFirmwareResp {
+    bool success = 1;
+}
+
+message ListFirmwareReq {
+    int64 page = 1;
+    int64 page_size = 2;
+    string device_type = 3;
+    string version = 4;
+    string name = 5;
+    int64 is_force = 6;
+    int64 is_delete = 7;
+}
+
+message ListFirmwareResp {
+    repeated FirmwareResp list = 1;
+    int64 total = 2;
+}
+
+// ==================== FirmwareTask ====================
+message PushFirmwareTaskReq {
+    uint64 firmware_id = 1;
+    repeated uint64 device_ids = 2;
+}
+
+message FirmwareTaskResp {
+    uint64 firmware_task_id = 1;
+    uint64 firmware_id = 2;
+    uint64 device_id = 3;
+    int64 status = 4;
+    int64 progress = 5;
+    string error_msg = 6;
+    uint64 started_at = 7;
+    uint64 completed_at = 8;
+    uint64 create_time = 9;
+    uint64 update_time = 10;
+}
+
+message GetFirmwareTaskReq {
+    uint64 firmware_task_id = 1;
+}
+
+message ListFirmwareTaskReq {
+    int64 page = 1;
+    int64 page_size = 2;
+    uint64 firmware_id = 3;
+    uint64 device_id = 4;
+    int64 status = 5;
+}
+
+message ListFirmwareTaskResp {
+    repeated FirmwareTaskResp list = 1;
+    int64 total = 2;
+}
+
 service Device {
     rpc AddDevice (AddDeviceReq) returns (DeviceResp);
     rpc UpdateDevice (DeviceResp) returns (DeviceResp);
@@ -197,4 +287,12 @@ service Device {
     rpc GetDeviceEvent (GetDeviceEventReq) returns (DeviceEventResp);
     rpc ListDeviceEvent (ListDeviceEventReq) returns (ListDeviceEventResp);
     rpc GetDeviceStats (GetDeviceStatsReq) returns (DeviceStatsResp);
+    rpc AddFirmware (AddFirmwareReq) returns (FirmwareResp);
+    rpc UpdateFirmware (FirmwareResp) returns (FirmwareResp);
+    rpc GetFirmware (GetFirmwareReq) returns (FirmwareResp);
+    rpc DeleteFirmware (DeleteFirmwareReq) returns (DeleteFirmwareResp);
+    rpc ListFirmware (ListFirmwareReq) returns (ListFirmwareResp);
+    rpc PushFirmwareTask (PushFirmwareTaskReq) returns (FirmwareTaskResp);
+    rpc GetFirmwareTask (GetFirmwareTaskReq) returns (FirmwareTaskResp);
+    rpc ListFirmwareTask (ListFirmwareTaskReq) returns (ListFirmwareTaskResp);
 }

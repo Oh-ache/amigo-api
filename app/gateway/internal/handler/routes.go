@@ -29,7 +29,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		switch {
 		case strings.HasPrefix(path, "/api/user/"), strings.HasPrefix(path, "/api/admin/"):
 			proxyUser(w, r)
-		case strings.HasPrefix(path, "/api/device/"), strings.HasPrefix(path, "/api/app/"), strings.HasPrefix(path, "/api/device_event/"):
+		case strings.HasPrefix(path, "/api/device/"), strings.HasPrefix(path, "/api/app/"), strings.HasPrefix(path, "/api/device_event/"), strings.HasPrefix(path, "/api/firmware/"), strings.HasPrefix(path, "/api/firmware_task/"):
 			proxyDevice(w, r)
 		case strings.HasPrefix(path, "/api/sdk/"):
 			proxySdk(w, r)

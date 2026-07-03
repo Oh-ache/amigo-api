@@ -14,6 +14,8 @@ type ServiceContext struct {
 	DeviceModel        model.DeviceModel
 	AppModel           model.AppModel
 	DeviceEventModel   model.DeviceEventModel
+	FirmwareModel      model.FirmwareModel
+	FirmwareTaskModel  model.FirmwareTaskModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -25,8 +27,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 			r.Type = c.Redis.Type
 			r.Pass = c.Redis.Pass
 		}),
-		DeviceModel:      model.NewDeviceModel(sqlConn, c.Cache),
-		AppModel:         model.NewAppModel(sqlConn, c.Cache),
-		DeviceEventModel: model.NewDeviceEventModel(sqlConn, c.Cache),
+		DeviceModel:       model.NewDeviceModel(sqlConn, c.Cache),
+		AppModel:          model.NewAppModel(sqlConn, c.Cache),
+		DeviceEventModel:  model.NewDeviceEventModel(sqlConn, c.Cache),
+		FirmwareModel:     model.NewFirmwareModel(sqlConn, c.Cache),
+		FirmwareTaskModel: model.NewFirmwareTaskModel(sqlConn, c.Cache),
 	}
 }
