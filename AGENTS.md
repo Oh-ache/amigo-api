@@ -176,7 +176,7 @@ modelgen <db_name> <table_name>   # 示例: modelgen amigo user
 如果是**全新模块**（非已有模块新增接口），还需：
 - 新建 `etc/<service>.yaml` 配置文件
 - 在 `app/gateway/internal/handler/routes.go` 中新增反向代理路由
-- 在 `app/gateway/internal/config/config.go` 的 `Upstreams` 中新增字段
+- 在 `app/gateway/etc/gateway-api.yaml` 的 `Routes` 列表中新增一条路由规则
 - 新建 Docker 构建文件
 
 已有模块新增接口以上步骤自动生效，无需额外配置。

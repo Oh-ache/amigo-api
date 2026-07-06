@@ -6,10 +6,30 @@ Auth:
   AccessSecret: "amigoProject"
   AccessExpire: 7200
 
-Upstreams:
-  BaseCode: http://basecode-api:9090
-  Sdk: http://sdk-api:9091
-  User: http://user-api:9092
-  Device: http://device-api:9093
-  AI: http://ai-api:9094
-  Mqueue: http://mqueue-job:7001
+Routes:
+  - Prefix: /api/user/
+    Upstream: http://user-api:9092
+  - Prefix: /api/admin/
+    Upstream: http://user-api:9092
+  - Prefix: /api/device/
+    Upstream: http://device-api:9093
+  - Prefix: /api/app/
+    Upstream: http://device-api:9093
+  - Prefix: /api/device_event/
+    Upstream: http://device-api:9093
+  - Prefix: /api/firmware/
+    Upstream: http://device-api:9093
+  - Prefix: /api/firmware_task/
+    Upstream: http://device-api:9093
+  - Prefix: /api/sdk/
+    Upstream: http://sdk-api:9091
+  - Prefix: /api/base_code/
+    Upstream: http://basecode-api:9090
+  - Prefix: /api/base_code_item/
+    Upstream: http://basecode-api:9090
+  - Prefix: /api/base_code_sort/
+    Upstream: http://basecode-api:9090
+  - Prefix: /api/ai/
+    Upstream: http://ai-api:9094
+  - Prefix: /api/mqueue/
+    Upstream: http://mqueue-job:7001

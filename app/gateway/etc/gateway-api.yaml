@@ -5,10 +5,31 @@ Port: 8888
 Auth:
   AccessSecret: "amigoProject"
   AccessExpire: 7200
-Upstreams:
-  User: http://192.168.31.62:9092
-  Device: http://192.168.31.62:9093
-  Sdk: http://192.168.31.62:9091
-  BaseCode: http://192.168.31.62:9090
-  Ai: http://192.168.31.62:9094
-  Mqueue: http://127.0.0.1:7001
+
+Routes:
+  - Prefix: /api/user/
+    Upstream: http://192.168.31.62:9092
+  - Prefix: /api/admin/
+    Upstream: http://192.168.31.62:9092
+  - Prefix: /api/device/
+    Upstream: http://192.168.31.62:9093
+  - Prefix: /api/app/
+    Upstream: http://192.168.31.62:9093
+  - Prefix: /api/device_event/
+    Upstream: http://192.168.31.62:9093
+  - Prefix: /api/firmware/
+    Upstream: http://192.168.31.62:9093
+  - Prefix: /api/firmware_task/
+    Upstream: http://192.168.31.62:9093
+  - Prefix: /api/sdk/
+    Upstream: http://192.168.31.62:9091
+  - Prefix: /api/base_code/
+    Upstream: http://192.168.31.62:9090
+  - Prefix: /api/base_code_item/
+    Upstream: http://192.168.31.62:9090
+  - Prefix: /api/base_code_sort/
+    Upstream: http://192.168.31.62:9090
+  - Prefix: /api/ai/
+    Upstream: http://192.168.31.62:9094
+  - Prefix: /api/mqueue/
+    Upstream: http://127.0.0.1:7001
