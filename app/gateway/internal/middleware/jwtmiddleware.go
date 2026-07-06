@@ -7,7 +7,6 @@ import (
 	"amigo-api/app/gateway/internal/config"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 type JWTMiddleware struct {
@@ -20,46 +19,41 @@ func NewJWTMiddleware(c config.Auth) *JWTMiddleware {
 	}
 }
 
-type CommonResp struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
-}
-
 // Whitelist of paths that don't require token validation
 var whitelist = map[string]bool{
 	"/api/user/third_login":      true,
 	"/api/user/login":            true,
 	"/api/admin/login":           true,
+	"/api/admin/refresh":         true,
 	"/api/sdk/message/send_code": true,
+}
+
+func writeUnauthorized(w http.ResponseWriter, msg string) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusUnauthorized)
+	w.Write([]byte(`{"code":401,"msg":"` + msg + `"}`))
 }
 
 func (m *JWTMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// Check if path is in whitelist
-		if whitelist[r.URL.Path] {
-			next(w, r)
-			return
+		// 白名单前缀匹配，容错尾部斜杠
+		for prefix := range whitelist {
+			if strings.HasPrefix(r.URL.Path, prefix) {
+				next(w, r)
+				return
+			}
 		}
 
 		// Get token from Authorization header
 		authHeader := r.Header.Get("Authorization")
 		if authHeader == "" {
-			httpx.OkJsonCtx(r.Context(), w, CommonResp{
-				Code: 401,
-				Msg:  "Authorization header is required",
-				Data: nil,
-			})
+			writeUnauthorized(w, "Authorization header is required")
 			return
 		}
 
 		// Check Bearer prefix
 		if !strings.HasPrefix(authHeader, "Bearer ") {
-			httpx.OkJsonCtx(r.Context(), w, CommonResp{
-				Code: 401,
-				Msg:  "Authorization header format must be Bearer {token}",
-				Data: nil,
-			})
+			writeUnauthorized(w, "Authorization header format must be Bearer {token}")
 			return
 		}
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
@@ -70,11 +64,7 @@ func (m *JWTMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			httpx.OkJsonCtx(r.Context(), w, CommonResp{
-				Code: 401,
-				Msg:  "Invalid or expired token",
-				Data: nil,
-			})
+			writeUnauthorized(w, "Invalid or expired token")
 			return
 		}
 
