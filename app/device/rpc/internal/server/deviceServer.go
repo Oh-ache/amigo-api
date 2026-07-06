@@ -137,3 +137,33 @@ func (s *DeviceServer) ListFirmwareTask(ctx context.Context, in *pb.ListFirmware
 	l := logic.NewListFirmwareTaskLogic(ctx, s.svcCtx)
 	return l.ListFirmwareTask(in)
 }
+
+func (s *DeviceServer) AddWorkOrder(ctx context.Context, in *pb.AddWorkOrderReq) (*pb.WorkOrderItem, error) {
+	l := logic.NewAddWorkOrderLogic(ctx, s.svcCtx)
+	return l.AddWorkOrder(in)
+}
+
+func (s *DeviceServer) GetWorkOrder(ctx context.Context, in *pb.GetWorkOrderReq) (*pb.GetWorkOrderResp, error) {
+	l := logic.NewGetWorkOrderLogic(ctx, s.svcCtx)
+	return l.GetWorkOrder(in)
+}
+
+func (s *DeviceServer) ListWorkOrder(ctx context.Context, in *pb.ListWorkOrderReq) (*pb.ListWorkOrderResp, error) {
+	l := logic.NewListWorkOrderLogic(ctx, s.svcCtx)
+	return l.ListWorkOrder(in)
+}
+
+func (s *DeviceServer) ReplyWorkOrder(ctx context.Context, in *pb.ReplyWorkOrderReq) (*pb.ReplyItem, error) {
+	l := logic.NewReplyWorkOrderLogic(ctx, s.svcCtx)
+	return l.ReplyWorkOrder(in)
+}
+
+func (s *DeviceServer) UpdateWorkOrderStatus(ctx context.Context, in *pb.UpdateWorkOrderStatusReq) (*pb.WorkOrderStatusResp, error) {
+	l := logic.NewUpdateWorkOrderStatusLogic(ctx, s.svcCtx)
+	return l.UpdateWorkOrderStatus(in)
+}
+
+func (s *DeviceServer) GetMqttMessages(ctx context.Context, in *pb.GetMqttMessagesReq) (*pb.GetMqttMessagesResp, error) {
+	l := logic.NewGetMqttMessagesLogic(ctx, s.svcCtx)
+	return l.GetMqttMessages(in)
+}

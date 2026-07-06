@@ -7,10 +7,12 @@ import (
 	"net/http"
 
 	app "amigo-api/app/device/api/internal/handler/app"
+	debug "amigo-api/app/device/api/internal/handler/debug"
 	device "amigo-api/app/device/api/internal/handler/device"
 	event "amigo-api/app/device/api/internal/handler/event"
 	firmware "amigo-api/app/device/api/internal/handler/firmware"
 	firmwareTask "amigo-api/app/device/api/internal/handler/firmwareTask"
+	workOrder "amigo-api/app/device/api/internal/handler/workOrder"
 	"amigo-api/app/device/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -47,6 +49,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/app"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/emqx",
+				Handler: debug.EmqxMessagesHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/debug"),
 	)
 
 	server.AddRoutes(
@@ -165,5 +179,37 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/firmware_task"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/add",
+				Handler: workOrder.AddHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/get",
+				Handler: workOrder.GetHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: workOrder.ListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/reply",
+				Handler: workOrder.ReplyHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/update_status",
+				Handler: workOrder.UpdateStatusHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/work_order"),
 	)
 }

@@ -19,29 +19,35 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Device_AddDevice_FullMethodName         = "/device.Device/AddDevice"
-	Device_UpdateDevice_FullMethodName      = "/device.Device/UpdateDevice"
-	Device_GetDevice_FullMethodName         = "/device.Device/GetDevice"
-	Device_DeleteDevice_FullMethodName      = "/device.Device/DeleteDevice"
-	Device_ListDevice_FullMethodName        = "/device.Device/ListDevice"
-	Device_AddApp_FullMethodName            = "/device.Device/AddApp"
-	Device_UpdateApp_FullMethodName         = "/device.Device/UpdateApp"
-	Device_GetApp_FullMethodName            = "/device.Device/GetApp"
-	Device_DeleteApp_FullMethodName         = "/device.Device/DeleteApp"
-	Device_ListApp_FullMethodName           = "/device.Device/ListApp"
-	Device_AddDeviceEvent_FullMethodName    = "/device.Device/AddDeviceEvent"
-	Device_DeleteDeviceEvent_FullMethodName = "/device.Device/DeleteDeviceEvent"
-	Device_GetDeviceEvent_FullMethodName    = "/device.Device/GetDeviceEvent"
-	Device_ListDeviceEvent_FullMethodName   = "/device.Device/ListDeviceEvent"
-	Device_GetDeviceStats_FullMethodName    = "/device.Device/GetDeviceStats"
-	Device_AddFirmware_FullMethodName       = "/device.Device/AddFirmware"
-	Device_UpdateFirmware_FullMethodName    = "/device.Device/UpdateFirmware"
-	Device_GetFirmware_FullMethodName       = "/device.Device/GetFirmware"
-	Device_DeleteFirmware_FullMethodName    = "/device.Device/DeleteFirmware"
-	Device_ListFirmware_FullMethodName      = "/device.Device/ListFirmware"
-	Device_PushFirmwareTask_FullMethodName  = "/device.Device/PushFirmwareTask"
-	Device_GetFirmwareTask_FullMethodName   = "/device.Device/GetFirmwareTask"
-	Device_ListFirmwareTask_FullMethodName  = "/device.Device/ListFirmwareTask"
+	Device_AddDevice_FullMethodName             = "/device.Device/AddDevice"
+	Device_UpdateDevice_FullMethodName          = "/device.Device/UpdateDevice"
+	Device_GetDevice_FullMethodName             = "/device.Device/GetDevice"
+	Device_DeleteDevice_FullMethodName          = "/device.Device/DeleteDevice"
+	Device_ListDevice_FullMethodName            = "/device.Device/ListDevice"
+	Device_AddApp_FullMethodName                = "/device.Device/AddApp"
+	Device_UpdateApp_FullMethodName             = "/device.Device/UpdateApp"
+	Device_GetApp_FullMethodName                = "/device.Device/GetApp"
+	Device_DeleteApp_FullMethodName             = "/device.Device/DeleteApp"
+	Device_ListApp_FullMethodName               = "/device.Device/ListApp"
+	Device_AddDeviceEvent_FullMethodName        = "/device.Device/AddDeviceEvent"
+	Device_DeleteDeviceEvent_FullMethodName     = "/device.Device/DeleteDeviceEvent"
+	Device_GetDeviceEvent_FullMethodName        = "/device.Device/GetDeviceEvent"
+	Device_ListDeviceEvent_FullMethodName       = "/device.Device/ListDeviceEvent"
+	Device_GetDeviceStats_FullMethodName        = "/device.Device/GetDeviceStats"
+	Device_AddFirmware_FullMethodName           = "/device.Device/AddFirmware"
+	Device_UpdateFirmware_FullMethodName        = "/device.Device/UpdateFirmware"
+	Device_GetFirmware_FullMethodName           = "/device.Device/GetFirmware"
+	Device_DeleteFirmware_FullMethodName        = "/device.Device/DeleteFirmware"
+	Device_ListFirmware_FullMethodName          = "/device.Device/ListFirmware"
+	Device_PushFirmwareTask_FullMethodName      = "/device.Device/PushFirmwareTask"
+	Device_GetFirmwareTask_FullMethodName       = "/device.Device/GetFirmwareTask"
+	Device_ListFirmwareTask_FullMethodName      = "/device.Device/ListFirmwareTask"
+	Device_AddWorkOrder_FullMethodName          = "/device.Device/AddWorkOrder"
+	Device_GetWorkOrder_FullMethodName          = "/device.Device/GetWorkOrder"
+	Device_ListWorkOrder_FullMethodName         = "/device.Device/ListWorkOrder"
+	Device_ReplyWorkOrder_FullMethodName        = "/device.Device/ReplyWorkOrder"
+	Device_UpdateWorkOrderStatus_FullMethodName = "/device.Device/UpdateWorkOrderStatus"
+	Device_GetMqttMessages_FullMethodName       = "/device.Device/GetMqttMessages"
 )
 
 // DeviceClient is the client API for Device service.
@@ -71,6 +77,12 @@ type DeviceClient interface {
 	PushFirmwareTask(ctx context.Context, in *PushFirmwareTaskReq, opts ...grpc.CallOption) (*FirmwareTaskResp, error)
 	GetFirmwareTask(ctx context.Context, in *GetFirmwareTaskReq, opts ...grpc.CallOption) (*FirmwareTaskResp, error)
 	ListFirmwareTask(ctx context.Context, in *ListFirmwareTaskReq, opts ...grpc.CallOption) (*ListFirmwareTaskResp, error)
+	AddWorkOrder(ctx context.Context, in *AddWorkOrderReq, opts ...grpc.CallOption) (*WorkOrderItem, error)
+	GetWorkOrder(ctx context.Context, in *GetWorkOrderReq, opts ...grpc.CallOption) (*GetWorkOrderResp, error)
+	ListWorkOrder(ctx context.Context, in *ListWorkOrderReq, opts ...grpc.CallOption) (*ListWorkOrderResp, error)
+	ReplyWorkOrder(ctx context.Context, in *ReplyWorkOrderReq, opts ...grpc.CallOption) (*ReplyItem, error)
+	UpdateWorkOrderStatus(ctx context.Context, in *UpdateWorkOrderStatusReq, opts ...grpc.CallOption) (*WorkOrderStatusResp, error)
+	GetMqttMessages(ctx context.Context, in *GetMqttMessagesReq, opts ...grpc.CallOption) (*GetMqttMessagesResp, error)
 }
 
 type deviceClient struct {
@@ -311,6 +323,66 @@ func (c *deviceClient) ListFirmwareTask(ctx context.Context, in *ListFirmwareTas
 	return out, nil
 }
 
+func (c *deviceClient) AddWorkOrder(ctx context.Context, in *AddWorkOrderReq, opts ...grpc.CallOption) (*WorkOrderItem, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WorkOrderItem)
+	err := c.cc.Invoke(ctx, Device_AddWorkOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *deviceClient) GetWorkOrder(ctx context.Context, in *GetWorkOrderReq, opts ...grpc.CallOption) (*GetWorkOrderResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetWorkOrderResp)
+	err := c.cc.Invoke(ctx, Device_GetWorkOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *deviceClient) ListWorkOrder(ctx context.Context, in *ListWorkOrderReq, opts ...grpc.CallOption) (*ListWorkOrderResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListWorkOrderResp)
+	err := c.cc.Invoke(ctx, Device_ListWorkOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *deviceClient) ReplyWorkOrder(ctx context.Context, in *ReplyWorkOrderReq, opts ...grpc.CallOption) (*ReplyItem, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReplyItem)
+	err := c.cc.Invoke(ctx, Device_ReplyWorkOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *deviceClient) UpdateWorkOrderStatus(ctx context.Context, in *UpdateWorkOrderStatusReq, opts ...grpc.CallOption) (*WorkOrderStatusResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WorkOrderStatusResp)
+	err := c.cc.Invoke(ctx, Device_UpdateWorkOrderStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *deviceClient) GetMqttMessages(ctx context.Context, in *GetMqttMessagesReq, opts ...grpc.CallOption) (*GetMqttMessagesResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetMqttMessagesResp)
+	err := c.cc.Invoke(ctx, Device_GetMqttMessages_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DeviceServer is the server API for Device service.
 // All implementations must embed UnimplementedDeviceServer
 // for forward compatibility.
@@ -338,6 +410,12 @@ type DeviceServer interface {
 	PushFirmwareTask(context.Context, *PushFirmwareTaskReq) (*FirmwareTaskResp, error)
 	GetFirmwareTask(context.Context, *GetFirmwareTaskReq) (*FirmwareTaskResp, error)
 	ListFirmwareTask(context.Context, *ListFirmwareTaskReq) (*ListFirmwareTaskResp, error)
+	AddWorkOrder(context.Context, *AddWorkOrderReq) (*WorkOrderItem, error)
+	GetWorkOrder(context.Context, *GetWorkOrderReq) (*GetWorkOrderResp, error)
+	ListWorkOrder(context.Context, *ListWorkOrderReq) (*ListWorkOrderResp, error)
+	ReplyWorkOrder(context.Context, *ReplyWorkOrderReq) (*ReplyItem, error)
+	UpdateWorkOrderStatus(context.Context, *UpdateWorkOrderStatusReq) (*WorkOrderStatusResp, error)
+	GetMqttMessages(context.Context, *GetMqttMessagesReq) (*GetMqttMessagesResp, error)
 	mustEmbedUnimplementedDeviceServer()
 }
 
@@ -416,6 +494,24 @@ func (UnimplementedDeviceServer) GetFirmwareTask(context.Context, *GetFirmwareTa
 }
 func (UnimplementedDeviceServer) ListFirmwareTask(context.Context, *ListFirmwareTaskReq) (*ListFirmwareTaskResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListFirmwareTask not implemented")
+}
+func (UnimplementedDeviceServer) AddWorkOrder(context.Context, *AddWorkOrderReq) (*WorkOrderItem, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddWorkOrder not implemented")
+}
+func (UnimplementedDeviceServer) GetWorkOrder(context.Context, *GetWorkOrderReq) (*GetWorkOrderResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetWorkOrder not implemented")
+}
+func (UnimplementedDeviceServer) ListWorkOrder(context.Context, *ListWorkOrderReq) (*ListWorkOrderResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListWorkOrder not implemented")
+}
+func (UnimplementedDeviceServer) ReplyWorkOrder(context.Context, *ReplyWorkOrderReq) (*ReplyItem, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReplyWorkOrder not implemented")
+}
+func (UnimplementedDeviceServer) UpdateWorkOrderStatus(context.Context, *UpdateWorkOrderStatusReq) (*WorkOrderStatusResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateWorkOrderStatus not implemented")
+}
+func (UnimplementedDeviceServer) GetMqttMessages(context.Context, *GetMqttMessagesReq) (*GetMqttMessagesResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetMqttMessages not implemented")
 }
 func (UnimplementedDeviceServer) mustEmbedUnimplementedDeviceServer() {}
 func (UnimplementedDeviceServer) testEmbeddedByValue()                {}
@@ -852,6 +948,114 @@ func _Device_ListFirmwareTask_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Device_AddWorkOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddWorkOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DeviceServer).AddWorkOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Device_AddWorkOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DeviceServer).AddWorkOrder(ctx, req.(*AddWorkOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Device_GetWorkOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWorkOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DeviceServer).GetWorkOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Device_GetWorkOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DeviceServer).GetWorkOrder(ctx, req.(*GetWorkOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Device_ListWorkOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWorkOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DeviceServer).ListWorkOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Device_ListWorkOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DeviceServer).ListWorkOrder(ctx, req.(*ListWorkOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Device_ReplyWorkOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReplyWorkOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DeviceServer).ReplyWorkOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Device_ReplyWorkOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DeviceServer).ReplyWorkOrder(ctx, req.(*ReplyWorkOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Device_UpdateWorkOrderStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkOrderStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DeviceServer).UpdateWorkOrderStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Device_UpdateWorkOrderStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DeviceServer).UpdateWorkOrderStatus(ctx, req.(*UpdateWorkOrderStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Device_GetMqttMessages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMqttMessagesReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DeviceServer).GetMqttMessages(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Device_GetMqttMessages_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DeviceServer).GetMqttMessages(ctx, req.(*GetMqttMessagesReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Device_ServiceDesc is the grpc.ServiceDesc for Device service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -950,6 +1154,30 @@ var Device_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListFirmwareTask",
 			Handler:    _Device_ListFirmwareTask_Handler,
+		},
+		{
+			MethodName: "AddWorkOrder",
+			Handler:    _Device_AddWorkOrder_Handler,
+		},
+		{
+			MethodName: "GetWorkOrder",
+			Handler:    _Device_GetWorkOrder_Handler,
+		},
+		{
+			MethodName: "ListWorkOrder",
+			Handler:    _Device_ListWorkOrder_Handler,
+		},
+		{
+			MethodName: "ReplyWorkOrder",
+			Handler:    _Device_ReplyWorkOrder_Handler,
+		},
+		{
+			MethodName: "UpdateWorkOrderStatus",
+			Handler:    _Device_UpdateWorkOrderStatus_Handler,
+		},
+		{
+			MethodName: "GetMqttMessages",
+			Handler:    _Device_GetMqttMessages_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

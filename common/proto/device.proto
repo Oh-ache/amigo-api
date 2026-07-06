@@ -271,6 +271,95 @@ message ListFirmwareTaskResp {
     int64 total = 2;
 }
 
+// ==================== WorkOrder ====================
+message AddWorkOrderReq {
+    uint64 device_id = 1;
+    uint64 user_id = 2;
+    string title = 3;
+    string content = 4;
+    string images = 5;
+    int64 category = 6;
+}
+
+message WorkOrderItem {
+    uint64 work_order_id = 1;
+    uint64 device_id = 2;
+    string device_name = 3;
+    uint64 user_id = 4;
+    string user_name = 5;
+    string title = 6;
+    string content = 7;
+    string images = 8;
+    int64 category = 9;
+    int64 status = 10;
+    uint64 create_time = 11;
+    uint64 update_time = 12;
+}
+
+message ReplyItem {
+    uint64 work_order_reply_id = 1;
+    uint64 work_order_id = 2;
+    uint64 admin_id = 3;
+    string admin_name = 4;
+    string content = 5;
+    string images = 6;
+    uint64 create_time = 7;
+}
+
+message GetWorkOrderResp {
+    WorkOrderItem work_order = 1;
+    repeated ReplyItem reply_list = 2;
+}
+
+message GetWorkOrderReq {
+    uint64 work_order_id = 1;
+}
+
+message ListWorkOrderReq {
+    int64 page = 1;
+    int64 page_size = 2;
+    uint64 device_id = 3;
+    uint64 user_id = 4;
+    int64 status = 5;
+    int64 category = 6;
+}
+
+message ListWorkOrderResp {
+    repeated WorkOrderItem list = 1;
+    int64 total = 2;
+}
+
+message ReplyWorkOrderReq {
+    uint64 work_order_id = 1;
+    uint64 admin_id = 2;
+    string content = 3;
+    string images = 4;
+}
+
+message UpdateWorkOrderStatusReq {
+    uint64 work_order_id = 1;
+    int64 status = 2;
+}
+
+message WorkOrderStatusResp {
+    bool success = 1;
+}
+
+// ==================== Debug ====================
+message MqttMsg {
+    string topic = 1;
+    string payload = 2;
+    int64 timestamp = 3;
+}
+
+message GetMqttMessagesReq {
+    int64 limit = 1;
+}
+
+message GetMqttMessagesResp {
+    repeated MqttMsg list = 1;
+}
+
 service Device {
     rpc AddDevice (AddDeviceReq) returns (DeviceResp);
     rpc UpdateDevice (DeviceResp) returns (DeviceResp);
@@ -295,4 +384,10 @@ service Device {
     rpc PushFirmwareTask (PushFirmwareTaskReq) returns (FirmwareTaskResp);
     rpc GetFirmwareTask (GetFirmwareTaskReq) returns (FirmwareTaskResp);
     rpc ListFirmwareTask (ListFirmwareTaskReq) returns (ListFirmwareTaskResp);
+    rpc AddWorkOrder (AddWorkOrderReq) returns (WorkOrderItem);
+    rpc GetWorkOrder (GetWorkOrderReq) returns (GetWorkOrderResp);
+    rpc ListWorkOrder (ListWorkOrderReq) returns (ListWorkOrderResp);
+    rpc ReplyWorkOrder (ReplyWorkOrderReq) returns (ReplyItem);
+    rpc UpdateWorkOrderStatus (UpdateWorkOrderStatusReq) returns (WorkOrderStatusResp);
+    rpc GetMqttMessages (GetMqttMessagesReq) returns (GetMqttMessagesResp);
 }

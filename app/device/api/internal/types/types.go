@@ -50,6 +50,15 @@ type AddFirmwareReq struct {
 	IsForce    int64  `json:"is_force,optional,default=2"`
 }
 
+type AddWorkOrderReq struct {
+	DeviceId uint64 `json:"device_id"`
+	UserId   uint64 `json:"user_id"`
+	Title    string `json:"title"`
+	Content  string `json:"content,optional,default="`
+	Images   string `json:"images,optional,default="`
+	Category int64  `json:"category,optional,default=1"`
+}
+
 type CommonResp struct {
 	Code int         `json:"code"`
 	Msg  string      `json:"msg"`
@@ -182,6 +191,38 @@ type GetFirmwareTaskResp struct {
 	UpdateTime     uint64 `json:"update_time"`
 }
 
+type GetMqttMessagesReq struct {
+	Limit int64 `form:"limit,default=50,optional"`
+}
+
+type GetMqttMessagesResp struct {
+	List []MqttMsg `json:"list"`
+}
+
+type GetWorkOrderItem struct {
+	WorkOrderId uint64 `json:"work_order_id"`
+	DeviceId    uint64 `json:"device_id"`
+	DeviceName  string `json:"device_name"`
+	UserId      uint64 `json:"user_id"`
+	UserName    string `json:"user_name"`
+	Title       string `json:"title"`
+	Content     string `json:"content"`
+	Images      string `json:"images"`
+	Category    int64  `json:"category"`
+	Status      int64  `json:"status"`
+	CreateTime  uint64 `json:"create_time"`
+	UpdateTime  uint64 `json:"update_time"`
+}
+
+type GetWorkOrderReq struct {
+	WorkOrderId uint64 `form:"work_order_id"`
+}
+
+type GetWorkOrderResp struct {
+	WorkOrder GetWorkOrderItem `json:"work_order"`
+	ReplyList []ReplyItem      `json:"reply_list"`
+}
+
 type ListAppReq struct {
 	Name       string `form:"name,default=,optional"`
 	AppKey     string `form:"app_key,default=,optional"`
@@ -258,9 +299,46 @@ type ListFirmwareTaskResp struct {
 	Total int64                 `json:"total"`
 }
 
+type ListWorkOrderReq struct {
+	DeviceId uint64 `form:"device_id,default=0,optional"`
+	UserId   uint64 `form:"user_id,default=0,optional"`
+	Status   int64  `form:"status,default=0,optional"`
+	Category int64  `form:"category,default=0,optional"`
+	Page     int64  `form:"page,default=1,optional"`
+	PageSize int64  `form:"page_size,default=10,optional"`
+}
+
+type ListWorkOrderResp struct {
+	List  []GetWorkOrderItem `json:"list"`
+	Total int64              `json:"total"`
+}
+
+type MqttMsg struct {
+	Topic     string `json:"topic"`
+	Payload   string `json:"payload"`
+	Timestamp int64  `json:"timestamp"`
+}
+
 type PushFirmwareTaskReq struct {
 	FirmwareId uint64   `json:"firmware_id"`
 	DeviceIds  []uint64 `json:"device_ids"`
+}
+
+type ReplyItem struct {
+	WorkOrderReplyId uint64 `json:"work_order_reply_id"`
+	WorkOrderId      uint64 `json:"work_order_id"`
+	AdminId          uint64 `json:"admin_id"`
+	AdminName        string `json:"admin_name"`
+	Content          string `json:"content"`
+	Images           string `json:"images"`
+	CreateTime       uint64 `json:"create_time"`
+}
+
+type ReplyWorkOrderReq struct {
+	WorkOrderId uint64 `json:"work_order_id"`
+	AdminId     uint64 `json:"admin_id"`
+	Content     string `json:"content"`
+	Images      string `json:"images,optional,default="`
 }
 
 type UpdateAppReq struct {
@@ -298,4 +376,9 @@ type UpdateFirmwareReq struct {
 	Name       string `json:"name"`
 	Changelog  string `json:"changelog,optional,default="`
 	IsForce    int64  `json:"is_force,optional,default=2"`
+}
+
+type UpdateWorkOrderStatusReq struct {
+	WorkOrderId uint64 `json:"work_order_id"`
+	Status      int64  `json:"status"`
 }

@@ -262,6 +262,79 @@ type (
 		List  []GetFirmwareTaskResp `json:"list"`
 		Total int64                 `json:"total"`
 	}
+	// ==================== WorkOrder ====================
+	AddWorkOrderReq {
+		DeviceId uint64 `json:"device_id"`
+		UserId   uint64 `json:"user_id"`
+		Title    string `json:"title"`
+		Content  string `json:"content,optional,default="`
+		Images   string `json:"images,optional,default="`
+		Category int64  `json:"category,optional,default=1"`
+	}
+	GetWorkOrderReq {
+		WorkOrderId uint64 `form:"work_order_id"`
+	}
+	GetWorkOrderItem {
+		WorkOrderId uint64 `json:"work_order_id"`
+		DeviceId    uint64 `json:"device_id"`
+		DeviceName  string `json:"device_name"`
+		UserId      uint64 `json:"user_id"`
+		UserName    string `json:"user_name"`
+		Title       string `json:"title"`
+		Content     string `json:"content"`
+		Images      string `json:"images"`
+		Category    int64  `json:"category"`
+		Status      int64  `json:"status"`
+		CreateTime  uint64 `json:"create_time"`
+		UpdateTime  uint64 `json:"update_time"`
+	}
+	ReplyItem {
+		WorkOrderReplyId uint64 `json:"work_order_reply_id"`
+		WorkOrderId      uint64 `json:"work_order_id"`
+		AdminId          uint64 `json:"admin_id"`
+		AdminName        string `json:"admin_name"`
+		Content          string `json:"content"`
+		Images           string `json:"images"`
+		CreateTime       uint64 `json:"create_time"`
+	}
+	GetWorkOrderResp {
+		WorkOrder GetWorkOrderItem `json:"work_order"`
+		ReplyList []ReplyItem      `json:"reply_list"`
+	}
+	ListWorkOrderReq {
+		DeviceId uint64 `form:"device_id,default=0,optional"`
+		UserId   uint64 `form:"user_id,default=0,optional"`
+		Status   int64  `form:"status,default=0,optional"`
+		Category int64  `form:"category,default=0,optional"`
+		Page     int64  `form:"page,default=1,optional"`
+		PageSize int64  `form:"page_size,default=10,optional"`
+	}
+	ListWorkOrderResp {
+		List  []GetWorkOrderItem `json:"list"`
+		Total int64              `json:"total"`
+	}
+	ReplyWorkOrderReq {
+		WorkOrderId uint64 `json:"work_order_id"`
+		AdminId     uint64 `json:"admin_id"`
+		Content     string `json:"content"`
+		Images      string `json:"images,optional,default="`
+	}
+	UpdateWorkOrderStatusReq {
+		WorkOrderId uint64 `json:"work_order_id"`
+		Status      int64  `json:"status"`
+	}
+	// ==================== Debug ====================
+	GetMqttMessagesReq {
+		Limit int64 `form:"limit,default=50,optional"`
+	}
+	MqttMsg {
+		Topic     string `json:"topic"`
+		Payload   string `json:"payload"`
+		Timestamp int64  `json:"timestamp"`
+	}
+	GetMqttMessagesResp {
+		List []MqttMsg `json:"list"`
+	}
 )
 
 @server (
@@ -366,5 +439,37 @@ service device {
 
 	@handler Push
 	post /push (PushFirmwareTaskReq) returns (EmptyResp)
+}
+
+@server (
+	group:  workOrder
+	prefix: /api/work_order
+	jwt:    Auth
+)
+service device {
+	@handler Get
+	get /get (GetWorkOrderReq) returns (GetWorkOrderResp)
+
+	@handler List
+	get /list (ListWorkOrderReq) returns (ListWorkOrderResp)
+
+	@handler Add
+	post /add (AddWorkOrderReq) returns (EmptyResp)
+
+	@handler Reply
+	post /reply (ReplyWorkOrderReq) returns (EmptyResp)
+
+	@handler UpdateStatus
+	post /update_status (UpdateWorkOrderStatusReq) returns (EmptyResp)
+}
+
+@server (
+	group:  debug
+	prefix: /api/debug
+	jwt:    Auth
+)
+service device {
+	@handler EmqxMessages
+	get /emqx (GetMqttMessagesReq) returns (GetMqttMessagesResp)
 }
 

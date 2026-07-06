@@ -14,41 +14,54 @@ import (
 )
 
 type (
-	AddAppReq             = pb.AddAppReq
-	AddDeviceEventReq     = pb.AddDeviceEventReq
-	AddDeviceReq          = pb.AddDeviceReq
-	AddFirmwareReq        = pb.AddFirmwareReq
-	AppResp               = pb.AppResp
-	DeleteAppReq          = pb.DeleteAppReq
-	DeleteAppResp         = pb.DeleteAppResp
-	DeleteDeviceEventReq  = pb.DeleteDeviceEventReq
-	DeleteDeviceEventResp = pb.DeleteDeviceEventResp
-	DeleteDeviceReq       = pb.DeleteDeviceReq
-	DeleteDeviceResp      = pb.DeleteDeviceResp
-	DeleteFirmwareReq     = pb.DeleteFirmwareReq
-	DeleteFirmwareResp    = pb.DeleteFirmwareResp
-	DeviceEventResp       = pb.DeviceEventResp
-	DeviceResp            = pb.DeviceResp
-	DeviceStatsResp       = pb.DeviceStatsResp
-	FirmwareResp          = pb.FirmwareResp
-	FirmwareTaskResp      = pb.FirmwareTaskResp
-	GetAppReq             = pb.GetAppReq
-	GetDeviceEventReq     = pb.GetDeviceEventReq
-	GetDeviceReq          = pb.GetDeviceReq
-	GetDeviceStatsReq     = pb.GetDeviceStatsReq
-	GetFirmwareReq        = pb.GetFirmwareReq
-	GetFirmwareTaskReq    = pb.GetFirmwareTaskReq
-	ListAppReq            = pb.ListAppReq
-	ListAppResp           = pb.ListAppResp
-	ListDeviceEventReq    = pb.ListDeviceEventReq
-	ListDeviceEventResp   = pb.ListDeviceEventResp
-	ListDeviceReq         = pb.ListDeviceReq
-	ListDeviceResp        = pb.ListDeviceResp
-	ListFirmwareReq       = pb.ListFirmwareReq
-	ListFirmwareResp      = pb.ListFirmwareResp
-	ListFirmwareTaskReq   = pb.ListFirmwareTaskReq
-	ListFirmwareTaskResp  = pb.ListFirmwareTaskResp
-	PushFirmwareTaskReq   = pb.PushFirmwareTaskReq
+	AddAppReq                = pb.AddAppReq
+	AddDeviceEventReq        = pb.AddDeviceEventReq
+	AddDeviceReq             = pb.AddDeviceReq
+	AddFirmwareReq           = pb.AddFirmwareReq
+	AddWorkOrderReq          = pb.AddWorkOrderReq
+	AppResp                  = pb.AppResp
+	DeleteAppReq             = pb.DeleteAppReq
+	DeleteAppResp            = pb.DeleteAppResp
+	DeleteDeviceEventReq     = pb.DeleteDeviceEventReq
+	DeleteDeviceEventResp    = pb.DeleteDeviceEventResp
+	DeleteDeviceReq          = pb.DeleteDeviceReq
+	DeleteDeviceResp         = pb.DeleteDeviceResp
+	DeleteFirmwareReq        = pb.DeleteFirmwareReq
+	DeleteFirmwareResp       = pb.DeleteFirmwareResp
+	DeviceEventResp          = pb.DeviceEventResp
+	DeviceResp               = pb.DeviceResp
+	DeviceStatsResp          = pb.DeviceStatsResp
+	FirmwareResp             = pb.FirmwareResp
+	FirmwareTaskResp         = pb.FirmwareTaskResp
+	GetAppReq                = pb.GetAppReq
+	GetDeviceEventReq        = pb.GetDeviceEventReq
+	GetDeviceReq             = pb.GetDeviceReq
+	GetDeviceStatsReq        = pb.GetDeviceStatsReq
+	GetFirmwareReq           = pb.GetFirmwareReq
+	GetFirmwareTaskReq       = pb.GetFirmwareTaskReq
+	GetMqttMessagesReq       = pb.GetMqttMessagesReq
+	GetMqttMessagesResp      = pb.GetMqttMessagesResp
+	GetWorkOrderReq          = pb.GetWorkOrderReq
+	GetWorkOrderResp         = pb.GetWorkOrderResp
+	ListAppReq               = pb.ListAppReq
+	ListAppResp              = pb.ListAppResp
+	ListDeviceEventReq       = pb.ListDeviceEventReq
+	ListDeviceEventResp      = pb.ListDeviceEventResp
+	ListDeviceReq            = pb.ListDeviceReq
+	ListDeviceResp           = pb.ListDeviceResp
+	ListFirmwareReq          = pb.ListFirmwareReq
+	ListFirmwareResp         = pb.ListFirmwareResp
+	ListFirmwareTaskReq      = pb.ListFirmwareTaskReq
+	ListFirmwareTaskResp     = pb.ListFirmwareTaskResp
+	ListWorkOrderReq         = pb.ListWorkOrderReq
+	ListWorkOrderResp        = pb.ListWorkOrderResp
+	MqttMsg                  = pb.MqttMsg
+	PushFirmwareTaskReq      = pb.PushFirmwareTaskReq
+	ReplyItem                = pb.ReplyItem
+	ReplyWorkOrderReq        = pb.ReplyWorkOrderReq
+	UpdateWorkOrderStatusReq = pb.UpdateWorkOrderStatusReq
+	WorkOrderItem            = pb.WorkOrderItem
+	WorkOrderStatusResp      = pb.WorkOrderStatusResp
 
 	Device interface {
 		AddDevice(ctx context.Context, in *AddDeviceReq, opts ...grpc.CallOption) (*DeviceResp, error)
@@ -74,6 +87,12 @@ type (
 		PushFirmwareTask(ctx context.Context, in *PushFirmwareTaskReq, opts ...grpc.CallOption) (*FirmwareTaskResp, error)
 		GetFirmwareTask(ctx context.Context, in *GetFirmwareTaskReq, opts ...grpc.CallOption) (*FirmwareTaskResp, error)
 		ListFirmwareTask(ctx context.Context, in *ListFirmwareTaskReq, opts ...grpc.CallOption) (*ListFirmwareTaskResp, error)
+		AddWorkOrder(ctx context.Context, in *AddWorkOrderReq, opts ...grpc.CallOption) (*WorkOrderItem, error)
+		GetWorkOrder(ctx context.Context, in *GetWorkOrderReq, opts ...grpc.CallOption) (*GetWorkOrderResp, error)
+		ListWorkOrder(ctx context.Context, in *ListWorkOrderReq, opts ...grpc.CallOption) (*ListWorkOrderResp, error)
+		ReplyWorkOrder(ctx context.Context, in *ReplyWorkOrderReq, opts ...grpc.CallOption) (*ReplyItem, error)
+		UpdateWorkOrderStatus(ctx context.Context, in *UpdateWorkOrderStatusReq, opts ...grpc.CallOption) (*WorkOrderStatusResp, error)
+		GetMqttMessages(ctx context.Context, in *GetMqttMessagesReq, opts ...grpc.CallOption) (*GetMqttMessagesResp, error)
 	}
 
 	defaultDevice struct {
@@ -200,4 +219,34 @@ func (m *defaultDevice) GetFirmwareTask(ctx context.Context, in *GetFirmwareTask
 func (m *defaultDevice) ListFirmwareTask(ctx context.Context, in *ListFirmwareTaskReq, opts ...grpc.CallOption) (*ListFirmwareTaskResp, error) {
 	client := pb.NewDeviceClient(m.cli.Conn())
 	return client.ListFirmwareTask(ctx, in, opts...)
+}
+
+func (m *defaultDevice) AddWorkOrder(ctx context.Context, in *AddWorkOrderReq, opts ...grpc.CallOption) (*WorkOrderItem, error) {
+	client := pb.NewDeviceClient(m.cli.Conn())
+	return client.AddWorkOrder(ctx, in, opts...)
+}
+
+func (m *defaultDevice) GetWorkOrder(ctx context.Context, in *GetWorkOrderReq, opts ...grpc.CallOption) (*GetWorkOrderResp, error) {
+	client := pb.NewDeviceClient(m.cli.Conn())
+	return client.GetWorkOrder(ctx, in, opts...)
+}
+
+func (m *defaultDevice) ListWorkOrder(ctx context.Context, in *ListWorkOrderReq, opts ...grpc.CallOption) (*ListWorkOrderResp, error) {
+	client := pb.NewDeviceClient(m.cli.Conn())
+	return client.ListWorkOrder(ctx, in, opts...)
+}
+
+func (m *defaultDevice) ReplyWorkOrder(ctx context.Context, in *ReplyWorkOrderReq, opts ...grpc.CallOption) (*ReplyItem, error) {
+	client := pb.NewDeviceClient(m.cli.Conn())
+	return client.ReplyWorkOrder(ctx, in, opts...)
+}
+
+func (m *defaultDevice) UpdateWorkOrderStatus(ctx context.Context, in *UpdateWorkOrderStatusReq, opts ...grpc.CallOption) (*WorkOrderStatusResp, error) {
+	client := pb.NewDeviceClient(m.cli.Conn())
+	return client.UpdateWorkOrderStatus(ctx, in, opts...)
+}
+
+func (m *defaultDevice) GetMqttMessages(ctx context.Context, in *GetMqttMessagesReq, opts ...grpc.CallOption) (*GetMqttMessagesResp, error) {
+	client := pb.NewDeviceClient(m.cli.Conn())
+	return client.GetMqttMessages(ctx, in, opts...)
 }

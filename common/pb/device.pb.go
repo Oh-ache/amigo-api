@@ -2605,6 +2605,860 @@ func (x *ListFirmwareTaskResp) GetTotal() int64 {
 	return 0
 }
 
+// ==================== WorkOrder ====================
+type AddWorkOrderReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DeviceId      uint64                 `protobuf:"varint,1,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`
+	UserId        uint64                 `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
+	Content       string                 `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
+	Images        string                 `protobuf:"bytes,5,opt,name=images,proto3" json:"images,omitempty"`
+	Category      int64                  `protobuf:"varint,6,opt,name=category,proto3" json:"category,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddWorkOrderReq) Reset() {
+	*x = AddWorkOrderReq{}
+	mi := &file_device_proto_msgTypes[35]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddWorkOrderReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddWorkOrderReq) ProtoMessage() {}
+
+func (x *AddWorkOrderReq) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[35]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddWorkOrderReq.ProtoReflect.Descriptor instead.
+func (*AddWorkOrderReq) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{35}
+}
+
+func (x *AddWorkOrderReq) GetDeviceId() uint64 {
+	if x != nil {
+		return x.DeviceId
+	}
+	return 0
+}
+
+func (x *AddWorkOrderReq) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *AddWorkOrderReq) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *AddWorkOrderReq) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *AddWorkOrderReq) GetImages() string {
+	if x != nil {
+		return x.Images
+	}
+	return ""
+}
+
+func (x *AddWorkOrderReq) GetCategory() int64 {
+	if x != nil {
+		return x.Category
+	}
+	return 0
+}
+
+type WorkOrderItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrderId   uint64                 `protobuf:"varint,1,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	DeviceId      uint64                 `protobuf:"varint,2,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`
+	DeviceName    string                 `protobuf:"bytes,3,opt,name=device_name,json=deviceName,proto3" json:"device_name,omitempty"`
+	UserId        uint64                 `protobuf:"varint,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserName      string                 `protobuf:"bytes,5,opt,name=user_name,json=userName,proto3" json:"user_name,omitempty"`
+	Title         string                 `protobuf:"bytes,6,opt,name=title,proto3" json:"title,omitempty"`
+	Content       string                 `protobuf:"bytes,7,opt,name=content,proto3" json:"content,omitempty"`
+	Images        string                 `protobuf:"bytes,8,opt,name=images,proto3" json:"images,omitempty"`
+	Category      int64                  `protobuf:"varint,9,opt,name=category,proto3" json:"category,omitempty"`
+	Status        int64                  `protobuf:"varint,10,opt,name=status,proto3" json:"status,omitempty"`
+	CreateTime    uint64                 `protobuf:"varint,11,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	UpdateTime    uint64                 `protobuf:"varint,12,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WorkOrderItem) Reset() {
+	*x = WorkOrderItem{}
+	mi := &file_device_proto_msgTypes[36]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WorkOrderItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WorkOrderItem) ProtoMessage() {}
+
+func (x *WorkOrderItem) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[36]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WorkOrderItem.ProtoReflect.Descriptor instead.
+func (*WorkOrderItem) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{36}
+}
+
+func (x *WorkOrderItem) GetWorkOrderId() uint64 {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return 0
+}
+
+func (x *WorkOrderItem) GetDeviceId() uint64 {
+	if x != nil {
+		return x.DeviceId
+	}
+	return 0
+}
+
+func (x *WorkOrderItem) GetDeviceName() string {
+	if x != nil {
+		return x.DeviceName
+	}
+	return ""
+}
+
+func (x *WorkOrderItem) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *WorkOrderItem) GetUserName() string {
+	if x != nil {
+		return x.UserName
+	}
+	return ""
+}
+
+func (x *WorkOrderItem) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *WorkOrderItem) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *WorkOrderItem) GetImages() string {
+	if x != nil {
+		return x.Images
+	}
+	return ""
+}
+
+func (x *WorkOrderItem) GetCategory() int64 {
+	if x != nil {
+		return x.Category
+	}
+	return 0
+}
+
+func (x *WorkOrderItem) GetStatus() int64 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *WorkOrderItem) GetCreateTime() uint64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+func (x *WorkOrderItem) GetUpdateTime() uint64 {
+	if x != nil {
+		return x.UpdateTime
+	}
+	return 0
+}
+
+type ReplyItem struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrderReplyId uint64                 `protobuf:"varint,1,opt,name=work_order_reply_id,json=workOrderReplyId,proto3" json:"work_order_reply_id,omitempty"`
+	WorkOrderId      uint64                 `protobuf:"varint,2,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	AdminId          uint64                 `protobuf:"varint,3,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	AdminName        string                 `protobuf:"bytes,4,opt,name=admin_name,json=adminName,proto3" json:"admin_name,omitempty"`
+	Content          string                 `protobuf:"bytes,5,opt,name=content,proto3" json:"content,omitempty"`
+	Images           string                 `protobuf:"bytes,6,opt,name=images,proto3" json:"images,omitempty"`
+	CreateTime       uint64                 `protobuf:"varint,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *ReplyItem) Reset() {
+	*x = ReplyItem{}
+	mi := &file_device_proto_msgTypes[37]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReplyItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReplyItem) ProtoMessage() {}
+
+func (x *ReplyItem) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[37]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReplyItem.ProtoReflect.Descriptor instead.
+func (*ReplyItem) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{37}
+}
+
+func (x *ReplyItem) GetWorkOrderReplyId() uint64 {
+	if x != nil {
+		return x.WorkOrderReplyId
+	}
+	return 0
+}
+
+func (x *ReplyItem) GetWorkOrderId() uint64 {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return 0
+}
+
+func (x *ReplyItem) GetAdminId() uint64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *ReplyItem) GetAdminName() string {
+	if x != nil {
+		return x.AdminName
+	}
+	return ""
+}
+
+func (x *ReplyItem) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *ReplyItem) GetImages() string {
+	if x != nil {
+		return x.Images
+	}
+	return ""
+}
+
+func (x *ReplyItem) GetCreateTime() uint64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type GetWorkOrderResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrder     *WorkOrderItem         `protobuf:"bytes,1,opt,name=work_order,json=workOrder,proto3" json:"work_order,omitempty"`
+	ReplyList     []*ReplyItem           `protobuf:"bytes,2,rep,name=reply_list,json=replyList,proto3" json:"reply_list,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetWorkOrderResp) Reset() {
+	*x = GetWorkOrderResp{}
+	mi := &file_device_proto_msgTypes[38]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetWorkOrderResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetWorkOrderResp) ProtoMessage() {}
+
+func (x *GetWorkOrderResp) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[38]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetWorkOrderResp.ProtoReflect.Descriptor instead.
+func (*GetWorkOrderResp) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{38}
+}
+
+func (x *GetWorkOrderResp) GetWorkOrder() *WorkOrderItem {
+	if x != nil {
+		return x.WorkOrder
+	}
+	return nil
+}
+
+func (x *GetWorkOrderResp) GetReplyList() []*ReplyItem {
+	if x != nil {
+		return x.ReplyList
+	}
+	return nil
+}
+
+type GetWorkOrderReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrderId   uint64                 `protobuf:"varint,1,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetWorkOrderReq) Reset() {
+	*x = GetWorkOrderReq{}
+	mi := &file_device_proto_msgTypes[39]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetWorkOrderReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetWorkOrderReq) ProtoMessage() {}
+
+func (x *GetWorkOrderReq) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[39]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetWorkOrderReq.ProtoReflect.Descriptor instead.
+func (*GetWorkOrderReq) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{39}
+}
+
+func (x *GetWorkOrderReq) GetWorkOrderId() uint64 {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return 0
+}
+
+type ListWorkOrderReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Page          int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int64                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	DeviceId      uint64                 `protobuf:"varint,3,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`
+	UserId        uint64                 `protobuf:"varint,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Status        int64                  `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`
+	Category      int64                  `protobuf:"varint,6,opt,name=category,proto3" json:"category,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListWorkOrderReq) Reset() {
+	*x = ListWorkOrderReq{}
+	mi := &file_device_proto_msgTypes[40]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListWorkOrderReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListWorkOrderReq) ProtoMessage() {}
+
+func (x *ListWorkOrderReq) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[40]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListWorkOrderReq.ProtoReflect.Descriptor instead.
+func (*ListWorkOrderReq) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{40}
+}
+
+func (x *ListWorkOrderReq) GetPage() int64 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListWorkOrderReq) GetPageSize() int64 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListWorkOrderReq) GetDeviceId() uint64 {
+	if x != nil {
+		return x.DeviceId
+	}
+	return 0
+}
+
+func (x *ListWorkOrderReq) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *ListWorkOrderReq) GetStatus() int64 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *ListWorkOrderReq) GetCategory() int64 {
+	if x != nil {
+		return x.Category
+	}
+	return 0
+}
+
+type ListWorkOrderResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	List          []*WorkOrderItem       `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"`
+	Total         int64                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListWorkOrderResp) Reset() {
+	*x = ListWorkOrderResp{}
+	mi := &file_device_proto_msgTypes[41]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListWorkOrderResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListWorkOrderResp) ProtoMessage() {}
+
+func (x *ListWorkOrderResp) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[41]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListWorkOrderResp.ProtoReflect.Descriptor instead.
+func (*ListWorkOrderResp) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{41}
+}
+
+func (x *ListWorkOrderResp) GetList() []*WorkOrderItem {
+	if x != nil {
+		return x.List
+	}
+	return nil
+}
+
+func (x *ListWorkOrderResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type ReplyWorkOrderReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrderId   uint64                 `protobuf:"varint,1,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	AdminId       uint64                 `protobuf:"varint,2,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
+	Images        string                 `protobuf:"bytes,4,opt,name=images,proto3" json:"images,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReplyWorkOrderReq) Reset() {
+	*x = ReplyWorkOrderReq{}
+	mi := &file_device_proto_msgTypes[42]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReplyWorkOrderReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReplyWorkOrderReq) ProtoMessage() {}
+
+func (x *ReplyWorkOrderReq) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[42]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReplyWorkOrderReq.ProtoReflect.Descriptor instead.
+func (*ReplyWorkOrderReq) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{42}
+}
+
+func (x *ReplyWorkOrderReq) GetWorkOrderId() uint64 {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return 0
+}
+
+func (x *ReplyWorkOrderReq) GetAdminId() uint64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *ReplyWorkOrderReq) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *ReplyWorkOrderReq) GetImages() string {
+	if x != nil {
+		return x.Images
+	}
+	return ""
+}
+
+type UpdateWorkOrderStatusReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkOrderId   uint64                 `protobuf:"varint,1,opt,name=work_order_id,json=workOrderId,proto3" json:"work_order_id,omitempty"`
+	Status        int64                  `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateWorkOrderStatusReq) Reset() {
+	*x = UpdateWorkOrderStatusReq{}
+	mi := &file_device_proto_msgTypes[43]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateWorkOrderStatusReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkOrderStatusReq) ProtoMessage() {}
+
+func (x *UpdateWorkOrderStatusReq) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[43]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkOrderStatusReq.ProtoReflect.Descriptor instead.
+func (*UpdateWorkOrderStatusReq) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *UpdateWorkOrderStatusReq) GetWorkOrderId() uint64 {
+	if x != nil {
+		return x.WorkOrderId
+	}
+	return 0
+}
+
+func (x *UpdateWorkOrderStatusReq) GetStatus() int64 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+type WorkOrderStatusResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WorkOrderStatusResp) Reset() {
+	*x = WorkOrderStatusResp{}
+	mi := &file_device_proto_msgTypes[44]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WorkOrderStatusResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WorkOrderStatusResp) ProtoMessage() {}
+
+func (x *WorkOrderStatusResp) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[44]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WorkOrderStatusResp.ProtoReflect.Descriptor instead.
+func (*WorkOrderStatusResp) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{44}
+}
+
+func (x *WorkOrderStatusResp) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+// ==================== Debug ====================
+type MqttMsg struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Topic         string                 `protobuf:"bytes,1,opt,name=topic,proto3" json:"topic,omitempty"`
+	Payload       string                 `protobuf:"bytes,2,opt,name=payload,proto3" json:"payload,omitempty"`
+	Timestamp     int64                  `protobuf:"varint,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MqttMsg) Reset() {
+	*x = MqttMsg{}
+	mi := &file_device_proto_msgTypes[45]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MqttMsg) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MqttMsg) ProtoMessage() {}
+
+func (x *MqttMsg) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[45]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MqttMsg.ProtoReflect.Descriptor instead.
+func (*MqttMsg) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{45}
+}
+
+func (x *MqttMsg) GetTopic() string {
+	if x != nil {
+		return x.Topic
+	}
+	return ""
+}
+
+func (x *MqttMsg) GetPayload() string {
+	if x != nil {
+		return x.Payload
+	}
+	return ""
+}
+
+func (x *MqttMsg) GetTimestamp() int64 {
+	if x != nil {
+		return x.Timestamp
+	}
+	return 0
+}
+
+type GetMqttMessagesReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Limit         int64                  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMqttMessagesReq) Reset() {
+	*x = GetMqttMessagesReq{}
+	mi := &file_device_proto_msgTypes[46]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMqttMessagesReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMqttMessagesReq) ProtoMessage() {}
+
+func (x *GetMqttMessagesReq) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[46]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMqttMessagesReq.ProtoReflect.Descriptor instead.
+func (*GetMqttMessagesReq) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{46}
+}
+
+func (x *GetMqttMessagesReq) GetLimit() int64 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+type GetMqttMessagesResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	List          []*MqttMsg             `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMqttMessagesResp) Reset() {
+	*x = GetMqttMessagesResp{}
+	mi := &file_device_proto_msgTypes[47]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMqttMessagesResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMqttMessagesResp) ProtoMessage() {}
+
+func (x *GetMqttMessagesResp) ProtoReflect() protoreflect.Message {
+	mi := &file_device_proto_msgTypes[47]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMqttMessagesResp.ProtoReflect.Descriptor instead.
+func (*GetMqttMessagesResp) Descriptor() ([]byte, []int) {
+	return file_device_proto_rawDescGZIP(), []int{47}
+}
+
+func (x *GetMqttMessagesResp) GetList() []*MqttMsg {
+	if x != nil {
+		return x.List
+	}
+	return nil
+}
+
 var File_device_proto protoreflect.FileDescriptor
 
 const file_device_proto_rawDesc = "" +
@@ -2868,7 +3722,76 @@ const file_device_proto_rawDesc = "" +
 	"\x06status\x18\x05 \x01(\x03R\x06status\"Z\n" +
 	"\x14ListFirmwareTaskResp\x12,\n" +
 	"\x04list\x18\x01 \x03(\v2\x18.device.FirmwareTaskRespR\x04list\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x03R\x05total2\xbe\v\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"\xab\x01\n" +
+	"\x0fAddWorkOrderReq\x12\x1b\n" +
+	"\tdevice_id\x18\x01 \x01(\x04R\bdeviceId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x04R\x06userId\x12\x14\n" +
+	"\x05title\x18\x03 \x01(\tR\x05title\x12\x18\n" +
+	"\acontent\x18\x04 \x01(\tR\acontent\x12\x16\n" +
+	"\x06images\x18\x05 \x01(\tR\x06images\x12\x1a\n" +
+	"\bcategory\x18\x06 \x01(\x03R\bcategory\"\xe5\x02\n" +
+	"\rWorkOrderItem\x12\"\n" +
+	"\rwork_order_id\x18\x01 \x01(\x04R\vworkOrderId\x12\x1b\n" +
+	"\tdevice_id\x18\x02 \x01(\x04R\bdeviceId\x12\x1f\n" +
+	"\vdevice_name\x18\x03 \x01(\tR\n" +
+	"deviceName\x12\x17\n" +
+	"\auser_id\x18\x04 \x01(\x04R\x06userId\x12\x1b\n" +
+	"\tuser_name\x18\x05 \x01(\tR\buserName\x12\x14\n" +
+	"\x05title\x18\x06 \x01(\tR\x05title\x12\x18\n" +
+	"\acontent\x18\a \x01(\tR\acontent\x12\x16\n" +
+	"\x06images\x18\b \x01(\tR\x06images\x12\x1a\n" +
+	"\bcategory\x18\t \x01(\x03R\bcategory\x12\x16\n" +
+	"\x06status\x18\n" +
+	" \x01(\x03R\x06status\x12\x1f\n" +
+	"\vcreate_time\x18\v \x01(\x04R\n" +
+	"createTime\x12\x1f\n" +
+	"\vupdate_time\x18\f \x01(\x04R\n" +
+	"updateTime\"\xeb\x01\n" +
+	"\tReplyItem\x12-\n" +
+	"\x13work_order_reply_id\x18\x01 \x01(\x04R\x10workOrderReplyId\x12\"\n" +
+	"\rwork_order_id\x18\x02 \x01(\x04R\vworkOrderId\x12\x19\n" +
+	"\badmin_id\x18\x03 \x01(\x04R\aadminId\x12\x1d\n" +
+	"\n" +
+	"admin_name\x18\x04 \x01(\tR\tadminName\x12\x18\n" +
+	"\acontent\x18\x05 \x01(\tR\acontent\x12\x16\n" +
+	"\x06images\x18\x06 \x01(\tR\x06images\x12\x1f\n" +
+	"\vcreate_time\x18\a \x01(\x04R\n" +
+	"createTime\"z\n" +
+	"\x10GetWorkOrderResp\x124\n" +
+	"\n" +
+	"work_order\x18\x01 \x01(\v2\x15.device.WorkOrderItemR\tworkOrder\x120\n" +
+	"\n" +
+	"reply_list\x18\x02 \x03(\v2\x11.device.ReplyItemR\treplyList\"5\n" +
+	"\x0fGetWorkOrderReq\x12\"\n" +
+	"\rwork_order_id\x18\x01 \x01(\x04R\vworkOrderId\"\xad\x01\n" +
+	"\x10ListWorkOrderReq\x12\x12\n" +
+	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x1b\n" +
+	"\tdevice_id\x18\x03 \x01(\x04R\bdeviceId\x12\x17\n" +
+	"\auser_id\x18\x04 \x01(\x04R\x06userId\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\x03R\x06status\x12\x1a\n" +
+	"\bcategory\x18\x06 \x01(\x03R\bcategory\"T\n" +
+	"\x11ListWorkOrderResp\x12)\n" +
+	"\x04list\x18\x01 \x03(\v2\x15.device.WorkOrderItemR\x04list\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"\x84\x01\n" +
+	"\x11ReplyWorkOrderReq\x12\"\n" +
+	"\rwork_order_id\x18\x01 \x01(\x04R\vworkOrderId\x12\x19\n" +
+	"\badmin_id\x18\x02 \x01(\x04R\aadminId\x12\x18\n" +
+	"\acontent\x18\x03 \x01(\tR\acontent\x12\x16\n" +
+	"\x06images\x18\x04 \x01(\tR\x06images\"V\n" +
+	"\x18UpdateWorkOrderStatusReq\x12\"\n" +
+	"\rwork_order_id\x18\x01 \x01(\x04R\vworkOrderId\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\x03R\x06status\"/\n" +
+	"\x13WorkOrderStatusResp\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"W\n" +
+	"\aMqttMsg\x12\x14\n" +
+	"\x05topic\x18\x01 \x01(\tR\x05topic\x12\x18\n" +
+	"\apayload\x18\x02 \x01(\tR\apayload\x12\x1c\n" +
+	"\ttimestamp\x18\x03 \x01(\x03R\ttimestamp\"*\n" +
+	"\x12GetMqttMessagesReq\x12\x14\n" +
+	"\x05limit\x18\x01 \x01(\x03R\x05limit\":\n" +
+	"\x13GetMqttMessagesResp\x12#\n" +
+	"\x04list\x18\x01 \x03(\v2\x0f.device.MqttMsgR\x04list2\xeb\x0e\n" +
 	"\x06Device\x125\n" +
 	"\tAddDevice\x12\x14.device.AddDeviceReq\x1a\x12.device.DeviceResp\x126\n" +
 	"\fUpdateDevice\x12\x12.device.DeviceResp\x1a\x12.device.DeviceResp\x125\n" +
@@ -2893,7 +3816,13 @@ const file_device_proto_rawDesc = "" +
 	"\fListFirmware\x12\x17.device.ListFirmwareReq\x1a\x18.device.ListFirmwareResp\x12I\n" +
 	"\x10PushFirmwareTask\x12\x1b.device.PushFirmwareTaskReq\x1a\x18.device.FirmwareTaskResp\x12G\n" +
 	"\x0fGetFirmwareTask\x12\x1a.device.GetFirmwareTaskReq\x1a\x18.device.FirmwareTaskResp\x12M\n" +
-	"\x10ListFirmwareTask\x12\x1b.device.ListFirmwareTaskReq\x1a\x1c.device.ListFirmwareTaskRespB\x06Z\x04./pbb\x06proto3"
+	"\x10ListFirmwareTask\x12\x1b.device.ListFirmwareTaskReq\x1a\x1c.device.ListFirmwareTaskResp\x12>\n" +
+	"\fAddWorkOrder\x12\x17.device.AddWorkOrderReq\x1a\x15.device.WorkOrderItem\x12A\n" +
+	"\fGetWorkOrder\x12\x17.device.GetWorkOrderReq\x1a\x18.device.GetWorkOrderResp\x12D\n" +
+	"\rListWorkOrder\x12\x18.device.ListWorkOrderReq\x1a\x19.device.ListWorkOrderResp\x12>\n" +
+	"\x0eReplyWorkOrder\x12\x19.device.ReplyWorkOrderReq\x1a\x11.device.ReplyItem\x12V\n" +
+	"\x15UpdateWorkOrderStatus\x12 .device.UpdateWorkOrderStatusReq\x1a\x1b.device.WorkOrderStatusResp\x12J\n" +
+	"\x0fGetMqttMessages\x12\x1a.device.GetMqttMessagesReq\x1a\x1b.device.GetMqttMessagesRespB\x06Z\x04./pbb\x06proto3"
 
 var (
 	file_device_proto_rawDescOnce sync.Once
@@ -2907,43 +3836,56 @@ func file_device_proto_rawDescGZIP() []byte {
 	return file_device_proto_rawDescData
 }
 
-var file_device_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
+var file_device_proto_msgTypes = make([]protoimpl.MessageInfo, 48)
 var file_device_proto_goTypes = []any{
-	(*AddDeviceReq)(nil),          // 0: device.AddDeviceReq
-	(*DeviceResp)(nil),            // 1: device.DeviceResp
-	(*GetDeviceReq)(nil),          // 2: device.GetDeviceReq
-	(*DeleteDeviceReq)(nil),       // 3: device.DeleteDeviceReq
-	(*DeleteDeviceResp)(nil),      // 4: device.DeleteDeviceResp
-	(*ListDeviceReq)(nil),         // 5: device.ListDeviceReq
-	(*ListDeviceResp)(nil),        // 6: device.ListDeviceResp
-	(*AddAppReq)(nil),             // 7: device.AddAppReq
-	(*AppResp)(nil),               // 8: device.AppResp
-	(*GetAppReq)(nil),             // 9: device.GetAppReq
-	(*DeleteAppReq)(nil),          // 10: device.DeleteAppReq
-	(*DeleteAppResp)(nil),         // 11: device.DeleteAppResp
-	(*ListAppReq)(nil),            // 12: device.ListAppReq
-	(*ListAppResp)(nil),           // 13: device.ListAppResp
-	(*DeviceEventResp)(nil),       // 14: device.DeviceEventResp
-	(*GetDeviceEventReq)(nil),     // 15: device.GetDeviceEventReq
-	(*DeleteDeviceEventReq)(nil),  // 16: device.DeleteDeviceEventReq
-	(*DeleteDeviceEventResp)(nil), // 17: device.DeleteDeviceEventResp
-	(*ListDeviceEventReq)(nil),    // 18: device.ListDeviceEventReq
-	(*ListDeviceEventResp)(nil),   // 19: device.ListDeviceEventResp
-	(*AddDeviceEventReq)(nil),     // 20: device.AddDeviceEventReq
-	(*GetDeviceStatsReq)(nil),     // 21: device.GetDeviceStatsReq
-	(*DeviceStatsResp)(nil),       // 22: device.DeviceStatsResp
-	(*AddFirmwareReq)(nil),        // 23: device.AddFirmwareReq
-	(*FirmwareResp)(nil),          // 24: device.FirmwareResp
-	(*GetFirmwareReq)(nil),        // 25: device.GetFirmwareReq
-	(*DeleteFirmwareReq)(nil),     // 26: device.DeleteFirmwareReq
-	(*DeleteFirmwareResp)(nil),    // 27: device.DeleteFirmwareResp
-	(*ListFirmwareReq)(nil),       // 28: device.ListFirmwareReq
-	(*ListFirmwareResp)(nil),      // 29: device.ListFirmwareResp
-	(*PushFirmwareTaskReq)(nil),   // 30: device.PushFirmwareTaskReq
-	(*FirmwareTaskResp)(nil),      // 31: device.FirmwareTaskResp
-	(*GetFirmwareTaskReq)(nil),    // 32: device.GetFirmwareTaskReq
-	(*ListFirmwareTaskReq)(nil),   // 33: device.ListFirmwareTaskReq
-	(*ListFirmwareTaskResp)(nil),  // 34: device.ListFirmwareTaskResp
+	(*AddDeviceReq)(nil),             // 0: device.AddDeviceReq
+	(*DeviceResp)(nil),               // 1: device.DeviceResp
+	(*GetDeviceReq)(nil),             // 2: device.GetDeviceReq
+	(*DeleteDeviceReq)(nil),          // 3: device.DeleteDeviceReq
+	(*DeleteDeviceResp)(nil),         // 4: device.DeleteDeviceResp
+	(*ListDeviceReq)(nil),            // 5: device.ListDeviceReq
+	(*ListDeviceResp)(nil),           // 6: device.ListDeviceResp
+	(*AddAppReq)(nil),                // 7: device.AddAppReq
+	(*AppResp)(nil),                  // 8: device.AppResp
+	(*GetAppReq)(nil),                // 9: device.GetAppReq
+	(*DeleteAppReq)(nil),             // 10: device.DeleteAppReq
+	(*DeleteAppResp)(nil),            // 11: device.DeleteAppResp
+	(*ListAppReq)(nil),               // 12: device.ListAppReq
+	(*ListAppResp)(nil),              // 13: device.ListAppResp
+	(*DeviceEventResp)(nil),          // 14: device.DeviceEventResp
+	(*GetDeviceEventReq)(nil),        // 15: device.GetDeviceEventReq
+	(*DeleteDeviceEventReq)(nil),     // 16: device.DeleteDeviceEventReq
+	(*DeleteDeviceEventResp)(nil),    // 17: device.DeleteDeviceEventResp
+	(*ListDeviceEventReq)(nil),       // 18: device.ListDeviceEventReq
+	(*ListDeviceEventResp)(nil),      // 19: device.ListDeviceEventResp
+	(*AddDeviceEventReq)(nil),        // 20: device.AddDeviceEventReq
+	(*GetDeviceStatsReq)(nil),        // 21: device.GetDeviceStatsReq
+	(*DeviceStatsResp)(nil),          // 22: device.DeviceStatsResp
+	(*AddFirmwareReq)(nil),           // 23: device.AddFirmwareReq
+	(*FirmwareResp)(nil),             // 24: device.FirmwareResp
+	(*GetFirmwareReq)(nil),           // 25: device.GetFirmwareReq
+	(*DeleteFirmwareReq)(nil),        // 26: device.DeleteFirmwareReq
+	(*DeleteFirmwareResp)(nil),       // 27: device.DeleteFirmwareResp
+	(*ListFirmwareReq)(nil),          // 28: device.ListFirmwareReq
+	(*ListFirmwareResp)(nil),         // 29: device.ListFirmwareResp
+	(*PushFirmwareTaskReq)(nil),      // 30: device.PushFirmwareTaskReq
+	(*FirmwareTaskResp)(nil),         // 31: device.FirmwareTaskResp
+	(*GetFirmwareTaskReq)(nil),       // 32: device.GetFirmwareTaskReq
+	(*ListFirmwareTaskReq)(nil),      // 33: device.ListFirmwareTaskReq
+	(*ListFirmwareTaskResp)(nil),     // 34: device.ListFirmwareTaskResp
+	(*AddWorkOrderReq)(nil),          // 35: device.AddWorkOrderReq
+	(*WorkOrderItem)(nil),            // 36: device.WorkOrderItem
+	(*ReplyItem)(nil),                // 37: device.ReplyItem
+	(*GetWorkOrderResp)(nil),         // 38: device.GetWorkOrderResp
+	(*GetWorkOrderReq)(nil),          // 39: device.GetWorkOrderReq
+	(*ListWorkOrderReq)(nil),         // 40: device.ListWorkOrderReq
+	(*ListWorkOrderResp)(nil),        // 41: device.ListWorkOrderResp
+	(*ReplyWorkOrderReq)(nil),        // 42: device.ReplyWorkOrderReq
+	(*UpdateWorkOrderStatusReq)(nil), // 43: device.UpdateWorkOrderStatusReq
+	(*WorkOrderStatusResp)(nil),      // 44: device.WorkOrderStatusResp
+	(*MqttMsg)(nil),                  // 45: device.MqttMsg
+	(*GetMqttMessagesReq)(nil),       // 46: device.GetMqttMessagesReq
+	(*GetMqttMessagesResp)(nil),      // 47: device.GetMqttMessagesResp
 }
 var file_device_proto_depIdxs = []int32{
 	1,  // 0: device.ListDeviceResp.list:type_name -> device.DeviceResp
@@ -2951,57 +3893,73 @@ var file_device_proto_depIdxs = []int32{
 	14, // 2: device.ListDeviceEventResp.list:type_name -> device.DeviceEventResp
 	24, // 3: device.ListFirmwareResp.list:type_name -> device.FirmwareResp
 	31, // 4: device.ListFirmwareTaskResp.list:type_name -> device.FirmwareTaskResp
-	0,  // 5: device.Device.AddDevice:input_type -> device.AddDeviceReq
-	1,  // 6: device.Device.UpdateDevice:input_type -> device.DeviceResp
-	2,  // 7: device.Device.GetDevice:input_type -> device.GetDeviceReq
-	3,  // 8: device.Device.DeleteDevice:input_type -> device.DeleteDeviceReq
-	5,  // 9: device.Device.ListDevice:input_type -> device.ListDeviceReq
-	7,  // 10: device.Device.AddApp:input_type -> device.AddAppReq
-	8,  // 11: device.Device.UpdateApp:input_type -> device.AppResp
-	9,  // 12: device.Device.GetApp:input_type -> device.GetAppReq
-	10, // 13: device.Device.DeleteApp:input_type -> device.DeleteAppReq
-	12, // 14: device.Device.ListApp:input_type -> device.ListAppReq
-	20, // 15: device.Device.AddDeviceEvent:input_type -> device.AddDeviceEventReq
-	16, // 16: device.Device.DeleteDeviceEvent:input_type -> device.DeleteDeviceEventReq
-	15, // 17: device.Device.GetDeviceEvent:input_type -> device.GetDeviceEventReq
-	18, // 18: device.Device.ListDeviceEvent:input_type -> device.ListDeviceEventReq
-	21, // 19: device.Device.GetDeviceStats:input_type -> device.GetDeviceStatsReq
-	23, // 20: device.Device.AddFirmware:input_type -> device.AddFirmwareReq
-	24, // 21: device.Device.UpdateFirmware:input_type -> device.FirmwareResp
-	25, // 22: device.Device.GetFirmware:input_type -> device.GetFirmwareReq
-	26, // 23: device.Device.DeleteFirmware:input_type -> device.DeleteFirmwareReq
-	28, // 24: device.Device.ListFirmware:input_type -> device.ListFirmwareReq
-	30, // 25: device.Device.PushFirmwareTask:input_type -> device.PushFirmwareTaskReq
-	32, // 26: device.Device.GetFirmwareTask:input_type -> device.GetFirmwareTaskReq
-	33, // 27: device.Device.ListFirmwareTask:input_type -> device.ListFirmwareTaskReq
-	1,  // 28: device.Device.AddDevice:output_type -> device.DeviceResp
-	1,  // 29: device.Device.UpdateDevice:output_type -> device.DeviceResp
-	1,  // 30: device.Device.GetDevice:output_type -> device.DeviceResp
-	4,  // 31: device.Device.DeleteDevice:output_type -> device.DeleteDeviceResp
-	6,  // 32: device.Device.ListDevice:output_type -> device.ListDeviceResp
-	8,  // 33: device.Device.AddApp:output_type -> device.AppResp
-	8,  // 34: device.Device.UpdateApp:output_type -> device.AppResp
-	8,  // 35: device.Device.GetApp:output_type -> device.AppResp
-	11, // 36: device.Device.DeleteApp:output_type -> device.DeleteAppResp
-	13, // 37: device.Device.ListApp:output_type -> device.ListAppResp
-	14, // 38: device.Device.AddDeviceEvent:output_type -> device.DeviceEventResp
-	17, // 39: device.Device.DeleteDeviceEvent:output_type -> device.DeleteDeviceEventResp
-	14, // 40: device.Device.GetDeviceEvent:output_type -> device.DeviceEventResp
-	19, // 41: device.Device.ListDeviceEvent:output_type -> device.ListDeviceEventResp
-	22, // 42: device.Device.GetDeviceStats:output_type -> device.DeviceStatsResp
-	24, // 43: device.Device.AddFirmware:output_type -> device.FirmwareResp
-	24, // 44: device.Device.UpdateFirmware:output_type -> device.FirmwareResp
-	24, // 45: device.Device.GetFirmware:output_type -> device.FirmwareResp
-	27, // 46: device.Device.DeleteFirmware:output_type -> device.DeleteFirmwareResp
-	29, // 47: device.Device.ListFirmware:output_type -> device.ListFirmwareResp
-	31, // 48: device.Device.PushFirmwareTask:output_type -> device.FirmwareTaskResp
-	31, // 49: device.Device.GetFirmwareTask:output_type -> device.FirmwareTaskResp
-	34, // 50: device.Device.ListFirmwareTask:output_type -> device.ListFirmwareTaskResp
-	28, // [28:51] is the sub-list for method output_type
-	5,  // [5:28] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	36, // 5: device.GetWorkOrderResp.work_order:type_name -> device.WorkOrderItem
+	37, // 6: device.GetWorkOrderResp.reply_list:type_name -> device.ReplyItem
+	36, // 7: device.ListWorkOrderResp.list:type_name -> device.WorkOrderItem
+	45, // 8: device.GetMqttMessagesResp.list:type_name -> device.MqttMsg
+	0,  // 9: device.Device.AddDevice:input_type -> device.AddDeviceReq
+	1,  // 10: device.Device.UpdateDevice:input_type -> device.DeviceResp
+	2,  // 11: device.Device.GetDevice:input_type -> device.GetDeviceReq
+	3,  // 12: device.Device.DeleteDevice:input_type -> device.DeleteDeviceReq
+	5,  // 13: device.Device.ListDevice:input_type -> device.ListDeviceReq
+	7,  // 14: device.Device.AddApp:input_type -> device.AddAppReq
+	8,  // 15: device.Device.UpdateApp:input_type -> device.AppResp
+	9,  // 16: device.Device.GetApp:input_type -> device.GetAppReq
+	10, // 17: device.Device.DeleteApp:input_type -> device.DeleteAppReq
+	12, // 18: device.Device.ListApp:input_type -> device.ListAppReq
+	20, // 19: device.Device.AddDeviceEvent:input_type -> device.AddDeviceEventReq
+	16, // 20: device.Device.DeleteDeviceEvent:input_type -> device.DeleteDeviceEventReq
+	15, // 21: device.Device.GetDeviceEvent:input_type -> device.GetDeviceEventReq
+	18, // 22: device.Device.ListDeviceEvent:input_type -> device.ListDeviceEventReq
+	21, // 23: device.Device.GetDeviceStats:input_type -> device.GetDeviceStatsReq
+	23, // 24: device.Device.AddFirmware:input_type -> device.AddFirmwareReq
+	24, // 25: device.Device.UpdateFirmware:input_type -> device.FirmwareResp
+	25, // 26: device.Device.GetFirmware:input_type -> device.GetFirmwareReq
+	26, // 27: device.Device.DeleteFirmware:input_type -> device.DeleteFirmwareReq
+	28, // 28: device.Device.ListFirmware:input_type -> device.ListFirmwareReq
+	30, // 29: device.Device.PushFirmwareTask:input_type -> device.PushFirmwareTaskReq
+	32, // 30: device.Device.GetFirmwareTask:input_type -> device.GetFirmwareTaskReq
+	33, // 31: device.Device.ListFirmwareTask:input_type -> device.ListFirmwareTaskReq
+	35, // 32: device.Device.AddWorkOrder:input_type -> device.AddWorkOrderReq
+	39, // 33: device.Device.GetWorkOrder:input_type -> device.GetWorkOrderReq
+	40, // 34: device.Device.ListWorkOrder:input_type -> device.ListWorkOrderReq
+	42, // 35: device.Device.ReplyWorkOrder:input_type -> device.ReplyWorkOrderReq
+	43, // 36: device.Device.UpdateWorkOrderStatus:input_type -> device.UpdateWorkOrderStatusReq
+	46, // 37: device.Device.GetMqttMessages:input_type -> device.GetMqttMessagesReq
+	1,  // 38: device.Device.AddDevice:output_type -> device.DeviceResp
+	1,  // 39: device.Device.UpdateDevice:output_type -> device.DeviceResp
+	1,  // 40: device.Device.GetDevice:output_type -> device.DeviceResp
+	4,  // 41: device.Device.DeleteDevice:output_type -> device.DeleteDeviceResp
+	6,  // 42: device.Device.ListDevice:output_type -> device.ListDeviceResp
+	8,  // 43: device.Device.AddApp:output_type -> device.AppResp
+	8,  // 44: device.Device.UpdateApp:output_type -> device.AppResp
+	8,  // 45: device.Device.GetApp:output_type -> device.AppResp
+	11, // 46: device.Device.DeleteApp:output_type -> device.DeleteAppResp
+	13, // 47: device.Device.ListApp:output_type -> device.ListAppResp
+	14, // 48: device.Device.AddDeviceEvent:output_type -> device.DeviceEventResp
+	17, // 49: device.Device.DeleteDeviceEvent:output_type -> device.DeleteDeviceEventResp
+	14, // 50: device.Device.GetDeviceEvent:output_type -> device.DeviceEventResp
+	19, // 51: device.Device.ListDeviceEvent:output_type -> device.ListDeviceEventResp
+	22, // 52: device.Device.GetDeviceStats:output_type -> device.DeviceStatsResp
+	24, // 53: device.Device.AddFirmware:output_type -> device.FirmwareResp
+	24, // 54: device.Device.UpdateFirmware:output_type -> device.FirmwareResp
+	24, // 55: device.Device.GetFirmware:output_type -> device.FirmwareResp
+	27, // 56: device.Device.DeleteFirmware:output_type -> device.DeleteFirmwareResp
+	29, // 57: device.Device.ListFirmware:output_type -> device.ListFirmwareResp
+	31, // 58: device.Device.PushFirmwareTask:output_type -> device.FirmwareTaskResp
+	31, // 59: device.Device.GetFirmwareTask:output_type -> device.FirmwareTaskResp
+	34, // 60: device.Device.ListFirmwareTask:output_type -> device.ListFirmwareTaskResp
+	36, // 61: device.Device.AddWorkOrder:output_type -> device.WorkOrderItem
+	38, // 62: device.Device.GetWorkOrder:output_type -> device.GetWorkOrderResp
+	41, // 63: device.Device.ListWorkOrder:output_type -> device.ListWorkOrderResp
+	37, // 64: device.Device.ReplyWorkOrder:output_type -> device.ReplyItem
+	44, // 65: device.Device.UpdateWorkOrderStatus:output_type -> device.WorkOrderStatusResp
+	47, // 66: device.Device.GetMqttMessages:output_type -> device.GetMqttMessagesResp
+	38, // [38:67] is the sub-list for method output_type
+	9,  // [9:38] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_device_proto_init() }
@@ -3015,7 +3973,7 @@ func file_device_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_device_proto_rawDesc), len(file_device_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   35,
+			NumMessages:   48,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

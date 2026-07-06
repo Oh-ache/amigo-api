@@ -21,6 +21,10 @@ Routes:
     Upstream: http://device-api:9093
   - Prefix: /api/firmware_task/
     Upstream: http://device-api:9093
+  - Prefix: /api/work_order/
+    Upstream: http://device-api:9093
+  - Prefix: /api/debug/
+    Upstream: http://device-api:9093
   - Prefix: /api/sdk/
     Upstream: http://sdk-api:9091
   - Prefix: /api/base_code/
