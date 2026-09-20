@@ -10,6 +10,35 @@ type (
 	PngToElnkResp {
 		Url string `json:"url"`
 	}
+	//----------------------------------------------天气
+	WeatherReq {
+		Code string `json:"code,optional,default="`
+		Name string `json:"name,optional,default="`
+		Type string `json:"type,optional,default=1"`
+	}
+	WeatherItem {
+		Date           string `json:"date"`
+		Week           string `json:"week"`
+		Weather        string `json:"weather"`
+		Temp           string `json:"temp"`
+		Wind           string `json:"wind"`
+		WeatherIcon    string `json:"weather_icon"`
+		NightWeather   string `json:"night_weather"`
+		NightTemp      string `json:"night_temp"`
+		NightWind      string `json:"night_wind"`
+		DayWindPower   string `json:"day_wind_power"`
+		NightWindPower string `json:"night_wind_power"`
+	}
+	WeatherResp {
+		Date        string        `json:"date"`
+		Week        string        `json:"week"`
+		Weather     string        `json:"weather"`
+		Temp        string        `json:"temp"`
+		Wind        string        `json:"wind"`
+		WeatherIcon string        `json:"weather_icon"`
+		Humidity    string        `json:"humidity"`
+		Items       []WeatherItem `json:"items"`
+	}
 	//----------------------------------------------消息通知类
 	SendCodeReq {
 		Platform string `json:"platform,optional,default=ali_sms"`
@@ -106,5 +135,15 @@ service sdk {
 	//----------------------------------------------图片转换
 	@handler PngToElnk
 	post /png_to_elnk (PngToElnkReq) returns (PngToElnkResp)
+}
+
+@server (
+	group:  sdk/weather
+	prefix: /api/sdk/weather
+)
+service sdk {
+	//----------------------------------------------天气
+	@handler Weather
+	post /weather (WeatherReq) returns (WeatherResp)
 }
 

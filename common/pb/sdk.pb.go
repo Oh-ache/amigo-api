@@ -610,15 +610,20 @@ func (x *GetWeatherReq) GetName() string {
 }
 
 type GetWeatherItem struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Date          string                 `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"`
-	Week          string                 `protobuf:"bytes,2,opt,name=week,proto3" json:"week,omitempty"`
-	Weather       string                 `protobuf:"bytes,3,opt,name=weather,proto3" json:"weather,omitempty"`
-	Temp          string                 `protobuf:"bytes,4,opt,name=temp,proto3" json:"temp,omitempty"`
-	Wind          string                 `protobuf:"bytes,5,opt,name=wind,proto3" json:"wind,omitempty"`
-	WeatherIcon   string                 `protobuf:"bytes,6,opt,name=weather_icon,json=weatherIcon,proto3" json:"weather_icon,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Date           string                 `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"`
+	Week           string                 `protobuf:"bytes,2,opt,name=week,proto3" json:"week,omitempty"`
+	Weather        string                 `protobuf:"bytes,3,opt,name=weather,proto3" json:"weather,omitempty"`
+	Temp           string                 `protobuf:"bytes,4,opt,name=temp,proto3" json:"temp,omitempty"`
+	Wind           string                 `protobuf:"bytes,5,opt,name=wind,proto3" json:"wind,omitempty"`
+	WeatherIcon    string                 `protobuf:"bytes,6,opt,name=weather_icon,json=weatherIcon,proto3" json:"weather_icon,omitempty"`
+	NightWeather   string                 `protobuf:"bytes,7,opt,name=night_weather,json=nightWeather,proto3" json:"night_weather,omitempty"`
+	NightTemp      string                 `protobuf:"bytes,8,opt,name=night_temp,json=nightTemp,proto3" json:"night_temp,omitempty"`
+	NightWind      string                 `protobuf:"bytes,9,opt,name=night_wind,json=nightWind,proto3" json:"night_wind,omitempty"`
+	DayWindPower   string                 `protobuf:"bytes,10,opt,name=day_wind_power,json=dayWindPower,proto3" json:"day_wind_power,omitempty"`
+	NightWindPower string                 `protobuf:"bytes,11,opt,name=night_wind_power,json=nightWindPower,proto3" json:"night_wind_power,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *GetWeatherItem) Reset() {
@@ -689,6 +694,41 @@ func (x *GetWeatherItem) GetWind() string {
 func (x *GetWeatherItem) GetWeatherIcon() string {
 	if x != nil {
 		return x.WeatherIcon
+	}
+	return ""
+}
+
+func (x *GetWeatherItem) GetNightWeather() string {
+	if x != nil {
+		return x.NightWeather
+	}
+	return ""
+}
+
+func (x *GetWeatherItem) GetNightTemp() string {
+	if x != nil {
+		return x.NightTemp
+	}
+	return ""
+}
+
+func (x *GetWeatherItem) GetNightWind() string {
+	if x != nil {
+		return x.NightWind
+	}
+	return ""
+}
+
+func (x *GetWeatherItem) GetDayWindPower() string {
+	if x != nil {
+		return x.DayWindPower
+	}
+	return ""
+}
+
+func (x *GetWeatherItem) GetNightWindPower() string {
+	if x != nil {
+		return x.NightWindPower
 	}
 	return ""
 }
@@ -1304,14 +1344,22 @@ const file_sdk_proto_rawDesc = "" +
 	"\rGetWeatherReq\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\tR\x04code\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\"\x9d\x01\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\"\xd0\x02\n" +
 	"\x0eGetWeatherItem\x12\x12\n" +
 	"\x04date\x18\x01 \x01(\tR\x04date\x12\x12\n" +
 	"\x04week\x18\x02 \x01(\tR\x04week\x12\x18\n" +
 	"\aweather\x18\x03 \x01(\tR\aweather\x12\x12\n" +
 	"\x04temp\x18\x04 \x01(\tR\x04temp\x12\x12\n" +
 	"\x04wind\x18\x05 \x01(\tR\x04wind\x12!\n" +
-	"\fweather_icon\x18\x06 \x01(\tR\vweatherIcon\"\xe4\x01\n" +
+	"\fweather_icon\x18\x06 \x01(\tR\vweatherIcon\x12#\n" +
+	"\rnight_weather\x18\a \x01(\tR\fnightWeather\x12\x1d\n" +
+	"\n" +
+	"night_temp\x18\b \x01(\tR\tnightTemp\x12\x1d\n" +
+	"\n" +
+	"night_wind\x18\t \x01(\tR\tnightWind\x12$\n" +
+	"\x0eday_wind_power\x18\n" +
+	" \x01(\tR\fdayWindPower\x12(\n" +
+	"\x10night_wind_power\x18\v \x01(\tR\x0enightWindPower\"\xe4\x01\n" +
 	"\x0eGetWeatherResp\x12)\n" +
 	"\x05items\x18\x01 \x03(\v2\x13.sdk.GetWeatherItemR\x05items\x12\x12\n" +
 	"\x04date\x18\x02 \x01(\tR\x04date\x12\x12\n" +

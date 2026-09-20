@@ -10,6 +10,7 @@ import (
 	sdkip "amigo-api/app/sdk/api/internal/handler/sdk/ip"
 	sdkmessage "amigo-api/app/sdk/api/internal/handler/sdk/message"
 	sdkoss "amigo-api/app/sdk/api/internal/handler/sdk/oss"
+	sdkweather "amigo-api/app/sdk/api/internal/handler/sdk/weather"
 	"amigo-api/app/sdk/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -73,5 +74,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/api/sdk/oss"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/weather",
+				Handler: sdkweather.WeatherHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/sdk/weather"),
 	)
 }

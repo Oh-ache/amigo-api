@@ -73,3 +73,34 @@ type UploadUrlReq struct {
 type UploadUrlResp struct {
 	Url string `json:"url"`
 }
+
+type WeatherItem struct {
+	Date           string `json:"date"`
+	Week           string `json:"week"`
+	Weather        string `json:"weather"`
+	Temp           string `json:"temp"`
+	Wind           string `json:"wind"`
+	WeatherIcon    string `json:"weather_icon"`
+	NightWeather   string `json:"night_weather"`
+	NightTemp      string `json:"night_temp"`
+	NightWind      string `json:"night_wind"`
+	DayWindPower   string `json:"day_wind_power"`
+	NightWindPower string `json:"night_wind_power"`
+}
+
+type WeatherReq struct {
+	Code string `json:"code,optional,default="`
+	Name string `json:"name,optional,default="`
+	Type string `json:"type,optional,default=1"`
+}
+
+type WeatherResp struct {
+	Date        string        `json:"date"`
+	Week        string        `json:"week"`
+	Weather     string        `json:"weather"`
+	Temp        string        `json:"temp"`
+	Wind        string        `json:"wind"`
+	WeatherIcon string        `json:"weather_icon"`
+	Humidity    string        `json:"humidity"`
+	Items       []WeatherItem `json:"items"`
+}

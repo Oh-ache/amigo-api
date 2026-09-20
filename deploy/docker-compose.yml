@@ -47,7 +47,7 @@ services: # 网关服务
   #   sh script/dockerRpc sdk $(date "+%Y%m%d%H%M%S")
   # 并把下方 image tag 替换为新构建产物对应的时间戳。
   sdk-rpc:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-rpc:20260920232247
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-rpc:20260920232643
     container_name: sdk-rpc
     expose:
       - "8091"
@@ -58,7 +58,7 @@ services: # 网关服务
     restart: unless-stopped
 
   sdk-api:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-api:20260702153709
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-api:20260920232643
     container_name: sdk-api
     expose:
       - "9091"

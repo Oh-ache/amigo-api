@@ -68,6 +68,11 @@ message GetWeatherItem {
     string temp = 4;
     string wind = 5;
     string weather_icon = 6;
+    string night_weather = 7;
+    string night_temp = 8;
+    string night_wind = 9;
+    string day_wind_power = 10;
+    string night_wind_power = 11;
 }
 
 message GetWeatherResp {

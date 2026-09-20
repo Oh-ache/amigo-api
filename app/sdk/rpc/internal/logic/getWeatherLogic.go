@@ -88,7 +88,12 @@ func (l *GetWeatherLogic) GetWeather(in *pb.GetWeatherReq) (*pb.GetWeatherResp, 
 	}
 
 	// 5. 组装响应（与旧逻辑保持兼容）
-	if extensions == "base" && weatherResp != nil && len(weatherResp.Lives) > 0 {
+	if weatherResp == nil {
+		resp.Items = make([]*pb.GetWeatherItem, 0)
+		return resp, nil
+	}
+
+	if extensions == "base" && len(weatherResp.Lives) > 0 {
 		live := weatherResp.Lives[0]
 		resp.Date = live.Reporttime
 		resp.Week = utils.WeekdayInChinese(time.Now().Weekday())
@@ -98,11 +103,75 @@ func (l *GetWeatherLogic) GetWeather(in *pb.GetWeatherReq) (*pb.GetWeatherResp, 
 		resp.Wind = strings.Replace(resp.Wind, "≤", "1-", -1)
 		resp.Humidity = live.Humidity
 		resp.Items = make([]*pb.GetWeatherItem, 0)
-	} else {
-		resp.Items = make([]*pb.GetWeatherItem, 0)
+		return resp, nil
 	}
 
+	if extensions == "all" && len(weatherResp.Forecasts) > 0 {
+		resp.Date = weatherResp.Forecasts[0].Reporttime
+		resp.Week = utils.WeekdayInChinese(time.Now().Weekday())
+		// 实况字段（forecast API 不返回 lives，给一个占位）
+		if len(weatherResp.Lives) > 0 {
+			live := weatherResp.Lives[0]
+			resp.Weather = live.Weather
+			resp.Temp = live.Temperature
+			resp.Wind = fmt.Sprintf("%s风%s", live.Winddirection, live.Windpower)
+			resp.Wind = strings.Replace(resp.Wind, "≤", "1-", -1)
+			resp.Humidity = live.Humidity
+		}
+		resp.Items = convertForecastItems(weatherResp.Forecasts[0].Casts)
+		return resp, nil
+	}
+
+	resp.Items = make([]*pb.GetWeatherItem, 0)
 	return resp, nil
+}
+
+// convertForecastItems 把高德 forecast.casts 转成 pb.GetWeatherItem 列表。
+// 高德 week 字段为字符串 "1"-"7"（1=周一, 7=周日），统一转成中文。
+func convertForecastItems(casts []weather.GaodeForecastCast) []*pb.GetWeatherItem {
+	if len(casts) == 0 {
+		return []*pb.GetWeatherItem{}
+	}
+	items := make([]*pb.GetWeatherItem, 0, len(casts))
+	for _, c := range casts {
+		dayWind := fmt.Sprintf("%s%s", c.Daywind, strings.Replace(c.Daypower, "≤", "1-", -1))
+		nightWind := fmt.Sprintf("%s%s", c.Nightwind, strings.Replace(c.Nightpower, "≤", "1-", -1))
+		items = append(items, &pb.GetWeatherItem{
+			Date:           c.Date,
+			Week:           gaodeWeekToChinese(c.Week),
+			Weather:        c.Dayweather,
+			Temp:           c.Daytemp,
+			Wind:           dayWind,
+			NightWeather:   c.Nightweather,
+			NightTemp:      c.Nighttemp,
+			NightWind:      nightWind,
+			DayWindPower:   c.Daypower,
+			NightWindPower: c.Nightpower,
+		})
+	}
+	return items
+}
+
+// gaodeWeekToChinese 高德 week 字段（1=周一..7=周日）转中文。
+func gaodeWeekToChinese(week string) string {
+	switch week {
+	case "1":
+		return "周一"
+	case "2":
+		return "周二"
+	case "3":
+		return "周三"
+	case "4":
+		return "周四"
+	case "5":
+		return "周五"
+	case "6":
+		return "周六"
+	case "7":
+		return "周日"
+	default:
+		return week
+	}
 }
 
 // resolveAdcodeByName 通过中文名从 baseCodeItem 表查找 adcode。
