@@ -553,6 +553,7 @@ type GetWeatherReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
 	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -597,6 +598,13 @@ func (x *GetWeatherReq) GetCode() string {
 func (x *GetWeatherReq) GetType() string {
 	if x != nil {
 		return x.Type
+	}
+	return ""
+}
+
+func (x *GetWeatherReq) GetName() string {
+	if x != nil {
+		return x.Name
 	}
 	return ""
 }
@@ -1292,10 +1300,11 @@ const file_sdk_proto_rawDesc = "" +
 	"\bChatResp\x12\x18\n" +
 	"\acontent\x18\x01 \x01(\tR\acontent\"#\n" +
 	"\aChatReq\x12\x18\n" +
-	"\acontent\x18\x01 \x01(\tR\acontent\"7\n" +
+	"\acontent\x18\x01 \x01(\tR\acontent\"K\n" +
 	"\rGetWeatherReq\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\tR\x04code\x12\x12\n" +
-	"\x04type\x18\x02 \x01(\tR\x04type\"\x9d\x01\n" +
+	"\x04type\x18\x02 \x01(\tR\x04type\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\"\x9d\x01\n" +
 	"\x0eGetWeatherItem\x12\x12\n" +
 	"\x04date\x18\x01 \x01(\tR\x04date\x12\x12\n" +
 	"\x04week\x18\x02 \x01(\tR\x04week\x12\x18\n" +

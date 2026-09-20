@@ -58,6 +58,7 @@ message ChatReq {
 message GetWeatherReq {
     string code = 1;
     string type = 2;
+    string name = 3;
 }
 
 message GetWeatherItem {

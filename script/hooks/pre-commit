@@ -1,0 +1,47 @@
+#!/bin/sh
+# Git pre-commit hook
+# 检测 staged 改动中影响 service 代码的文件，自动调用 dockerBuildAndUpdate.sh
+# 构建并推送对应镜像，同时把 deploy/docker-compose.yml 的 image tag 更新纳入本次 commit。
+
+set -e
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+# 1. 扫描 staged 文件，按 dockerBuildAndUpdate.sh --auto 同样的规则映射 service
+services=$(git diff --cached --name-only --diff-filter=ACMR | python3 -c '
+import sys, re
+seen = set()
+for line in sys.stdin:
+    p = line.strip()
+    if not p:
+        continue
+    m = re.match(r"^app/([^/]+)/(rpc|api)/", p)
+    if m:
+        seen.add(m.group(1) + "-" + m.group(2))
+        continue
+    if p.startswith("common/utils/"):
+        seen.add("sdk-rpc")
+print("\n".join(sorted(seen)))
+' || true)
+
+if [ -z "$services" ]; then
+    exit 0
+fi
+
+echo "==> 本次提交影响以下 service，将自动构建并推送镜像："
+for s in $services; do
+    echo "    - $s"
+done
+echo ""
+
+# 2. 跑 dockerBuildAndUpdate.sh（内部会备份 compose、构建推送镜像、改写 compose 中的 image tag）
+sh script/dockerBuildAndUpdate.sh $services
+
+# 3. 把 compose 改动 stage 进来，一并进本次 commit
+git add deploy/docker-compose.yml
+
+echo ""
+echo "==> docker-compose.yml 已更新并加入本次 commit"
+echo "    跳过本次钩子: git commit --no-verify"
+exit 0

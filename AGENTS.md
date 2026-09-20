@@ -139,6 +139,63 @@ sh rpcgen user
 
 > 日常迭代用 `apigen`/`rpcgen`（保留已实现的逻辑代码）。大幅重构时用 `apireset`/`rpcreset`（注意备份已写好的 logic）。
 
+## ⚠️ 修改 `.api` / `.proto` 后必须重置
+
+**规则**：每次修改 `common/api/<module>.api` 或 `common/proto/<module>.proto` 后，**必须**用 `apireset` / `rpcreset` 重新生成代码，**不可**只跑 `apigen` / `rpcgen`。
+
+### 为什么必须重置
+
+- `apigen` / `rpcgen` 是**增量**的，只会新增 handler / logic，**不会清理**已删除的接口、字段、类型。
+- 一旦 `.api` 中**删除**了某个路由或类型、`.proto` 中**删除**了某个 message 或 rpc 方法，旧的生成文件会残留，导致编译通过但运行时出现死代码 / 类型不一致 / 路由冲突。
+- `apireset` / `rpcreset` 会先清空 `types/`、`routes.go`、`common/pb/<m>.pb.go` 等生成产物，再基于最新的 `.api` / `.proto` 全量重建，保证生成代码与定义文件严格一致。
+
+### 执行清单
+
+修改 `.api` 或 `.proto` 后，按以下步骤操作：
+
+1. **重置前**：用 `git status` 确认手写的业务逻辑（`logic/*.go`）已提交或已备份，避免被覆盖。
+2. **重置**：进入 `script/` 目录，针对修改的每个模块执行：
+   ```sh
+   cd script
+
+   # 修改了 .api
+   sh apireset <module>
+
+   # 修改了 .proto
+   sh rpcreset <module>
+   ```
+   两个文件都改了，两个脚本都要跑。
+3. **重置后**：用 `git diff --stat` 核对生成文件的改动范围，确认与预期一致。
+4. **还原手写逻辑**：如果被覆盖，从备份 / git 历史中恢复 `app/<m>/api/internal/logic/`、`app/<m>/rpc/internal/logic/` 下的业务代码。
+5. **编译验证**：
+   ```sh
+   go build ./...
+   go vet ./app/<m>/...
+   ```
+6. **重启服务**（如涉及运行中的服务）：
+   ```sh
+   pm2 reload <module>Rpc <module>Api
+   ```
+
+### 多模块批量重置
+
+如果一次改动涉及多个模块，可一次性传入：
+
+```sh
+cd script
+sh apireset sdk device
+sh rpcreset sdk device
+```
+
+### 跳过重置的反模式（禁止）
+
+- ❌ 只跑 `apigen` / `rpcgen`，不跑 `apireset` / `rpcreset`
+- ❌ 手动编辑 `common/pb/*.pb.go` 或 `app/<m>/rpc/internal/server/*Server.go`
+- ❌ 手动编辑 `app/<m>/api/internal/handler/routes.go`、`app/<m>/api/internal/types/`
+- ❌ 修改 `.api` / `.proto` 后直接 `git commit`，不重新生成
+
+以上任何一条都会让生成代码与定义文件脱钩，后续修改容易引发编译失败或运行时异常。
+
 ### 4. 实现业务逻辑
 
 生成后的模板文件位于：

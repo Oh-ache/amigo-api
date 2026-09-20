@@ -12,4 +12,5 @@ fi
 
 rm -rf deploy/simpleDockerFile/cmd/mqueue
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o deploy/simpleDockerFile/cmd/mqueue app/job/mqueue/mqueue.go
-docker buildx build --platform linux/amd64 -f deploy/simpleDockerFile/$DOCKERFILE -t $REGISTRY/$NAMESPACE/$APP:$tag --push .
+docker buildx build --platform linux/amd64 -f deploy/simpleDockerFile/$DOCKERFILE -t $REGISTRY/$NAMESPACE/$APP:$tag --load .
+docker push $REGISTRY/$NAMESPACE/$APP:$tag

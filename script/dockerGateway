@@ -11,5 +11,6 @@ fi
 
 rm -rf deploy/simpleDockerFile/cmd/gateway
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o deploy/simpleDockerFile/cmd/gateway app/gateway/gateway.go
-docker buildx build --platform linux/amd64 -f deploy/simpleDockerFile/gatewayDockerfile -t $REGISTRY/$NAMESPACE/$APP:$tag --push .
+docker buildx build --platform linux/amd64 -f deploy/simpleDockerFile/gatewayDockerfile -t $REGISTRY/$NAMESPACE/$APP:$tag --load .
+docker push $REGISTRY/$NAMESPACE/$APP:$tag
 

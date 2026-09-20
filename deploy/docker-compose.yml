@@ -43,8 +43,11 @@ services: # 网关服务
     restart: unless-stopped
 
   # SDK 服务
+  # 注意：sdk-rpc 镜像 tag 在代码改动（含 IP 解析接口实现变更）后需重新执行
+  #   sh script/dockerRpc sdk $(date "+%Y%m%d%H%M%S")
+  # 并把下方 image tag 替换为新构建产物对应的时间戳。
   sdk-rpc:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-rpc:20260702153709
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-rpc:20260920232247
     container_name: sdk-rpc
     expose:
       - "8091"
