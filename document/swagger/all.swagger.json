@@ -1,0 +1,3050 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Amigo API",
+    "version": "1.0.0",
+    "description": "Amigo 控制中心后端接口（baseCode / sdk / user / device 整合版）。\n\n服务地址：\n- gateway (推荐): http://192.168.31.62:8888\n- baseCode 直连: http://192.168.31.62:9090\n- sdk 直连: http://192.168.31.62:9091\n- user 直连: http://192.168.31.62:9092\n- device 直连: http://192.168.31.62:9093"
+  },
+  "host": "192.168.31.62:8888",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/base_code/add": {
+      "post": {
+        "operationId": "Add",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------标准码相关接口",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/baseCode.AddBaseCodeReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode/baseCode"
+        ]
+      }
+    },
+    "/api/base_code/delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/baseCode.DeleteBaseCodeReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode/baseCode"
+        ]
+      }
+    },
+    "/api/base_code/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/baseCode.GetBaseCodeResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "base_code_id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "baseCode/baseCode"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code/list": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/baseCode.ListBaseCodeResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content1",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content2",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content3",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content4",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "is_delete",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "2"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "1"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "10"
+          }
+        ],
+        "tags": [
+          "baseCode/baseCode"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code/update": {
+      "post": {
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/baseCode.UpdateBaseCodeReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode/baseCode"
+        ]
+      }
+    },
+    "/api/base_code_item/add": {
+      "post": {
+        "operationId": "Add",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------标准码Item相关接口",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/baseCode.AddBaseCodeItemReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode/baseCodeItem"
+        ]
+      }
+    },
+    "/api/base_code_item/delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/baseCode.DeleteBaseCodeItemReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode/baseCodeItem"
+        ]
+      }
+    },
+    "/api/base_code_item/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/baseCode.GetBaseCodeItemResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "base_code_item_id",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "baseCode/baseCodeItem"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code_item/list": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/baseCode.ListBaseCodeItemResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "foreign_id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "content",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content1",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content2",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content3",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content4",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "is_delete",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "2"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "1"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "10"
+          }
+        ],
+        "tags": [
+          "baseCode/baseCodeItem"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code_item/update": {
+      "post": {
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/baseCode.UpdateBaseCodeItemReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode/baseCodeItem"
+        ]
+      }
+    },
+    "/api/base_code_sort/add": {
+      "post": {
+        "operationId": "Add",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------标准码分类相关接口",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/baseCode.AddBaseCodeSortReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode/baseCodeSort"
+        ]
+      }
+    },
+    "/api/base_code_sort/delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/baseCode.DeleteBaseCodeSortReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode/baseCodeSort"
+        ]
+      }
+    },
+    "/api/base_code_sort/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/baseCode.GetBaseCodeSortResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "base_code_sort_id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "baseCode/baseCodeSort"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code_sort/list": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/baseCode.ListBaseCodeSortResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_desc",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "is_delete",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "2"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "1"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "10"
+          }
+        ],
+        "tags": [
+          "baseCode/baseCodeSort"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/base_code_sort/update": {
+      "post": {
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/baseCode.UpdateBaseCodeSortReq"
+            }
+          }
+        ],
+        "tags": [
+          "baseCode/baseCodeSort"
+        ]
+      }
+    },
+    "/api/device/add": {
+      "post": {
+        "operationId": "Add",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/device.AddDeviceReq"
+            }
+          }
+        ],
+        "tags": [
+          "device/device"
+        ]
+      }
+    },
+    "/api/device/delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/device.DeleteDeviceReq"
+            }
+          }
+        ],
+        "tags": [
+          "device/device"
+        ]
+      }
+    },
+    "/api/device/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/device.GetDeviceResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "mac_address",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "device/device"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/device/list": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/device.ListDeviceResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "mac_address",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "internal_ip",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "is_running",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "0"
+          },
+          {
+            "name": "is_delete",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "2"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "1"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": "10"
+          }
+        ],
+        "tags": [
+          "device/device"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/device/update": {
+      "post": {
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/device.UpdateDeviceReq"
+            }
+          }
+        ],
+        "tags": [
+          "device/device"
+        ]
+      }
+    },
+    "/api/sdk/convert/png_to_elnk": {
+      "post": {
+        "operationId": "PngToElnk",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sdk.PngToElnkResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------图片转换",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sdk.PngToElnkReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/convert"
+        ]
+      }
+    },
+    "/api/sdk/ip/to_address": {
+      "post": {
+        "operationId": "IpToAddress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sdk.IpToAddressResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------IP",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sdk.IpToAddressReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/ip"
+        ]
+      }
+    },
+    "/api/sdk/message/check_code": {
+      "post": {
+        "operationId": "CheckCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sdk.CheckCodeReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/message"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/sdk/message/send_code": {
+      "post": {
+        "operationId": "SendCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------消息通知类",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sdk.SendCodeReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/message"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/sdk/oss/upload_file": {
+      "post": {
+        "operationId": "UploadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sdk.UploadFileResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------OSS",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sdk.UploadFileReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/oss"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/sdk/oss/upload_token": {
+      "post": {
+        "operationId": "UploadToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sdk.UploadTokenResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sdk.UploadTokenReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/oss"
+        ]
+      }
+    },
+    "/api/sdk/oss/upload_url": {
+      "post": {
+        "operationId": "UploadUrl",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sdk.UploadUrlResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sdk.UploadUrlReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/oss"
+        ]
+      }
+    },
+    "/api/sdk/weather/weather": {
+      "post": {
+        "operationId": "Weather",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sdk.WeatherResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "天气查询（type=1 实况；type=2 预报）",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sdk.WeatherReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/weather"
+        ]
+      }
+    },
+    "/api/admin/add": {
+      "post": {
+        "operationId": "Add",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/user.GetAdminResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.AdminAddReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/admin/delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.AdminDeleteReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/admin/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/user.GetAdminResp"
+            }
+          }
+        },
+        "tags": [
+          "user/admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/admin/login": {
+      "post": {
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/user.AdminLoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------后台用户",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.AdminLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/admin"
+        ]
+      }
+    },
+    "/api/admin/update": {
+      "post": {
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.AdminUpdateReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/admin/update_mobile": {
+      "post": {
+        "operationId": "UpdateMobile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.AdminUpdateMobileReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/admin/update_password": {
+      "post": {
+        "operationId": "UpdatePassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.AdminUpdatePasswordReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/add": {
+      "post": {
+        "operationId": "UserAdd",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/user.GetUserResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.UserAddReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/delete": {
+      "post": {
+        "operationId": "UserDelete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.UserDeleteReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/get": {
+      "get": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/user.GetUserResp"
+            }
+          }
+        },
+        "tags": [
+          "user/user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/user.UserLoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "----------------------------------------------前台用户",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.UserLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/user"
+        ]
+      }
+    },
+    "/api/user/third_login": {
+      "post": {
+        "operationId": "ThirdLogin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/user.UserLoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.UserThirdLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/user"
+        ]
+      }
+    },
+    "/api/user/update": {
+      "post": {
+        "operationId": "UserUpdate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.UserUpdateReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/update_mobile": {
+      "post": {
+        "operationId": "UserUpdateMobile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.UserUpdateMobileReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/user/update_password": {
+      "post": {
+        "operationId": "UserUpdatePassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.UserUpdatePasswordReq"
+            }
+          }
+        ],
+        "tags": [
+          "user/user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "baseCode.AddBaseCodeItemReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "foreign_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        }
+      },
+      "title": "AddBaseCodeItemReq",
+      "required": [
+        "sort_key",
+        "key"
+      ]
+    },
+    "baseCode.AddBaseCodeReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        }
+      },
+      "title": "AddBaseCodeReq",
+      "required": [
+        "sort_key",
+        "key",
+        "name"
+      ]
+    },
+    "baseCode.AddBaseCodeSortReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "sort_name": {
+          "type": "string"
+        },
+        "sort_desc": {
+          "type": "string"
+        }
+      },
+      "title": "AddBaseCodeSortReq",
+      "required": [
+        "sort_key",
+        "sort_name",
+        "sort_desc"
+      ]
+    },
+    "CommonResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "title": "CommonResp",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "baseCode.DeleteBaseCodeItemReq": {
+      "type": "object",
+      "properties": {
+        "base_code_item_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeleteBaseCodeItemReq",
+      "required": [
+        "base_code_item_id"
+      ]
+    },
+    "baseCode.DeleteBaseCodeReq": {
+      "type": "object",
+      "properties": {
+        "base_code_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        }
+      },
+      "title": "DeleteBaseCodeReq"
+    },
+    "baseCode.DeleteBaseCodeSortReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "base_code_sort_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        }
+      },
+      "title": "DeleteBaseCodeSortReq"
+    },
+    "EmptyResp": {
+      "type": "object",
+      "title": "EmptyResp"
+    },
+    "baseCode.GetBaseCodeItemReq": {
+      "type": "object",
+      "properties": {
+        "base_code_item_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetBaseCodeItemReq",
+      "required": [
+        "base_code_item_id"
+      ]
+    },
+    "baseCode.GetBaseCodeItemResp": {
+      "type": "object",
+      "properties": {
+        "base_code_item_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "foreign_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetBaseCodeItemResp",
+      "required": [
+        "base_code_item_id",
+        "sort_key",
+        "key",
+        "foreign_id",
+        "content",
+        "content1",
+        "content2",
+        "content3",
+        "content4",
+        "is_delete",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "baseCode.GetBaseCodeReq": {
+      "type": "object",
+      "properties": {
+        "base_code_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        }
+      },
+      "title": "GetBaseCodeReq"
+    },
+    "baseCode.GetBaseCodeResp": {
+      "type": "object",
+      "properties": {
+        "base_code_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetBaseCodeResp",
+      "required": [
+        "base_code_id",
+        "sort_key",
+        "key",
+        "name",
+        "content",
+        "content1",
+        "content2",
+        "content3",
+        "content4",
+        "is_delete",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "baseCode.GetBaseCodeSortReq": {
+      "type": "object",
+      "properties": {
+        "base_code_sort_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "sort_key": {
+          "type": "string"
+        }
+      },
+      "title": "GetBaseCodeSortReq"
+    },
+    "baseCode.GetBaseCodeSortResp": {
+      "type": "object",
+      "properties": {
+        "base_code_sort_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "sort_name": {
+          "type": "string"
+        },
+        "sort_desc": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetBaseCodeSortResp",
+      "required": [
+        "base_code_sort_id",
+        "sort_key",
+        "sort_name",
+        "sort_desc",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "baseCode.ListBaseCodeItemReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "foreign_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "default": "10"
+        }
+      },
+      "title": "ListBaseCodeItemReq"
+    },
+    "baseCode.ListBaseCodeItemResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetBaseCodeItemResp"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ListBaseCodeItemResp",
+      "required": [
+        "list",
+        "total"
+      ]
+    },
+    "baseCode.ListBaseCodeReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "default": "10"
+        }
+      },
+      "title": "ListBaseCodeReq"
+    },
+    "baseCode.ListBaseCodeResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetBaseCodeResp"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ListBaseCodeResp",
+      "required": [
+        "list",
+        "total"
+      ]
+    },
+    "baseCode.ListBaseCodeSortReq": {
+      "type": "object",
+      "properties": {
+        "sort_key": {
+          "type": "string"
+        },
+        "sort_name": {
+          "type": "string"
+        },
+        "sort_desc": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "default": "10"
+        }
+      },
+      "title": "ListBaseCodeSortReq"
+    },
+    "baseCode.ListBaseCodeSortResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetBaseCodeSortResp"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ListBaseCodeSortResp",
+      "required": [
+        "list",
+        "total"
+      ]
+    },
+    "baseCode.UpdateBaseCodeItemReq": {
+      "type": "object",
+      "properties": {
+        "base_code_item_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "foreign_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UpdateBaseCodeItemReq",
+      "required": [
+        "base_code_item_id",
+        "sort_key",
+        "key",
+        "is_delete"
+      ]
+    },
+    "baseCode.UpdateBaseCodeReq": {
+      "type": "object",
+      "properties": {
+        "base_code_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "content1": {
+          "type": "string"
+        },
+        "content2": {
+          "type": "string"
+        },
+        "content3": {
+          "type": "string"
+        },
+        "content4": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UpdateBaseCodeReq",
+      "required": [
+        "base_code_id",
+        "sort_key",
+        "key",
+        "name",
+        "is_delete"
+      ]
+    },
+    "baseCode.UpdateBaseCodeSortReq": {
+      "type": "object",
+      "properties": {
+        "base_code_sort_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort_key": {
+          "type": "string"
+        },
+        "sort_name": {
+          "type": "string"
+        },
+        "sort_desc": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        }
+      },
+      "title": "UpdateBaseCodeSortReq",
+      "required": [
+        "base_code_sort_id",
+        "sort_key",
+        "sort_name",
+        "sort_desc",
+        "is_delete"
+      ]
+    },
+    "device.AddDeviceReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mac_address": {
+          "type": "string"
+        },
+        "internal_ip": {
+          "type": "string"
+        },
+        "bmp_image": {
+          "type": "string"
+        },
+        "is_running": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "extra_data": {
+          "type": "string"
+        }
+      },
+      "title": "AddDeviceReq",
+      "required": [
+        "name",
+        "user_id",
+        "mac_address",
+        "internal_ip"
+      ]
+    },
+    "device.DeleteDeviceReq": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "mac_address": {
+          "type": "string"
+        }
+      },
+      "title": "DeleteDeviceReq"
+    },
+    "device.GetDeviceReq": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "mac_address": {
+          "type": "string"
+        }
+      },
+      "title": "GetDeviceReq"
+    },
+    "device.GetDeviceResp": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mac_address": {
+          "type": "string"
+        },
+        "internal_ip": {
+          "type": "string"
+        },
+        "bmp_image": {
+          "type": "string"
+        },
+        "is_running": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "extra_data": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetDeviceResp",
+      "required": [
+        "device_id",
+        "name",
+        "user_id",
+        "mac_address",
+        "internal_ip",
+        "bmp_image",
+        "is_running",
+        "extra_data",
+        "is_delete",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "device.ListDeviceReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "mac_address": {
+          "type": "string"
+        },
+        "internal_ip": {
+          "type": "string"
+        },
+        "is_running": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "default": "10"
+        }
+      },
+      "title": "ListDeviceReq"
+    },
+    "device.ListDeviceResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetDeviceResp"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ListDeviceResp",
+      "required": [
+        "list",
+        "total"
+      ]
+    },
+    "device.UpdateDeviceReq": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mac_address": {
+          "type": "string"
+        },
+        "internal_ip": {
+          "type": "string"
+        },
+        "bmp_image": {
+          "type": "string"
+        },
+        "is_running": {
+          "type": "integer",
+          "format": "int64",
+          "default": "2"
+        },
+        "extra_data": {
+          "type": "string"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UpdateDeviceReq",
+      "required": [
+        "device_id",
+        "name",
+        "user_id",
+        "mac_address",
+        "internal_ip",
+        "is_delete"
+      ]
+    },
+    "sdk.CheckCodeReq": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "default": "ali_sms"
+        },
+        "send_type": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "title": "CheckCodeReq",
+      "required": [
+        "send_type",
+        "mobile",
+        "code"
+      ]
+    },
+    "sdk.IpToAddressReq": {
+      "type": "object",
+      "properties": {
+        "ip": {
+          "type": "string"
+        }
+      },
+      "title": "IpToAddressReq",
+      "required": [
+        "ip"
+      ]
+    },
+    "sdk.IpToAddressResp": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "province": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "area": {
+          "type": "string"
+        },
+        "isp": {
+          "type": "string"
+        },
+        "lng": {
+          "type": "string"
+        },
+        "lat": {
+          "type": "string"
+        }
+      },
+      "title": "IpToAddressResp",
+      "required": [
+        "country",
+        "province",
+        "city",
+        "area",
+        "isp",
+        "lng",
+        "lat"
+      ]
+    },
+    "sdk.PngToElnkReq": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "PngToElnkReq",
+      "required": [
+        "url"
+      ]
+    },
+    "sdk.PngToElnkResp": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "PngToElnkResp",
+      "required": [
+        "url"
+      ]
+    },
+    "sdk.SendCodeReq": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "default": "ali_sms"
+        },
+        "send_type": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        }
+      },
+      "title": "SendCodeReq",
+      "required": [
+        "send_type",
+        "mobile"
+      ]
+    },
+    "sdk.UploadFileReq": {
+      "type": "object",
+      "properties": {
+        "file_name": {
+          "type": "string"
+        },
+        "file": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/byte"
+          }
+        }
+      },
+      "title": "UploadFileReq"
+    },
+    "sdk.UploadFileResp": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "UploadFileResp",
+      "required": [
+        "url"
+      ]
+    },
+    "sdk.UploadTokenReq": {
+      "type": "object",
+      "properties": {
+        "file_name": {
+          "type": "string"
+        }
+      },
+      "title": "UploadTokenReq",
+      "required": [
+        "file_name"
+      ]
+    },
+    "sdk.UploadTokenResp": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "expire": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UploadTokenResp",
+      "required": [
+        "token",
+        "expire"
+      ]
+    },
+    "sdk.UploadUrlReq": {
+      "type": "object",
+      "properties": {
+        "file_name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "UploadUrlReq",
+      "required": [
+        "file_name",
+        "url"
+      ]
+    },
+    "sdk.UploadUrlResp": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "UploadUrlResp",
+      "required": [
+        "url"
+      ]
+    },
+    "sdk.WeatherReq": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "adcode（与 name 二选一）"
+        },
+        "name": {
+          "type": "string",
+          "description": "中文名（如 杭州，与 code 二选一）"
+        },
+        "type": {
+          "type": "string",
+          "description": "1=实况 2=预报，默认 1"
+        }
+      },
+      "title": "WeatherReq"
+    },
+    "sdk.WeatherItem": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "week": {
+          "type": "string"
+        },
+        "weather": {
+          "type": "string",
+          "description": "白天天气"
+        },
+        "temp": {
+          "type": "string",
+          "description": "白天温度"
+        },
+        "wind": {
+          "type": "string",
+          "description": "白天风向+风力"
+        },
+        "weather_icon": {
+          "type": "string"
+        },
+        "night_weather": {
+          "type": "string"
+        },
+        "night_temp": {
+          "type": "string"
+        },
+        "night_wind": {
+          "type": "string"
+        },
+        "day_wind_power": {
+          "type": "string"
+        },
+        "night_wind_power": {
+          "type": "string"
+        }
+      },
+      "title": "WeatherItem"
+    },
+    "sdk.WeatherResp": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "week": {
+          "type": "string"
+        },
+        "weather": {
+          "type": "string"
+        },
+        "temp": {
+          "type": "string"
+        },
+        "wind": {
+          "type": "string"
+        },
+        "weather_icon": {
+          "type": "string"
+        },
+        "humidity": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WeatherItem"
+          },
+          "description": "预报列表（type=2 时填充）"
+        }
+      },
+      "title": "WeatherResp"
+    },
+    "user.AdminAddReq": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "re_password": {
+          "type": "string"
+        }
+      },
+      "title": "AdminAddReq",
+      "required": [
+        "mobile",
+        "username",
+        "avatar",
+        "password",
+        "re_password"
+      ]
+    },
+    "user.AdminDeleteReq": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "AdminDeleteReq",
+      "required": [
+        "admin_id"
+      ]
+    },
+    "user.AdminLoginReq": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "AdminLoginReq",
+      "required": [
+        "mobile",
+        "password"
+      ]
+    },
+    "user.AdminLoginResp": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "token": {
+          "type": "string"
+        }
+      },
+      "title": "AdminLoginResp",
+      "required": [
+        "admin_id",
+        "mobile",
+        "username",
+        "avatar",
+        "create_time",
+        "token"
+      ]
+    },
+    "user.AdminLoginSmsReq": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "title": "AdminLoginSmsReq",
+      "required": [
+        "mobile",
+        "code"
+      ]
+    },
+    "user.AdminUpdateMobileReq": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        }
+      },
+      "title": "AdminUpdateMobileReq",
+      "required": [
+        "admin_id",
+        "mobile"
+      ]
+    },
+    "user.AdminUpdatePasswordReq": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "password": {
+          "type": "string"
+        },
+        "re_password": {
+          "type": "string"
+        }
+      },
+      "title": "AdminUpdatePasswordReq",
+      "required": [
+        "admin_id",
+        "password",
+        "re_password"
+      ]
+    },
+    "user.AdminUpdateReq": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        }
+      },
+      "title": "AdminUpdateReq",
+      "required": [
+        "admin_id",
+        "username",
+        "avatar"
+      ]
+    },
+    "user.GetAdminResp": {
+      "type": "object",
+      "properties": {
+        "admin_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetAdminResp",
+      "required": [
+        "admin_id",
+        "mobile",
+        "username",
+        "avatar",
+        "create_time"
+      ]
+    },
+    "user.GetUserResp": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetUserResp",
+      "required": [
+        "user_id",
+        "mobile",
+        "username",
+        "avatar",
+        "create_time"
+      ]
+    },
+    "user.UserAddReq": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "re_password": {
+          "type": "string"
+        }
+      },
+      "title": "UserAddReq",
+      "required": [
+        "mobile",
+        "username",
+        "avatar",
+        "password",
+        "re_password"
+      ]
+    },
+    "user.UserDeleteReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UserDeleteReq",
+      "required": [
+        "user_id"
+      ]
+    },
+    "user.UserLoginReq": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "UserLoginReq",
+      "required": [
+        "password"
+      ]
+    },
+    "user.UserLoginResp": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "token": {
+          "type": "string"
+        }
+      },
+      "title": "UserLoginResp",
+      "required": [
+        "user_id",
+        "mobile",
+        "username",
+        "avatar",
+        "create_time",
+        "token"
+      ]
+    },
+    "user.UserThirdLoginReq": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "app_type": {
+          "type": "string"
+        }
+      },
+      "title": "UserThirdLoginReq",
+      "required": [
+        "code",
+        "app_type"
+      ]
+    },
+    "user.UserUpdateMobileReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        }
+      },
+      "title": "UserUpdateMobileReq",
+      "required": [
+        "user_id",
+        "mobile"
+      ]
+    },
+    "user.UserUpdatePasswordReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "password": {
+          "type": "string"
+        },
+        "re_password": {
+          "type": "string"
+        }
+      },
+      "title": "UserUpdatePasswordReq",
+      "required": [
+        "user_id",
+        "password",
+        "re_password"
+      ]
+    },
+    "user.UserUpdateReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        }
+      },
+      "title": "UserUpdateReq",
+      "required": [
+        "user_id",
+        "username",
+        "avatar"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}
