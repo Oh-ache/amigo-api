@@ -209,6 +209,33 @@
           "sdk/oss"
         ]
       }
+    },
+    "/api/sdk/weather/weather": {
+      "post": {
+        "operationId": "Weather",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/WeatherResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "天气查询（type=1 实况；type=2 预报）",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WeatherReq"
+            }
+          }
+        ],
+        "tags": [
+          "sdk/weather"
+        ]
+      }
     }
   },
   "definitions": {
@@ -436,6 +463,100 @@
       "required": [
         "url"
       ]
+    },
+    "WeatherReq": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "adcode（与 name 二选一）"
+        },
+        "name": {
+          "type": "string",
+          "description": "中文名（如 杭州，与 code 二选一）"
+        },
+        "type": {
+          "type": "string",
+          "description": "1=实况 2=预报，默认 1"
+        }
+      },
+      "title": "WeatherReq"
+    },
+    "WeatherItem": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "week": {
+          "type": "string"
+        },
+        "weather": {
+          "type": "string",
+          "description": "白天天气"
+        },
+        "temp": {
+          "type": "string",
+          "description": "白天温度"
+        },
+        "wind": {
+          "type": "string",
+          "description": "白天风向+风力"
+        },
+        "weather_icon": {
+          "type": "string"
+        },
+        "night_weather": {
+          "type": "string"
+        },
+        "night_temp": {
+          "type": "string"
+        },
+        "night_wind": {
+          "type": "string"
+        },
+        "day_wind_power": {
+          "type": "string"
+        },
+        "night_wind_power": {
+          "type": "string"
+        }
+      },
+      "title": "WeatherItem"
+    },
+    "WeatherResp": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "week": {
+          "type": "string"
+        },
+        "weather": {
+          "type": "string"
+        },
+        "temp": {
+          "type": "string"
+        },
+        "wind": {
+          "type": "string"
+        },
+        "weather_icon": {
+          "type": "string"
+        },
+        "humidity": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WeatherItem"
+          },
+          "description": "预报列表（type=2 时填充）"
+        }
+      },
+      "title": "WeatherResp"
     }
   },
   "securityDefinitions": {

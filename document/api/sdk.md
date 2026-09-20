@@ -220,3 +220,73 @@ type UploadUrlResp struct {
 }
 ```
 
+### 8. N/A
+
+1. route definition
+
+- Url: /api/sdk/weather/weather
+- Method: POST
+- Request: `WeatherReq`
+- Response: `WeatherResp`
+
+2. request definition
+
+
+
+```golang
+type WeatherReq struct {
+	Code string `json:"code,optional,default="`
+	Name string `json:"name,optional,default="`
+	Type string `json:"type,optional,default=1"`
+}
+```
+
+
+3. response definition
+
+
+
+```golang
+type WeatherResp struct {
+	Date string `json:"date"`
+	Week string `json:"week"`
+	Weather string `json:"weather"`
+	Temp string `json:"temp"`
+	Wind string `json:"wind"`
+	WeatherIcon string `json:"weather_icon"`
+	Humidity string `json:"humidity"`
+	Items []WeatherItem `json:"items"`
+}
+```
+
+
+#### WeatherItem（嵌套类型，预报列表元素）
+
+```golang
+type WeatherItem struct {
+    Date           string `json:"date"`
+    Week           string `json:"week"`
+    Weather        string `json:"weather"`
+    Temp           string `json:"temp"`
+    Wind           string `json:"wind"`
+    WeatherIcon    string `json:"weather_icon"`
+    NightWeather   string `json:"night_weather"`
+    NightTemp      string `json:"night_temp"`
+    NightWind      string `json:"night_wind"`
+    DayWindPower   string `json:"day_wind_power"`
+    NightWindPower string `json:"night_wind_power"`
+}
+```
+
+
+#### 使用说明
+
+- `code` 与 `name` 二选一（推荐 name，自动查 adcode，区级缺失时自动 fallback 到市级）。
+- `type`：`1` = 实况天气，`2` = 未来 3 天预报，默认 `1`。
+- 实况返回字段：`date / week / weather / temp / wind / humidity`，`items` 为空数组。
+- 预报返回字段：`date / week / weather / temp / wind / humidity` 取自当前实况，`items` 填充 3 天预报。
+- Redis 缓存 key：`cache:amigo:sdk:weather:{adcode}:{extensions}`，TTL 到当日 23:59:59。
+- 依赖：
+  - MySQL `base_code_item` 表（`sort_key=sdk, key=gaode.cityCode`）需有对应中文名记录
+  - baseCode 字典 `gaode.weather.key`（高德开放平台申请的 key）
+
