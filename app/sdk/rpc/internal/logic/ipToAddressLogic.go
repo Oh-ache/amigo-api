@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"encoding/json"
 
 	"amigo-api/app/sdk/rpc/internal/svc"
 	"amigo-api/common/pb"
@@ -9,6 +10,12 @@ import (
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
+)
+
+// IP 解析结果 Redis 缓存
+const (
+	ipCachePrefix = "cache:amigo:sdk:ip:"
+	ipCacheTTL    = 24 * 3600 // 24 小时
 )
 
 type IpToAddressLogic struct {
@@ -26,26 +33,30 @@ func NewIpToAddressLogic(ctx context.Context, svcCtx *svc.ServiceContext) *IpToA
 }
 
 func (l *IpToAddressLogic) IpToAddress(in *pb.IpToAddressReq) (*pb.IpToAddressResp, error) {
-	resp := &pb.IpToAddressResp{}
-	param := &ip.Ip2AddressReq{}
-	param.Ip = in.Ip
+	cacheKey := ipCachePrefix + in.Ip
 
-	getBaseCodeReq := &pb.GetBaseCodeReq{}
-	getBaseCodeReq.SortKey = "sdk"
-	item := &pb.BaseCodeResp{}
+	// 1. 优先读 Redis 缓存
+	if cached, _ := l.svcCtx.RedisClient.Get(cacheKey); cached != "" {
+		var resp pb.IpToAddressResp
+		if err := json.Unmarshal([]byte(cached), &resp); err == nil {
+			return &resp, nil
+		}
+	}
 
-	getBaseCodeReq.Key = "ip.tianyan.appid"
-	item, _ = l.svcCtx.BaseCodeRpc.GetBaseCode(l.ctx, getBaseCodeReq)
-	param.AppId = item.Content
-
-	getBaseCodeReq.Key = "ip.tianyan.appsecurity"
-	item, _ = l.svcCtx.BaseCodeRpc.GetBaseCode(l.ctx, getBaseCodeReq)
-	param.AppSecurity = item.Content
-
-	if result, err := ip.Ip2Address(param); err != nil {
+	// 2. 缓存未命中，调用 ip9.com.cn
+	param := &ip.Ip2AddressReq{Ip: in.Ip}
+	result, err := ip.Ip2Address(param)
+	if err != nil {
 		return nil, err
-	} else {
-		copier.Copy(resp, result)
+	}
+
+	resp := &pb.IpToAddressResp{}
+	copier.Copy(resp, result)
+
+	// 3. 写入缓存，TTL 24 小时
+	if data, _ := json.Marshal(resp); len(data) > 0 {
+		l.svcCtx.RedisClient.Set(cacheKey, string(data))
+		l.svcCtx.RedisClient.Expire(cacheKey, ipCacheTTL)
 	}
 
 	return resp, nil
