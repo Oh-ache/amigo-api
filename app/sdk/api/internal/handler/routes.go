@@ -10,6 +10,7 @@ import (
 	sdkip "amigo-api/app/sdk/api/internal/handler/sdk/ip"
 	sdkmessage "amigo-api/app/sdk/api/internal/handler/sdk/message"
 	sdkoss "amigo-api/app/sdk/api/internal/handler/sdk/oss"
+	sdktts "amigo-api/app/sdk/api/internal/handler/sdk/tts"
 	sdkweather "amigo-api/app/sdk/api/internal/handler/sdk/weather"
 	"amigo-api/app/sdk/api/internal/svc"
 
@@ -74,6 +75,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/api/sdk/oss"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/synthesize",
+				Handler: sdktts.SynthesizeHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/sdk/tts"),
 	)
 
 	server.AddRoutes(

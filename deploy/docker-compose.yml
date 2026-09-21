@@ -58,7 +58,7 @@ services: # 网关服务
     restart: unless-stopped
 
   sdk-api:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-api:20260920232643
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/sdk-api:20260921222838
     container_name: sdk-api
     expose:
       - "9091"
@@ -72,7 +72,7 @@ services: # 网关服务
 
   # User 服务
   user-rpc:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/user-rpc:20260702153709
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/user-rpc:20260921002552
     container_name: user-rpc
     expose:
       - "8092"
@@ -83,7 +83,7 @@ services: # 网关服务
     restart: unless-stopped
 
   user-api:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/user-api:20260702153709
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/user-api:20260921002543
     container_name: user-api
     expose:
       - "9092"
@@ -99,7 +99,7 @@ services: # 网关服务
 
   # Device 服务
   device-rpc:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/device-rpc:20260702153709
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/device-rpc:20260921004437
     container_name: device-rpc
     expose:
       - "8093"
@@ -110,7 +110,7 @@ services: # 网关服务
     restart: unless-stopped
 
   device-api:
-    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/device-api:20260702153709
+    image: registry.cn-hangzhou.aliyuncs.com/theacheapp/device-api:20260921004437
     container_name: device-api
     expose:
       - "9093"

@@ -47,6 +47,18 @@ type SendCodeReq struct {
 	Mobile   string `json:"mobile"`
 }
 
+type TtsReq struct {
+	Text string `form:"text"`
+	Per  int    `form:"per,default=0,optional"`
+	Spd  int    `form:"spd,default=5,optional"`
+	Pit  int    `form:"pit,default=5,optional"`
+	Vol  int    `form:"vol,default=5,optional"`
+}
+
+type TtsResp struct {
+	Audio []byte `json:"audio"`
+}
+
 type UploadFileReq struct {
 	FileName string `json:"file_name,optional" form:"file_name,optional"`
 	File     []byte `json:"file,optional" form:"file,optional"`

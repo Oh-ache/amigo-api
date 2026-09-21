@@ -64,6 +64,17 @@ type (
 		Lng      string `json:"lng"`
 		Lat      string `json:"lat"`
 	}
+	//----------------------------------------------TTS 百度语音合成代理
+	TtsReq {
+		Text string `form:"text"`
+		Per  int    `form:"per,default=0,optional"`
+		Spd  int    `form:"spd,default=5,optional"`
+		Pit  int    `form:"pit,default=5,optional"`
+		Vol  int    `form:"vol,default=5,optional"`
+	}
+	TtsResp {
+		Audio []byte `json:"audio"`
+	}
 	//----------------------------------------------OSS
 	UploadFileReq {
 		FileName string `json:"file_name,optional" form:"file_name,optional"`
@@ -145,5 +156,15 @@ service sdk {
 	//----------------------------------------------天气
 	@handler Weather
 	post /weather (WeatherReq) returns (WeatherResp)
+}
+
+@server (
+	group:  sdk/tts
+	prefix: /api/sdk/tts
+)
+service sdk {
+	//----------------------------------------------百度语音合成代理（PCM 16k/16bit/单声道）
+	@handler Synthesize
+	get /synthesize (TtsReq) returns (TtsResp)
 }
 
