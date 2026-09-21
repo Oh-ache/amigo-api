@@ -5,6 +5,9 @@ Port: 9091
 SdkRpcConf:
   Target: sdk-rpc:8091
 
+BaseCodeRpcConf:
+  Target: basecode-rpc:8090
+
 Auth:
   AccessSecret: "amigoProject"
   AccessExpire: 7200
